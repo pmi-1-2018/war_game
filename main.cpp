@@ -150,8 +150,6 @@ public:
 	//armyMove
 };
 
-pog
-
 void main() {
 	Army ar;
 	cin >> ar;
