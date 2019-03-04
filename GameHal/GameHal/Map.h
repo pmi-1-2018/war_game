@@ -16,8 +16,8 @@ private:
 public:
 	Map();
 	void readMapFromFile(string fileName);
-	~Map();
 	void generateRandomMap(string fileName, int height, int width);
 	void printMapIntoFile(string fileName);
+	~Map();
 };
 
