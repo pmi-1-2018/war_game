@@ -18,6 +18,10 @@ public:
 	void readMapFromFile(string fileName);
 	void generateRandomMap(string fileName, int height, int width);
 	void printMapIntoFile(string fileName);
+	int getWidth();
+	int getHeight();
+	void setWidth(int width);
+	void setHeight(int height);
 	~Map();
 };
 
