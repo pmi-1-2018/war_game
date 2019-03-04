@@ -7,7 +7,12 @@ Cell::Cell() :
 Cell::Cell(int passCost, bool isPassable):
 	passCost(passCost),
 	isPassable(isPassable)
-{}
+{
+	if (isPassable == false)
+	{
+		passCost = 0;
+	}
+}
 void Cell::setCell(char symb)
 {
 	isPassable = true;
@@ -17,7 +22,7 @@ void Cell::setCell(char symb)
 		isPassable = false;
 		passCost = 0;
 		break;
-	case ' ':
+	case '1':
 		passCost = 1;
 		break;
 	case '2':
