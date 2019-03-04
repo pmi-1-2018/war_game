@@ -20,6 +20,17 @@ class Archer : public Unit
 private:
 
 public:
+	bool ifArcher(Unit u)
+	{
+		if (u == Archer)
+		{
+			return true;
+		}
+		else
+		{
+			rerurn false;
+		}
+	}
 
 };
 class Swordsman : public Unit
