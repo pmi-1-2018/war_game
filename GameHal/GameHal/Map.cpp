@@ -114,6 +114,26 @@ void Map::printMapIntoFile(string fileName)
 	myfile.close();
 }
 
+int Map::getHeight()
+{
+	return height;
+}
+
+int Map::getWidth()
+{
+	return width;
+}
+
+void Map::setHeight(int h)
+{
+	height = h;
+}
+
+void Map::setWidth(int w)
+{
+	width = w;
+}
+
 Map::~Map()
 {
 	for (int i = 0; i < height; i++)
