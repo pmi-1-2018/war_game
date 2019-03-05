@@ -112,6 +112,9 @@ public:
 		}
 	}
 	//armyAttack
-	//unitAdd
+	void addUnit(Warrior unit)
+	{
+		//first commit now from max
+	}
 	//armyMove
 };
