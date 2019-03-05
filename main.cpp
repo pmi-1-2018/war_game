@@ -2,9 +2,11 @@
 #include <string>
 #include <typeinfo>
 #include <vector>
+#include "Army.h"
+#include "Warrior.h"
 using namespace std;
 
-//warroorrrrrrrrrrrrrrrrrrrrrrrr
+/*
 class Warrior {
 	int hp;
 	int damage = 100;
@@ -153,7 +155,7 @@ public:
 	}
 	//armyMove
 };
-
+*/
 void main() {
 	Army ar;
 	cin >> ar;
