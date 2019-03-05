@@ -3,7 +3,7 @@
 #include <typeinfo>
 using namespace std;
 
-
+//warroorrrrrrrrrrrrrrrrrrrrrrrr
 class Warrior {
 	int hp;
 	int damage = 100;
