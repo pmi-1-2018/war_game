@@ -158,8 +158,6 @@ public:
 */
 void main() {
 	Army ar;
-	cin >> ar;
-	ar.armyMove(ar.getWarriors(), ar.getNumber());
 
 	system("pause");
 }
