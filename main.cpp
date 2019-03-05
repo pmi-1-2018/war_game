@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
+#include <vector>
 using namespace std;
 
 //warroorrrrrrrrrrrrrrrrrrrrrrrr
@@ -146,7 +147,10 @@ public:
 		}
 	}
 	//armyAttack
-	//unitAdd
+	void addUnit(Warrior unit)
+	{
+		//code here
+	}
 	//armyMove
 };
 
