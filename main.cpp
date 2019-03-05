@@ -4,6 +4,7 @@
 #include <vector>
 #include "Army.h"
 #include "Warrior.h"
+
 using namespace std;
 
 /*
@@ -156,9 +157,15 @@ public:
 	//armyMove
 };
 */
-void main() {
+
+
+int main()
+{
+
 	Army ar;
 
+
+
 	system("pause");
+	return 0;
 }
-};

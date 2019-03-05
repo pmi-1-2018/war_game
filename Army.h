@@ -3,16 +3,19 @@
 #include <typeinfo>
 using namespace std;
 
-class Army {
+class Army
+{
 private:
 	string nameOfArmy;
 	Warrior *warriors;
 	int numberOfWarriors;
 public:
 	Army() :nameOfArmy("default") {};
-	Army(string name, Warrior*list, int num) {
+	Army(string name, Warrior*list, int num)
+	{
 		nameOfArmy = name;
-		for (int i = 0; i < numberOfWarriors; i++) {
+		for (int i = 0; i < numberOfWarriors; i++)
+		{
 			warriors[i] = list[i];
 		}
 	}
@@ -68,28 +71,35 @@ public:
 	}
 
 
-	friend istream&operator>>(istream&is, Army &army) {
+	friend istream&operator>>(istream&is, Army &army)
+	{
 		is >> army.nameOfArmy;
 		is >> army.numberOfWarriors;
-		for (int i = 0; i < army.numberOfWarriors; i++) {
+		for (int i = 0; i < army.numberOfWarriors; i++)
+		{
 			is >> army.warriors[i];
 		}
 		return is;
 	}
-	void inputTheArmy(Army army) {
+	void inputTheArmy(Army army)
+	{
 		cin >> army;
 	}
 
-	int getNumber() {
+	int getNumber()
+	{
 		return numberOfWarriors;
 	}
 
-	Warrior *getWarriors() {
+	Warrior *getWarriors()
+	{
 		return warriors;
 	}
 
-	bool isDead(Warrior unit) {
-		if (unit.getHp() == 0 && unit.getHp() < 0) {
+	bool isDead(Warrior unit)
+	{
+		if (unit.getHp() == 0 && unit.getHp() < 0)
+		{
 			return true;
 		}
 		else
@@ -98,23 +108,43 @@ public:
 		}
 	}
 
-	void armyMove(Warrior*list, int number) {
-		if (isDead(list[0])) {
+	void armyMove(Warrior*list, int number)
+	{
+		if (isDead(list[0]))
+		{
 			Warrior*newList = new Warrior[number - 1];
-			for (int i = 1; i < number; i) {
+			for (int i = 1; i < number; i)
+			{
 				newList[i - 1] = list[i];
 			}
 			delete[]list;
-			for (int j = 0; j < number - 1; j) {
+			for (int j = 0; j < number - 1; j)
+			{
 				list[j] = newList[j];
 			}
 			delete[]newList;
 		}
 	}
+
 	//armyAttack
+
 	void addUnit(Warrior unit)
 	{
-		//first commit now from max
+		Warrior *temp = new Warrior[numberOfWarriors];
+		for (int i = 0; i < numberOfWarriors; i++)
+		{
+			temp[i] = warriors[i];
+		}
+			
+		numberOfWarriors++;
+		warriors = new Warrior[numberOfWarriors];
+
+		for (int i = 0; i < numberOfWarriors - 1; i++)
+		{
+			warriors[i] = temp[i];
+		}
+		warriors[numberOfWarriors - 1] = unit;
 	}
+
 	//armyMove
 };
