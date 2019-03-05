@@ -148,7 +148,6 @@ public:
 	//armyAttack
 	//unitAdd
 	//armyMove
-	lalla
 };
 
 void main() {
