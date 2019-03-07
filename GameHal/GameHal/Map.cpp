@@ -15,12 +15,15 @@ void Map::readMapFromFile(string fileName)
 	myfile.open(fileName);
 	myfile >> modelHeight >> modelWidth;
 	char **matrix = new char*[modelHeight];
+	string getStr;
+	getline(myfile, getStr);
 	for (int i = 0; i < modelHeight; i++)
 	{
 		matrix[i] = new char[modelWidth];
+		getline(myfile, getStr);
 		for (int j = 0; j < modelWidth; j++)
 		{
-			myfile >> matrix[i][j];
+			matrix[i][j] = getStr[j];
 		}
 	}
 	myfile.close();
@@ -67,6 +70,10 @@ void Map::readMapFromFile(string fileName)
 
 void Map::generateRandomMap(string fileName, int height, int width)
 {
+	if (this->height != 0 || this->width != 0)
+	{
+		this->~Map();
+	}
 	this->height = height;
 	this->width = width;
 	map = new Cell*[height];
@@ -78,39 +85,9 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			map[i][j] = Cell(rand()% 4, rand() % 8);
 		}
 	}
-	this->printMapIntoFile(fileName);
-}
-
-void Map::printMapIntoFile(string fileName)
-{	
 	ofstream myfile;
 	myfile.open(fileName);
-	myfile << height << " " << width << endl;
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-		{
-			switch (map[i][j].getPassCost())
-			{
-			case 0:
-				myfile << '#';
-				break;
-			case 1:
-				myfile << '1';
-				break;
-			case 2:
-				myfile << '2';
-				break;
-			case 3:
-				myfile << '3';
-				break;
-			default:
-				myfile << '1';
-				break;
-			}
-		}
-		myfile << endl;
-	}
+	myfile << height << " " << width << endl << *this;
 	myfile.close();
 }
 
@@ -141,4 +118,33 @@ Map::~Map()
 		delete[] map[i];
 	}
 	delete[] map;
+}
+
+ostream& operator<<(ostream& sout, Map &m)
+{
+	for (int i = 0; i < m.getHeight(); i++)
+	{
+		for (int j = 0; j < m.getWidth(); j++)
+		{
+			if (m.map[i][j].getPassCost() == 1)
+			{
+				sout << ' ';
+			}
+			else if (m.map[i][j].getPassCost() == 0)
+			{
+				sout << "#";
+			}
+			else
+			{
+				sout << m.map[i][j].getPassCost();
+			}
+		}
+		sout << '|' << endl;
+	}
+	for (int i = 0; i < m.getWidth(); i++)
+	{
+		sout << '-';
+	}
+	sout << endl;
+	return sout;
 }
