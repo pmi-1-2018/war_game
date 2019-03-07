@@ -22,7 +22,7 @@ void Cell::setCell(char symb)
 		isPassable = false;
 		passCost = 0;
 		break;
-	case '1':
+	case ' ':
 		passCost = 1;
 		break;
 	case '2':
