@@ -37,4 +37,4 @@ debug/
 *.vcxproj
 *.filters
 *.user
-test.txt
+GameHal/
