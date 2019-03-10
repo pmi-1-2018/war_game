@@ -1,4 +1,4 @@
-# Prerequisites
+ Prerequisites
 *.d
 
 # Compiled Object files
@@ -30,7 +30,6 @@
 *.exe
 *.out
 *.app
-
 
 debug/
 .vs/
@@ -369,4 +368,8 @@ ASALocalRun/
 *.nvuser
 
 # MFractors (Xamarin productivity tool) working folder 
+<<<<<<< HEAD
 .mfractor/
+=======
+.mfractor/
+>>>>>>> .
