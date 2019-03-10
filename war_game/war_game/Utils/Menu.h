@@ -3,7 +3,7 @@
 #include <conio.h>
 #include <vector>
 #include <string>
-//#include "Map.h"
+#include "../Entities/Map.h"
 using namespace std;
 class Menu
 {
@@ -11,6 +11,7 @@ private:
 	int errorState;
 	const int OPT_COUNT = 5;
 	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Exit" };
+	Map* map;
 public:
 	Menu();
 	void PrintMenu()const;

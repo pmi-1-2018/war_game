@@ -146,20 +146,28 @@ void Menu::KeyHandler()
 
 void Menu::StartGame()
 {
-	cout << "Game is started" << endl;
-	vector<vector<int>> arr = {
-		{5,3,0},
-		{4,3,2},
-		{3,8,0}
-	};
-	//    First map
-	outMap(arr);
-	Army army;
-	startGame(army, arr);
+	//cout << "Game is started" << endl;
+	//vector<vector<int>> arr = {
+	//	{5,3,0},
+	//	{4,3,2},
+	//	{3,8,0}
+	//};
+	////    First map
+	//outMap(arr);
+	//Army army;
+	//startGame(army, arr);
+	while (true) {
+		cout << *map;
+		int a;
+		cin >> a;
+	}
 }
 
 void Menu::GenerateMap()
 {
+	map = new Map();
+	string filePath = "Utils\\Read_Edit_Map.txt";
+	map->generateRandomMap(filePath, 50, 50);
 	cout << "Map was generated" << endl;
 }
 
