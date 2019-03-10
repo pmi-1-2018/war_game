@@ -21,6 +21,7 @@ public:
 	int getHeight();
 	void setWidth(int width);
 	void setHeight(int height);
+	bool setPlayer(char symb, int x, int y);
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
 };

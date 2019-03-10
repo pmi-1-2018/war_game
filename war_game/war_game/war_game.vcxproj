@@ -119,15 +119,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controllers\Battle.cpp" />
+    <ClCompile Include="Controllers\GameManager.cpp" />
     <ClCompile Include="Entities\cell.cpp" />
     <ClCompile Include="Entities\Map.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\Map.h" />
     <ClInclude Include="Entities\Unit.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
   <ItemGroup>

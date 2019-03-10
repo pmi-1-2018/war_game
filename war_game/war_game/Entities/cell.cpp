@@ -44,6 +44,31 @@ int Cell::getPassCost()
 {
 	return passCost;
 }
+bool Cell::IsPlayer()
+{
+	return this->isPlayer;
+}
+void Cell::SetPlayer(bool val, char symb)
+{
+	this->isPlayer = val;
+	if (isPlayer == true) 
+	{
+		this->army = new Army(symb);
+	}
+	else
+	{
+		army = nullptr;
+	}
+	
+}
+char Cell::GetArmy()
+{
+	return this->army->GetSymb();
+}
+bool Cell::IsPassable()
+{
+	return this->isPassable;
+}
 void Cell::setPassCost(int value)
 {
 	this->passCost = value;

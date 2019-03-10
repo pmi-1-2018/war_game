@@ -65,8 +65,6 @@ void Map::readMapFromFile(string fileName)
 			}
 		}
 	}
-	map[0][0].setCell('*');
-	map[49][49].setCell('$');
 
 }
 
@@ -87,13 +85,18 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			map[i][j] = Cell(rand()% 4, rand() % 8, i, j);
 		}
 	}
+	map[0][0] = Cell(1, true, 0, 0);
+	map[0][0].SetPlayer(true, '*');
+	map[this->height-1][this->width-1] = Cell(1, true, this->height - 1, this->width - 1);
+	map[this->height - 1][this->width - 1].SetPlayer(true, '$');
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
-	myfile << height << " " << width << endl << *this;
+	if (check) {
+		myfile << height << " " << width << endl << *this;
+	}
 	myfile.close();
 }
-
 int Map::getHeight()
 {
 	return height;
@@ -107,6 +110,36 @@ int Map::getWidth()
 void Map::setHeight(int h)
 {
 	height = h;
+}
+
+bool Map::setPlayer(char symb, int x, int y)
+{
+	if (map[y][x].IsPassable() == true) {
+	bool removePrev = false;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			if (map[i][j].IsPlayer() == true && map[i][j].GetArmy() == symb) 
+			{
+				map[i][j].SetPlayer(false, NULL);
+				removePrev = true;
+				break;
+			}
+		}
+		if (removePrev)
+		{
+			break;
+		}
+	}
+	
+		map[y][x].SetPlayer(true, symb);
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
 }
 
 void Map::setWidth(int w)
@@ -129,6 +162,11 @@ ostream& operator<<(ostream& sout, Map &m)
 	{
 		for (int j = 0; j < m.getWidth(); j++)
 		{
+			if (m.map[i][j].IsPlayer() == true)
+			{
+				sout << m.map[i][j].GetArmy();
+				continue;
+			}
 			if (m.map[i][j].getPassCost() == 1)
 			{
 				sout << ' ';
