@@ -2,15 +2,16 @@
 
 Cell::Cell() :
 	passCost(1),
-	isPassable(true)
+	isPassable(true),
+	isPlayer(false)
 {}
-Cell::Cell(int passCost, bool isPassable):
+Cell::Cell(int passCost):
 	passCost(passCost),
-	isPassable(isPassable)
+	isPassable(true)
 {
-	if (isPassable == false)
+	if (this->passCost == 0)
 	{
-		passCost = 0;
+		this->isPassable = false;
 	}
 }
 void Cell::setCell(char symb)
@@ -43,4 +44,12 @@ int Cell::getPassCost()
 void Cell::setPassCost(int value)
 {
 	this->passCost = value;
+}
+void Cell::setIsPlayer(bool val)
+{
+	this->isPlayer = val;
+}
+bool Cell::getIsPlayer()
+{
+	return isPlayer;
 }
