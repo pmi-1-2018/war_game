@@ -20,7 +20,7 @@ private:
 	int y;
 public:
 	Cell();
-	Cell(int passCost, bool isPassable, int x, int y);
+	Cell(int passCost, int x, int y);
 	void setCell(char symb);
 	int getPassCost();
 	bool IsPlayer();

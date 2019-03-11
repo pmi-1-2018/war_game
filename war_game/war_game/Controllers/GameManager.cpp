@@ -10,7 +10,20 @@ void GameManager::GenerateMap(int height, int width)
 	this->mapWidth = width;
 	map = new Map();
 	map->generateRandomMap(this->MAP_PATH, mapHeight, mapWidth);
-	cout << "Map was generated. Now you can start playing." << endl;
+	this->mapGenerated = true;
+	cout << "Notice! Map was generated. Now you can start playing." << endl;
+	#ifdef DEBUG
+		for (int i = 0; i < map->getHeight(); i++)
+		{
+			for (int j = 0; j < map->getWidth(); j++)
+			{
+				if (map->getIspassable(i, j) == false)
+				{
+					cout << i << " " << j << endl;
+				}
+			}
+		}
+	#endif
 }
 void GameManager::Draw()const
 {
@@ -27,9 +40,15 @@ void GameManager::SwitchTurn()
 		this->turn = 'l';
 	}
 }
+bool GameManager::MapIsGenerated() const
+{
+	return this->mapGenerated;
+}
 bool GameManager::MoveChar(char symb, int x, int y) 
 {
-	//cout << "Moved " << symb << " to " << x << " " << y<<endl;
+	#ifdef DEBUG
+		cout << "Moved " << symb << " to " << x << " " << y << endl;
+	#endif
 	bool response = map->setPlayer(symb, x, y);
 	return response;
 	
@@ -40,12 +59,15 @@ GameManager::~GameManager()
 }
 void GameManager::Start(int height, int width)
 {
+	if (this->mapGenerated == false)
+	{
+		GenerateMap(10, 10);
+	}
+	
 	this->mapHeight = height;
 	this->mapWidth = width;
 	// mapheight - y, mapwidth - x
-	while (true) 
-	{
-		cout << "Turn: " << this->turn << endl;
+	
 		Draw();
 		int x_1 = 0;
 		int y_1 = 0;
@@ -56,7 +78,7 @@ void GameManager::Start(int height, int width)
 		{
 			int prev_x = turn == 'l' ? x_1 : x_2;
 			int prev_y = turn == 'l' ? y_1 : y_2;
-
+			bool hitTheWall = false;
 			char key;
 			int asciiValue;
 			key = _getch();
@@ -67,11 +89,19 @@ void GameManager::Start(int height, int width)
 					if (x_1 != 0) {
 						x_1 -= 1;
 					}
+					else 
+					{
+						hitTheWall = true;
+					}
 				}
 				else 
 				{
 					if (x_2 != 0) {
 						x_2 -= 1;
+					}
+					else 
+					{
+						hitTheWall = true;
 					}
 				}
 			}
@@ -81,11 +111,19 @@ void GameManager::Start(int height, int width)
 					if (x_1 != mapHeight-1) {
 						x_1 += 1;
 					}
+					else 
+					{
+						hitTheWall = true;
+					}
 				}
 				else
 				{
 					if (x_2 != mapHeight - 1) {
 						x_2 += 1;
+					}
+					else 
+					{
+						hitTheWall = true;
 					}
 				}
 			}
@@ -95,11 +133,19 @@ void GameManager::Start(int height, int width)
 					if (y_1 != 0) {
 						y_1 -= 1;
 					}
+					else
+					{
+						hitTheWall = true;
+					}
 				}
 				else
 				{
 					if (y_2 != 0) {
 						y_2 -= 1;
+					}
+					else
+					{
+						hitTheWall = true;
 					}
 				}
 			}
@@ -109,11 +155,19 @@ void GameManager::Start(int height, int width)
 					if (y_1 != mapWidth - 1) {
 						y_1 += 1;
 					}
+					else
+					{
+						hitTheWall = true;
+					}
 				}
 				else
 				{
 					if (y_2 != mapWidth - 1) {
 						y_2 += 1;
+					}
+					else
+					{
+						hitTheWall = true;
 					}
 				}
 			}
@@ -130,9 +184,14 @@ void GameManager::Start(int height, int width)
 			{
 				new_x = prev_x;
 				new_y = prev_y;
+				continue;
 			}
-			SwitchTurn();
-			Draw();
+			if (hitTheWall == false)
+			{
+				system("CLS");
+				SwitchTurn();
+				Draw();
+			}
 		}
-	}
+	
 }

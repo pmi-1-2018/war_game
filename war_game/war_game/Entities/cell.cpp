@@ -3,27 +3,26 @@
 Cell::Cell() :
 	passCost(1),
 	isPassable(true),
+	isPlayer(false),
 	x(0),
 	y(0)
 {}
-Cell::Cell(int passCost, bool isPassable, int x, int y):
+Cell::Cell(int passCost, int x, int y):
 	passCost(passCost),
-	isPassable(isPassable)
+	isPassable(true)
 {
-	if (isPassable == false)
+	if (this->passCost == 0)
 	{
-		passCost = 0;
+		this->isPassable = false;
 	}
 	this->x = x;
 	this->y = y;
 }
 void Cell::setCell(char symb)
 {
-	isPassable = true;
 	switch (symb)
 	{
 	case '#':
-		isPassable = false;
 		passCost = 0;
 		break;
 	case ' ':

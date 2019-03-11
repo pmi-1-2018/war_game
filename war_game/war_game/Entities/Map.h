@@ -3,7 +3,7 @@
 #include<fstream>
 #include<iostream>
 #include"cell.h"
-
+//#define DEBUG
 
 using namespace std;
 
@@ -22,6 +22,7 @@ public:
 	void setWidth(int width);
 	void setHeight(int height);
 	bool setPlayer(char symb, int x, int y);
+	bool getIspassable(int a, int b);
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
 };

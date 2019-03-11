@@ -149,18 +149,8 @@ void Menu::KeyHandler()
 
 void Menu::StartGame()
 {
-	//cout << "Game is started" << endl;
-	//vector<vector<int>> arr = {
-	//	{5,3,0},
-	//	{4,3,2},
-	//	{3,8,0}
-	//};
-	////    First map
-	//outMap(arr);
-	//Army army;
-	//startGame(army, arr);
+	system("CLS");
 	gm->Start(10, 10);
-	
 }
 
 void Menu::GenerateMap()

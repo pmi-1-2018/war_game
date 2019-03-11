@@ -8,7 +8,7 @@ Map::Map() :
 
 void Map::readMapFromFile(string fileName)
 {
-	int modelHeight;//читання карти з файлу
+	int modelHeight;
 	int modelWidth;
 	ifstream myfile;
 	myfile.open(fileName);
@@ -82,12 +82,12 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		map[i] = new Cell[width];
 		for (int j = 0; j < width; j++)
 		{
-			map[i][j] = Cell(rand()% 4, rand() % 8, i, j);
+			map[i][j] = Cell(rand()% 4, j, i);
 		}
 	}
-	map[0][0] = Cell(1, true, 0, 0);
+	map[0][0] = Cell(1, 0, 0);
 	map[0][0].SetPlayer(true, '*');
-	map[this->height-1][this->width-1] = Cell(1, true, this->height - 1, this->width - 1);
+	map[this->height-1][this->width-1] = Cell(1, this->width - 1, this->height - 1);
 	map[this->height - 1][this->width - 1].SetPlayer(true, '$');
 	ofstream myfile;
 	myfile.open(fileName);
@@ -142,6 +142,11 @@ bool Map::setPlayer(char symb, int x, int y)
 	}
 }
 
+bool Map::getIspassable(int a, int b)
+{
+	return this->map[a][b].IsPassable();
+}
+
 void Map::setWidth(int w)
 {
 	width = w;
@@ -171,9 +176,9 @@ ostream& operator<<(ostream& sout, Map &m)
 			{
 				sout << ' ';
 			}
-			else if (m.map[i][j].getPassCost() == 0)
+			else if (m.map[i][j].IsPassable() == false)
 			{
-				sout << "#";
+				sout << '#';
 			}
 			else
 			{
