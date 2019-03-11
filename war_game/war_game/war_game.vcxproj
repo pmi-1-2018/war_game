@@ -115,6 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controllers\Battle.cpp" />
+    <ClCompile Include="Utils\Menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entities\Unit.h" />
+    <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,5 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Controllers">
+      <UniqueIdentifier>{238029a0-fe25-4cf5-bff8-ac9ea3696bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{02082641-21b8-45bc-88fc-c76821e04ed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{a70abee9-7cf6-4fab-a97c-5256f183f3bb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Controllers\Battle.cpp">
+      <Filter>Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Menu.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entities\Unit.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Menu.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
