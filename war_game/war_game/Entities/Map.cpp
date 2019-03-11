@@ -9,7 +9,7 @@ Map::Map() :
 
 void Map::readMapFromFile(string fileName)
 {
-	int modelHeight;//читання карти з файлу
+	int modelHeight;
 	int modelWidth;
 	ifstream myfile;
 	myfile.open(fileName);
@@ -82,7 +82,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		map[i] = new Cell[width];
 		for (int j = 0; j < width; j++)
 		{
-			map[i][j] = Cell(rand()% 4, rand() % 8);
+			map[i][j] = Cell(rand()% 4);
 		}
 	}
 	ofstream myfile;
@@ -111,6 +111,11 @@ void Map::setWidth(int w)
 	width = w;
 }
 
+bool Map::getIspassable(int a, int b)
+{
+	return this->map[a][b].getIsPassable();
+}
+
 Map::~Map()
 {
 	for (int i = 0; i < height; i++)
@@ -130,9 +135,9 @@ ostream& operator<<(ostream& sout, Map &m)
 			{
 				sout << ' ';
 			}
-			else if (m.map[i][j].getPassCost() == 0)
+			else if (m.map[i][j].getIsPassable() == false)
 			{
-				sout << "#";
+				sout << '#';
 			}
 			else
 			{

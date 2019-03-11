@@ -115,6 +115,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="Utils\Read_Edit_Map.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Entities\cell.cpp" />
+    <ClCompile Include="Entities\Map.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entities\cell.h" />
+    <ClInclude Include="Entities\Map.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
