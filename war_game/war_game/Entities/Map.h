@@ -21,6 +21,10 @@ public:
 	int getHeight();
 	void setWidth(int width);
 	void setHeight(int height);
+<<<<<<< HEAD
+=======
+	bool getIspassable(int a, int b);
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
 };

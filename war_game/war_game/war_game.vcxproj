@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <None Include="..\..\.gitignore" />
   </ItemGroup>
   <ItemGroup>
@@ -123,15 +124,26 @@
     <ClCompile Include="Entities\Map.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\Menu.cpp" />
+=======
+    <Text Include="Utils\Read_Edit_Map.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Entities\cell.cpp" />
+    <ClCompile Include="Entities\Map.cpp" />
+    <ClCompile Include="main.cpp" />
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\Map.h" />
+<<<<<<< HEAD
     <ClInclude Include="Entities\Unit.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Utils\Read_Edit_Map.txt" />
+=======
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

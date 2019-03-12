@@ -6,9 +6,16 @@ Map::Map() :
 {}
 
 
+<<<<<<< HEAD
 void Map::readMapFromFile(string fileName)
 {
 	int modelHeight;//читання карти з файлу
+=======
+
+void Map::readMapFromFile(string fileName)
+{
+	int modelHeight;
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 	int modelWidth;
 	ifstream myfile;
 	myfile.open(fileName);
@@ -65,9 +72,12 @@ void Map::readMapFromFile(string fileName)
 			}
 		}
 	}
+<<<<<<< HEAD
 	map[0][0].setCell('*');
 	map[49][49].setCell('$');
 
+=======
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 }
 
 void Map::generateRandomMap(string fileName, int height, int width)
@@ -84,12 +94,19 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		map[i] = new Cell[width];
 		for (int j = 0; j < width; j++)
 		{
+<<<<<<< HEAD
 			map[i][j] = Cell(rand()% 4, rand() % 8, i, j);
+=======
+			map[i][j] = Cell(rand()% 4);
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 		}
 	}
 	ofstream myfile;
 	myfile.open(fileName);
+<<<<<<< HEAD
 	bool check = myfile.is_open();
+=======
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 	myfile << height << " " << width << endl << *this;
 	myfile.close();
 }
@@ -114,6 +131,14 @@ void Map::setWidth(int w)
 	width = w;
 }
 
+<<<<<<< HEAD
+=======
+bool Map::getIspassable(int a, int b)
+{
+	return this->map[a][b].getIsPassable();
+}
+
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 Map::~Map()
 {
 	for (int i = 0; i < height; i++)
@@ -133,9 +158,15 @@ ostream& operator<<(ostream& sout, Map &m)
 			{
 				sout << ' ';
 			}
+<<<<<<< HEAD
 			else if (m.map[i][j].getPassCost() == 0)
 			{
 				sout << "#";
+=======
+			else if (m.map[i][j].getIsPassable() == false)
+			{
+				sout << '#';
+>>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 			}
 			else
 			{
