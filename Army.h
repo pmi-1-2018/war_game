@@ -28,22 +28,24 @@ public:
 		int incomingDamage = 0;
 		int backDamage = 0;
 		Archer archer = Archer();
+		int thisArmy{ 0 };
+		int otherArmy{ 0 };
 		do
 		{
-			incomingDamage = listOfUnits[numberOfUnits - 1].GetDamage() - a.listOfUnits[numberOfUnits - 1].GetDefense();
+			incomingDamage = listOfUnits[thisArmy].GetDamage() - a.listOfUnits[otherArmy].GetDefense();
 			if (numberOfUnits >= 2)
 			{
-				if (typeid(listOfUnits[numberOfUnits - 1]) == typeid(archer))
+				if (typeid(listOfUnits[thisArmy]) == typeid(archer))
 				{
-					incomingDamage += listOfUnits[numberOfUnits - 2].GetDamage() - a.listOfUnits[numberOfUnits - 1].GetDefense();
+					incomingDamage += listOfUnits[thisArmy + 1].GetDamage() - a.listOfUnits[otherArmy].GetDefense();
 				}
 			}
-			backDamage = a.listOfUnits[a.numberOfUnits - 1].GetDamage() - a.listOfUnits[a.numberOfUnits - 1].GetDefense();
+			backDamage = a.listOfUnits[otherArmy].GetDamage() - listOfUnits[thisArmy].GetDefense();
 			if (numberOfUnits >= 2)
 			{
 				if (typeid(a.listOfUnits[numberOfUnits - 1]) == typeid(archer))
 				{
-					backDamage += a.listOfUnits[a.numberOfUnits - 2].GetDamage() - a.listOfUnits[a.numberOfUnits - 1].GetDefense();
+					backDamage += a.listOfUnits[otherArmy + 1].GetDamage() - listOfUnits[thisArmy].GetDefense();
 				}
 			}
 			if (incomingDamage < 0)
@@ -54,23 +56,23 @@ public:
 			{
 				backDamage = 0;
 			}
-			if ((a.listOfUnits[numberOfUnits - 1].GetHealthPoints() - incomingDamage) <= 0)
+			if ((a.listOfUnits[otherArmy].GetHealthPoints() - incomingDamage) <= 0)
 			{
-				a.numberOfUnits -= 1;
+				otherArmy ++;
 			}
 			else
 			{
-				a.listOfUnits[numberOfUnits - 1].SetHealthPoints(a.listOfUnits[numberOfUnits - 1].GetHealthPoints() - incomingDamage);
+				a.listOfUnits[otherArmy].SetHealthPoints(a.listOfUnits[otherArmy].GetHealthPoints() - incomingDamage);
 			}
-			if ((listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage) <= 0)
+			if ((listOfUnits[thisArmy].GetHealthPoints() - backDamage) <= 0)
 			{
-				numberOfUnits -= 1;
+				thisArmy ++;
 			}
 			else
 			{
-				listOfUnits[numberOfUnits - 1].SetHealthPoints(listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage);
+				listOfUnits[thisArmy].SetHealthPoints(listOfUnits[thisArmy].GetHealthPoints() - backDamage);
 			}
-		} while ((numberOfUnits != 0) || (a.numberOfUnits != 0));
+		} while ((thisArmy != numberOfUnits) || (otherArmy != a.numberOfUnits));
 	}
 
 
