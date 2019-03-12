@@ -38,5 +38,14 @@
     <ClInclude Include="Utils\Menu.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Swordsman.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Tank.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Archer.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

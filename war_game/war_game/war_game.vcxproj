@@ -119,6 +119,9 @@
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Archer.h" />
+    <ClInclude Include="..\..\Swordsman.h" />
+    <ClInclude Include="..\..\Tank.h" />
     <ClInclude Include="Entities\Unit.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
