@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
-#include "Army.h"
 using namespace std;
 
 

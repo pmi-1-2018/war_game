@@ -1,22 +1,24 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
+#include "Unit.h"
+
 using namespace std;
 
 class Army
 {
 private:
 	string nameOfArmy;
-	Warrior *warriors;
-	int numberOfWarriors;
+	Unit *units;
+	int numberOfUnits;
 public:
 	Army() :nameOfArmy("default") {};
-	Army(string name, Warrior*list, int num)
+	Army(string name, Unit*list, int num)
 	{
 		nameOfArmy = name;
-		for (int i = 0; i < numberOfWarriors; i++)
+		for (int i = 0; i < numberOfUnits; i++)
 		{
-			warriors[i] = list[i];
+			units[i] = list[i];
 		}
 	}
 
@@ -27,20 +29,20 @@ public:
 		Archer archer = Archer();
 		do
 		{
-			incomingDamage = listOfUnits[numberOfWarriors - 1].getDamage() - a.listOfUnits[numberOfWarriors - 1].getArmor();
-			if (numberOfWarriors >= 2)
+			incomingDamage = listOfUnits[numberOfUnits - 1].GetDamage() - a.listOfUnits[numberOfUnits - 1].GetDefense();
+			if (numberOfUnits >= 2)
 			{
-				if (typeid(listOfUnits[numberOfWarriors - 1]) == typeid(archer))
+				if (typeid(listOfUnits[numberOfUnits - 1]) == typeid(archer))
 				{
-					incomingDamage += listOfUnits[numberOfWarriors - 2].getDamage() - a.listOfUnits[numberOfWarriors - 1].getArmor();
+					incomingDamage += listOfUnits[numberOfUnits - 2].GetDamage() - a.listOfUnits[numberOfUnits - 1].GetDefense();
 				}
 			}
-			backDamage = a.listOfUnits[a.numberOfWarriors - 1].getDamage() - a.listOfUnits[a.numberOfWarriors - 1].getArmor();
-			if (numberOfWarriors >= 2)
+			backDamage = a.listOfUnits[a.numberOfUnits - 1].GetDamage() - a.listOfUnits[a.numberOfUnits - 1].GetDefense();
+			if (numberOfUnits >= 2)
 			{
-				if (typeid(a.listOfUnits[numberOfWarriors - 1]) == typeid(archer))
+				if (typeid(a.listOfUnits[numberOfUnits - 1]) == typeid(archer))
 				{
-					backDamage += a.listOfUnits[a.numberOfWarriors - 2].getDamage() - a.listOfUnits[a.numberOfWarriors - 1].getArmor();
+					backDamage += a.listOfUnits[a.numberOfUnits - 2].GetDamage() - a.listOfUnits[a.numberOfUnits - 1].GetDefense();
 				}
 			}
 			if (incomingDamage < 0)
@@ -51,33 +53,33 @@ public:
 			{
 				backDamage = 0;
 			}
-			if ((a.listOfUnits[numberOfWarriors - 1].getHealth() - incomingDamage) <= 0)
+			if ((a.listOfUnits[numberOfUnits - 1].GetHealthPoints() - incomingDamage) <= 0)
 			{
-				a.numberOfWarriors -= 1;
+				a.numberOfUnits -= 1;
 			}
 			else
 			{
-				a.listOfUnits[numberOfWarriors - 1].setHealth(a.listOfUnits[numberOfWarriors - 1].getHealth() - incomingDamage);
+				a.listOfUnits[numberOfUnits - 1].setHealth(a.listOfUnits[numberOfUnits - 1].GetHealthPoints() - incomingDamage);
 			}
-			if ((listOfUnits[numberOfWarriors - 1].getHealth() - backDamage) <= 0)
+			if ((listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage) <= 0)
 			{
-				numberOfWarriors -= 1;
+				numberOfUnits -= 1;
 			}
 			else
 			{
-				listOfUnits[numberOfWarriors - 1].setHealth(listOfUnits[numberOfWarriors - 1].getHealth() - backDamage);
+				listOfUnits[numberOfUnits - 1].setHealth(listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage);
 			}
-		} while ((numberOfWarriors != 0) || (a.numberOfWarriors != 0));
+		} while ((numberOfUnits != 0) || (a.numberOfUnits != 0));
 	}
 
 
 	friend istream&operator>>(istream&is, Army &army)
 	{
 		is >> army.nameOfArmy;
-		is >> army.numberOfWarriors;
-		for (int i = 0; i < army.numberOfWarriors; i++)
+		is >> army.numberOfUnits;
+		for (int i = 0; i < army.numberOfUnits; i++)
 		{
-			is >> army.warriors[i];
+			is >> army.units[i];
 		}
 		return is;
 	}
@@ -88,17 +90,17 @@ public:
 
 	int getNumber()
 	{
-		return numberOfWarriors;
+		return numberOfUnits;
 	}
 
-	Warrior *getWarriors()
+	Unit *getWarriors()
 	{
-		return warriors;
+		return units;
 	}
 
-	bool isDead(Warrior unit)
+	bool isDead(Unit unit)
 	{
-		if (unit.getHp() == 0 && unit.getHp() < 0)
+		if (unit.GetHealthPoints() == 0 && unit.GetHealthPoints() < 0)
 		{
 			return true;
 		}
@@ -108,11 +110,11 @@ public:
 		}
 	}
 
-	void armyMove(Warrior*list, int number)
+	void armyMove(Unit*list, int number)
 	{
 		if (isDead(list[0]))
 		{
-			Warrior*newList = new Warrior[number - 1];
+			Unit*newList = new Unit[number - 1];
 			for (int i = 1; i < number; i)
 			{
 				newList[i - 1] = list[i];
@@ -128,22 +130,22 @@ public:
 
 	//armyAttack
 
-	void addUnit(Warrior unit)
+	void addUnit(Unit unit)
 	{
-		Warrior *temp = new Warrior[numberOfWarriors];
-		for (int i = 0; i < numberOfWarriors; i++)
+		Unit *temp = new Unit[numberOfUnits];
+		for (int i = 0; i < numberOfUnits; i++)
 		{
-			temp[i] = warriors[i];
+			temp[i] = units[i];
 		}
 			
-		numberOfWarriors++;
-		warriors = new Warrior[numberOfWarriors];
+		numberOfUnits++;
+		units = new Unit[numberOfUnits];
 
-		for (int i = 0; i < numberOfWarriors - 1; i++)
+		for (int i = 0; i < numberOfUnits - 1; i++)
 		{
-			warriors[i] = temp[i];
+			units[i] = temp[i];
 		}
-		warriors[numberOfWarriors - 1] = unit;
+		units[numberOfUnits - 1] = unit;
 	}
 
 	//armyMove
