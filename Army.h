@@ -2,6 +2,7 @@
 #include <string>
 #include <typeinfo>
 #include "Unit.h"
+#include "Archer.h"
 
 using namespace std;
 
@@ -59,7 +60,7 @@ public:
 			}
 			else
 			{
-				a.listOfUnits[numberOfUnits - 1].setHealth(a.listOfUnits[numberOfUnits - 1].GetHealthPoints() - incomingDamage);
+				a.listOfUnits[numberOfUnits - 1].SetHealthPoints(a.listOfUnits[numberOfUnits - 1].GetHealthPoints() - incomingDamage);
 			}
 			if ((listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage) <= 0)
 			{
@@ -67,7 +68,7 @@ public:
 			}
 			else
 			{
-				listOfUnits[numberOfUnits - 1].setHealth(listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage);
+				listOfUnits[numberOfUnits - 1].SetHealthPoints(listOfUnits[numberOfUnits - 1].GetHealthPoints() - backDamage);
 			}
 		} while ((numberOfUnits != 0) || (a.numberOfUnits != 0));
 	}
