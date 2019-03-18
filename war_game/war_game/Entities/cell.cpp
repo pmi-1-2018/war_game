@@ -1,5 +1,6 @@
 #include "Cell.h"
 
+
 Cell::Cell() :
 	passCost(1),
 	isPassable(true),
@@ -63,9 +64,13 @@ void Cell::SetPlayer(bool val, char symb)
 	}
 	
 }
-char Cell::GetArmy()
+char Cell::GetArmySign()
 {
 	return this->army->GetSymb();
+}
+int Cell::GetArmyId()
+{
+	return this->army->GetId();
 }
 bool Cell::IsPassable()
 {
