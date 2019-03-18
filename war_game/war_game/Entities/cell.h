@@ -1,12 +1,23 @@
 #pragma once
+static int counter = 0;
 class Army 
 {
 	char symb;
+	int id;
+
 public:
-	Army(char symb) :symb(symb) {}
+	Army(char symb) :symb(symb) 
+	{
+		counter++;
+		id = counter;
+	}
 	char GetSymb() 
 	{
 		return this->symb;
+	}
+	int GetId() 
+	{
+		return this->id;
 	}
 };
 class Cell
@@ -27,7 +38,8 @@ public:
 	void SetPlayer(bool val, char symb);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
-	char GetArmy();
+	char GetArmySign();
+	int GetArmyId();
 	bool IsPassable();
 	void setPassCost(int value);
 

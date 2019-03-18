@@ -1,6 +1,7 @@
 #pragma once
 #include "../Entities/Map.h"
 #include <conio.h>
+#include "Windows.h"
 #include <string>
 #include <vector>
 #include <iostream>
