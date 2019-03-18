@@ -11,8 +11,8 @@ void GameManager::GenerateMap(int height, int width)
 	map = new Map();
 	map->generateRandomMap(this->MAP_PATH, mapHeight, mapWidth);
 	this->mapGenerated = true;
-	cout << "Notice! Map was generated. Now you can start playing." << endl;
 	#ifdef DEBUG
+	cout << "Notice! Map was generated. Now you can start playing." << endl;
 		for (int i = 0; i < map->getHeight(); i++)
 		{
 			for (int j = 0; j < map->getWidth(); j++)
@@ -28,6 +28,7 @@ void GameManager::GenerateMap(int height, int width)
 void GameManager::Draw()const
 {
 	cout << *(this->map);
+	
 }
 void GameManager::SwitchTurn()
 {
@@ -40,6 +41,7 @@ void GameManager::SwitchTurn()
 		this->turn = 'l';
 	}
 }
+
 bool GameManager::MapIsGenerated() const
 {
 	return this->mapGenerated;
@@ -67,13 +69,16 @@ void GameManager::Start(int height, int width)
 	this->mapHeight = height;
 	this->mapWidth = width;
 	// mapheight - y, mapwidth - x
-	
-		Draw();
-		int x_1 = 0;
-		int y_1 = 0;
-		int x_2 = mapWidth-1;
-		int y_2 = mapHeight-1;
-		turn = 'l';
+	this->map->SetBackground("D");
+	this->map->SetBackground("I");
+	this->turn = 'l';
+	cout << "Turn: " << this->turn << endl;
+	this->map->SetBackground("D");
+	Draw();
+	int x_1 = 0;
+	int y_1 = 0;
+	int x_2 = mapWidth-1;
+	int y_2 = mapHeight-1;
 		while (true)
 		{
 			int prev_x = turn == 'l' ? x_1 : x_2;
@@ -175,7 +180,7 @@ void GameManager::Start(int height, int width)
 			{
 				break;
 			}
-			char symb = turn == 'l' ? '*' : '$';
+			char symb = turn == 'l' ? 'F' : 'S';
 			int& new_x = turn == 'l' ? x_1 : x_2;
 			int& new_y = turn == 'l' ? y_1 : y_2;
 
@@ -190,7 +195,9 @@ void GameManager::Start(int height, int width)
 			{
 				system("CLS");
 				SwitchTurn();
+				this->map->SetBackground("I");
 				cout << "Turn: " << this->turn << endl;
+				this->map->SetBackground("D");
 				Draw();
 			}
 		}
