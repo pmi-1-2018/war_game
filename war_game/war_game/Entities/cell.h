@@ -1,33 +1,35 @@
 #pragma once
-
+class Army 
+{
+	char symb;
+public:
+	Army(char symb) :symb(symb) {}
+	char GetSymb() 
+	{
+		return this->symb;
+	}
+};
 class Cell
 {
 private:
 	int passCost;
 	bool isPassable;
-<<<<<<< HEAD
+	bool isPlayer = false;
+	Army* army;
 	int x;
 	int y;
 public:
 	Cell();
-	Cell(int passCost, bool isPassable, int x, int y);
+	Cell(int passCost, int x, int y);	
 	void setCell(char symb);
 	int getPassCost();
-	void setPassCost(int value);
-=======
-	bool isPlayer;
-public:
-	Cell();
-	Cell(int passCost);
-	void setCell(char symb);
-	int getPassCost();
-	void setPassCost(int value);
+	bool IsPlayer();
+	void SetPlayer(bool val, char symb);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
-	bool getIsPassable()
-	{
-		return isPassable;
-	}
->>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
+	char GetArmy();
+	bool IsPassable();
+	void setPassCost(int value);
+
 };
 

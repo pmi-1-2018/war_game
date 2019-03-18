@@ -3,40 +3,29 @@
 Cell::Cell() :
 	passCost(1),
 	isPassable(true),
-<<<<<<< HEAD
+	isPlayer(false),
 	x(0),
 	y(0)
 {}
-Cell::Cell(int passCost, bool isPassable, int x, int y):
+Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
-	isPassable(isPassable)
-{
-	if (isPassable == false)
-	{
-		passCost = 0;
-	}
-	this->x = x;
-	this->y = y;
-=======
-	isPlayer(false)
-{}
-Cell::Cell(int passCost):
-	passCost(passCost),
+	isPlayer(false),
 	isPassable(true)
 {
 	if (this->passCost == 0)
 	{
 		this->isPassable = false;
 	}
->>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
+	this->x = x;
+	this->y = y;
+
 }
+
 void Cell::setCell(char symb)
 {
-	isPassable = true;
 	switch (symb)
 	{
 	case '#':
-		isPassable = false;
 		passCost = 0;
 		break;
 	case ' ':
@@ -49,11 +38,7 @@ void Cell::setCell(char symb)
 		passCost = 3;
 		break;
 	default:
-<<<<<<< HEAD
 		passCost = 0;
-=======
-		passCost = 1;
->>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
 		break;
 	}
 }
@@ -61,12 +46,35 @@ int Cell::getPassCost()
 {
 	return passCost;
 }
+bool Cell::IsPlayer()
+{
+	return this->isPlayer;
+}
+void Cell::SetPlayer(bool val, char symb)
+{
+	this->isPlayer = val;
+	if (isPlayer == true) 
+	{
+		this->army = new Army(symb);
+	}
+	else
+	{
+		army = nullptr;
+	}
+	
+}
+char Cell::GetArmy()
+{
+	return this->army->GetSymb();
+}
+bool Cell::IsPassable()
+{
+	return this->isPassable;
+}
 void Cell::setPassCost(int value)
 {
 	this->passCost = value;
 }
-<<<<<<< HEAD
-=======
 void Cell::setIsPlayer(bool val)
 {
 	this->isPlayer = val;
@@ -75,4 +83,3 @@ bool Cell::getIsPlayer()
 {
 	return isPlayer;
 }
->>>>>>> fcbf33cd102aa010fa648d5a6aba6668a27c803a
