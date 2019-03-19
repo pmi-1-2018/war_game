@@ -368,8 +368,13 @@ ASALocalRun/
 *.nvuser
 
 # MFractors (Xamarin productivity tool) working folder 
-<<<<<<< HEAD
+
 .mfractor/
-=======
-.mfractor/
->>>>>>> .
+
+# map
+war_game/war_game/Utils/Read_Edit_Map.txt
+
+war_game/*.sln
+war_game/war_game/*.vcxproj
+war_game/war_game/*.filters
+war_game/war_game/*.user

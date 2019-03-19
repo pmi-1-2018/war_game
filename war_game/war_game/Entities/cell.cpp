@@ -1,26 +1,32 @@
 #include "Cell.h"
 
+
 Cell::Cell() :
 	passCost(1),
 	isPassable(true),
-	isPlayer(false)
+	isPlayer(false),
+	x(0),
+	y(0)
 {}
-Cell::Cell(int passCost):
+Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
+	isPlayer(false),
 	isPassable(true)
 {
 	if (this->passCost == 0)
 	{
 		this->isPassable = false;
 	}
+	this->x = x;
+	this->y = y;
+
 }
+
 void Cell::setCell(char symb)
 {
-	isPassable = true;
 	switch (symb)
 	{
 	case '#':
-		isPassable = false;
 		passCost = 0;
 		break;
 	case ' ':
@@ -33,13 +39,42 @@ void Cell::setCell(char symb)
 		passCost = 3;
 		break;
 	default:
-		passCost = 1;
+		passCost = 0;
 		break;
 	}
 }
 int Cell::getPassCost()
 {
 	return passCost;
+}
+bool Cell::IsPlayer()
+{
+	return this->isPlayer;
+}
+void Cell::SetPlayer(bool val, char symb)
+{
+	this->isPlayer = val;
+	if (isPlayer == true) 
+	{
+		this->army = new Army(symb);
+	}
+	else
+	{
+		army = nullptr;
+	}
+	
+}
+char Cell::GetArmySign()
+{
+	return this->army->GetSymb();
+}
+int Cell::GetArmyId()
+{
+	return this->army->GetId();
+}
+bool Cell::IsPassable()
+{
+	return this->isPassable;
 }
 void Cell::setPassCost(int value)
 {
