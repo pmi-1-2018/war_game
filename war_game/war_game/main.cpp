@@ -3,10 +3,14 @@
 #include <string>
 #include <ctime>
 #include "Utils/Menu.h"
+<<<<<<< HEAD
 #include "Windows.h"
 
 
 using namespace std;
+=======
+
+>>>>>>> 60e252a7afbd03547aa2cd3b344399db8423217b
 
 void set_color() 
 {
@@ -19,6 +23,7 @@ int main() {
 	Menu menu;
 	menu.PrintMenu();
 	menu.KeyHandler();
+<<<<<<< HEAD
 	/*for (int i=0;i<256;i++) 
 	{
 		cout << i << endl;
@@ -37,6 +42,9 @@ int main() {
 	SetConsoleTextAttribute(hStdOut,
 		BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_BLUE | FOREGROUND_RED);
 	cout << "#" << endl;*/
+=======
+	
+>>>>>>> 60e252a7afbd03547aa2cd3b344399db8423217b
 	system("pause");
 	return 0;
 }
