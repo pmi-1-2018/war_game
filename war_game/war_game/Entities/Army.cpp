@@ -81,7 +81,7 @@ void Army::armyAttack(Army a) {
 	} while ((thisArmy != numberOfUnits) || (otherArmy != a.numberOfUnits));
 }
 
-	istream&operator>>(istream&is, Army &army) {
+istream&operator>>(istream&is, Army &army) {
 	is >> army.nameOfArmy;
 	is >> army.numberOfUnits;
 	for (int i = 0; i < army.numberOfUnits; i++)
@@ -90,7 +90,6 @@ void Army::armyAttack(Army a) {
 	}
 	return is;
 }
-
 void Army::inputTheArmy(Army army) {
 	cin >> army;
 }
