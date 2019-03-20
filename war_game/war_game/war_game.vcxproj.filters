@@ -45,6 +45,15 @@
     <ClCompile Include="Controllers\GameManager.cpp">
       <Filter>Resource Files\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Unit.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Wizard.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Barrack.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\Menu.h">
@@ -64,6 +73,21 @@
     </ClInclude>
     <ClInclude Include="Controllers\GameManager.h">
       <Filter>Resource Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Swordsman.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Archer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Tank.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Wizard.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Barrack.h">
+      <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
