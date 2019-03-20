@@ -249,7 +249,7 @@ ostream& operator<<(ostream& sout, Map &m)
 	{
 		sout << '-';
 	}
-	SetConsoleTextAttribute(m.HSTDOUT, 5);
+	SetConsoleTextAttribute(m.HSTDOUT, 0);
 	sout << endl;
 	return sout;
 }
