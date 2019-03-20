@@ -11,6 +11,7 @@ void Map::SetBackground(const string flag) const
 	// 1 - first player
 	// 2 - second player
 	// O - obstacle
+	// I - information
 	if (flag == "D") {
 		SetConsoleTextAttribute(this->HSTDOUT,
 			BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_BLUE);
@@ -42,7 +43,7 @@ void Map::SetBackground(const string flag) const
 	}
 	else 
 	{
-		SetConsoleTextAttribute(this->HSTDOUT, BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_BLUE);
+		SetConsoleTextAttribute(this->HSTDOUT, 7);
 	}
 }
 
@@ -105,8 +106,6 @@ void Map::readMapFromFile(string fileName)
 			}
 		}
 	}
-	map[0][0].setCell('F');
-	map[49][49].setCell('S');
 }
 
 void Map::generateRandomMap(string fileName, int height, int width)
@@ -126,12 +125,6 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			map[i][j] = Cell(rand()% 4, j, i);
 		}
 	}
-	map[0][0] = Cell(1, 0, 0);
-	map[0][0].SetPlayer(true, 'F');
-	map[this->height-1][this->width-1] = Cell(1, this->width - 1, this->height - 1);
-	map[this->height - 1][this->width - 1].SetPlayer(true, 'S');
-
-
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
@@ -162,7 +155,8 @@ void Map::setHeight(int h)
 	height = h;
 }
 
-bool Map::setPlayer(char symb, int x, int y)
+
+int Map::setPlayer(char symb, int x, int y)
 {
 	if (map[y][x].IsPassable() == true) 
 	{
@@ -171,7 +165,8 @@ bool Map::setPlayer(char symb, int x, int y)
 		{
 			for (int j = 0; j < height; j++)
 			{
-				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb) 
+
+				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
 					map[i][j].SetPlayer(false, NULL);
 					removePrev = true;
@@ -183,18 +178,45 @@ bool Map::setPlayer(char symb, int x, int y)
 				break;
 			}
 		}
-		map[y][x].SetPlayer(true, symb);
-		return true;
+		if (map[y][x].getIsPlayer() == true && map[y][x].GetArmySign() != NULL)
+		{
+			return 2;
+		}
+		else
+		{
+			map[y][x].SetPlayer(true, symb);
+		}
+		return 1;
 	}
 	else 
 	{
-		return false;
+		return 0;
 	}
 }
 
 bool Map::getIspassable(int a, int b)
 {
 	return this->map[a][b].IsPassable();
+}
+
+void Map::resetPlayers()
+{
+	// cleaning the map
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			if (map[i][j].IsPlayer() == true)
+			{
+				map[i][j].SetPlayer(false, NULL);
+			}
+		}
+	}
+	// setting the default position of the players.
+	map[0][1] = Cell(1, 0, 0);
+	map[0][1].SetPlayer(true, 'F');
+	map[this->height - 1][this->width - 2] = Cell(1, this->width - 1, this->height - 1);
+	map[this->height - 1][this->width - 2].SetPlayer(true, 'S');
 }
 
 void Map::setWidth(int w)

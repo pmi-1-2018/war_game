@@ -8,7 +8,6 @@ using namespace std;
 class Menu
 {
 private:
-	int errorState;
 	const int OPT_COUNT = 5;
 	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Exit" };
 	GameManager* gm;
@@ -17,10 +16,9 @@ public:
 	void PrintMenu()const;
 	void MenuHint()const;
 	void KeyHandler();
-
 	void StartGame();
 	void GenerateMap();
-	void EditMap();
+	bool EditMap();
 	void ShowLog();
 	void EndGame();
 };
