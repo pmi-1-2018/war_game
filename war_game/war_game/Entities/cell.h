@@ -1,26 +1,9 @@
 #pragma once
 #include"Barrack.h"
-static int counter = 0;
-class Army 
-{
-	char symb;
-	int id;
+#include "../Entities/Army.h"
 
-public:
-	Army(char symb) :symb(symb) 
-	{
-		counter++;
-		id = counter;
-	}
-	char GetSymb() 
-	{
-		return this->symb;
-	}
-	int GetId() 
-	{
-		return this->id;
-	}
-};
+//static int counter = 0;
+
 class Cell
 {
 private:
@@ -31,6 +14,7 @@ private:
 	Army* army;
 	int x;
 	int y;
+
 public:
 	Cell();
 	Cell(int passCost, int x, int y);	

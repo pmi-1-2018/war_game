@@ -68,7 +68,9 @@ void Cell::SetPlayer(bool val, char symb)
 	this->isPlayer = val;
 	if (isPlayer == true) 
 	{
-		this->army = new Army(symb);
+		// Hard-coded array of 10 units. Probably, this function should take certain arguments to initialize the army.
+		Unit units[10];
+		this->army = new Army(to_string(symb), units, 10, symb);
 	}
 	else
 	{
