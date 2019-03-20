@@ -42,164 +42,244 @@ void GameManager::SwitchTurn()
 	}
 }
 
+string GameManager::GetLogPath() const
+{
+	return this->LOG_PATH;
+}
+
+string GameManager::GetMapPath() const
+{
+	return this->MAP_PATH;
+}
+
+
+
+string GameManager::StartBattle() const
+{
+	system("CLS");
+	this->map->SetBackground("I");
+	cout << "Battle has started" << endl;
+	this->map->SetBackground("D");
+
+	string battleLog = "Someone has won";
+	return battleLog;
+}
+
 bool GameManager::MapIsGenerated() const
 {
 	return this->mapGenerated;
 }
-bool GameManager::MoveChar(char symb, int x, int y) 
+int GameManager::MoveChar(char symb, int x, int y) 
 {
 	#ifdef DEBUG
 		cout << "Moved " << symb << " to " << x << " " << y << endl;
 	#endif
-	bool response = map->setPlayer(symb, x, y);
+	int response = map->setPlayer(symb, x, y);
 	return response;
 	
 }
-GameManager::~GameManager()
-{
-	delete map;
-}
-void GameManager::Start(int height, int width)
+
+void GameManager::Start()
 {
 	if (this->mapGenerated == false)
 	{
 		GenerateMap(10, 10);
 	}
-	
-	this->mapHeight = height;
-	this->mapWidth = width;
+
+	this->map->resetPlayers();
+
+	this->mapHeight = this->map->getHeight();
+	this->mapWidth = this->map->getWidth();
 	// mapheight - y, mapwidth - x
-	this->map->SetBackground("D");
 	this->map->SetBackground("I");
 	this->turn = 'l';
 	cout << "Turn: " << this->turn << endl;
 	this->map->SetBackground("D");
 	Draw();
-	int x_1 = 0;
+	int x_1 = 1;
 	int y_1 = 0;
-	int x_2 = mapWidth-1;
+	int x_2 = mapWidth-2;
 	int y_2 = mapHeight-1;
-		while (true)
+	while (true)
+	{
+		int prev_x = turn == 'l' ? x_1 : x_2;
+		int prev_y = turn == 'l' ? y_1 : y_2;
+		bool hitTheWall = false;
+		char key;
+		int asciiValue;
+		key = _getch();
+		asciiValue = key;
+		if (asciiValue == 97)
 		{
-			int prev_x = turn == 'l' ? x_1 : x_2;
-			int prev_y = turn == 'l' ? y_1 : y_2;
-			bool hitTheWall = false;
-			char key;
-			int asciiValue;
-			key = _getch();
-			asciiValue = key;
-			if (asciiValue == 97)
-			{
-				if (turn == 'l') {
-					if (x_1 != 0) {
-						x_1 -= 1;
-					}
-					else 
-					{
-						hitTheWall = true;
-					}
-				}
-				else 
-				{
-					if (x_2 != 0) {
-						x_2 -= 1;
-					}
-					else 
-					{
-						hitTheWall = true;
-					}
-				}
-			}
-			else if (asciiValue == 100)
-			{
-				if (turn == 'l') {
-					if (x_1 != mapHeight-1) {
-						x_1 += 1;
-					}
-					else 
-					{
-						hitTheWall = true;
-					}
+			if (turn == 'l') {
+				if (x_1 != 0) {
+					x_1 -= 1;
 				}
 				else
 				{
-					if (x_2 != mapHeight - 1) {
-						x_2 += 1;
-					}
-					else 
-					{
-						hitTheWall = true;
-					}
+					hitTheWall = true;
 				}
 			}
-			else if (asciiValue == 119)
+			else
 			{
-				if (turn == 'l') {
-					if (y_1 != 0) {
-						y_1 -= 1;
-					}
-					else
-					{
-						hitTheWall = true;
-					}
+				if (x_2 != 0) {
+					x_2 -= 1;
 				}
 				else
 				{
-					if (y_2 != 0) {
-						y_2 -= 1;
-					}
-					else
-					{
-						hitTheWall = true;
-					}
+					hitTheWall = true;
 				}
-			}
-			else if (asciiValue == 115)
-			{
-				if (turn == 'l') {
-					if (y_1 != mapWidth - 1) {
-						y_1 += 1;
-					}
-					else
-					{
-						hitTheWall = true;
-					}
-				}
-				else
-				{
-					if (y_2 != mapWidth - 1) {
-						y_2 += 1;
-					}
-					else
-					{
-						hitTheWall = true;
-					}
-				}
-			}
-			else if (asciiValue == 27)
-			{
-				break;
-			}
-			char symb = turn == 'l' ? 'F' : 'S';
-			int& new_x = turn == 'l' ? x_1 : x_2;
-			int& new_y = turn == 'l' ? y_1 : y_2;
-
-			bool response = MoveChar(symb, new_x, new_y);
-			if (response == false) 
-			{
-				new_x = prev_x;
-				new_y = prev_y;
-				continue;
-			}
-			if (hitTheWall == false)
-			{
-				system("CLS");
-				SwitchTurn();
-				this->map->SetBackground("I");
-				cout << "Turn: " << this->turn << endl;
-				this->map->SetBackground("D");
-				Draw();
 			}
 		}
-	
+		else if (asciiValue == 100)
+		{
+			if (turn == 'l') {
+				if (x_1 != mapHeight - 1) {
+					x_1 += 1;
+				}
+				else
+				{
+					hitTheWall = true;
+				}
+			}
+			else
+			{
+				if (x_2 != mapHeight - 1) {
+					x_2 += 1;
+				}
+				else
+				{
+					hitTheWall = true;
+				}
+			}
+		}
+		else if (asciiValue == 119)
+		{
+			if (turn == 'l') {
+				if (y_1 != 0) {
+					y_1 -= 1;
+				}
+				else
+				{
+					hitTheWall = true;
+				}
+			}
+			else
+			{
+				if (y_2 != 0) {
+					y_2 -= 1;
+				}
+				else
+				{
+					hitTheWall = true;
+				}
+			}
+		}
+		else if (asciiValue == 115)
+		{
+			if (turn == 'l') {
+				if (y_1 != mapWidth - 1) {
+					y_1 += 1;
+				}
+				else
+				{
+					hitTheWall = true;
+				}
+			}
+			else
+			{
+				if (y_2 != mapWidth - 1) {
+					y_2 += 1;
+				}
+				else
+				{
+					hitTheWall = true;
+				}
+			}
+		}
+		else if (asciiValue == 27)
+		{
+			break;
+		}
+		char symb = turn == 'l' ? 'F' : 'S';
+		int& new_x = turn == 'l' ? x_1 : x_2;
+		int& new_y = turn == 'l' ? y_1 : y_2;
+
+		int response = MoveChar(symb, new_x, new_y);
+		// response = 0 - hit the obstacle
+		// response = 1 - moved successfully
+		// response = 2 - hit the player, begining of the battle
+
+		if (response == 0)
+		{
+			new_x = prev_x;
+			new_y = prev_y;
+			continue;
+		}
+		else if (response == 2)
+		{
+			string battleLog = StartBattle();
+			FileLogW(battleLog);
+			RestartGame();
+			break;
+			
+		}
+		if (hitTheWall == false && response == 1)
+		{
+			system("CLS");
+			SwitchTurn();
+			this->map->SetBackground("I");
+			cout << "Turn: " << this->turn << endl;
+			this->map->SetBackground("D");
+			Draw();
+		}
+	}
+}
+void GameManager::FileLogW(string information)
+{
+	ofstream ofs(this->LOG_PATH);
+	bool checker = ofs.is_open();
+	if (checker == true) 
+	{
+		ofs << information;
+	}
+	else 
+	{
+		this->map->SetBackground("");
+		cout << "Error while writing the file" << endl;
+	}
+	ofs.close();
+}
+
+void GameManager::SetBackground(string flag)
+{
+	Map temp;
+	temp.SetBackground(flag);
+}
+
+void GameManager::RestartGame()
+{
+	this->map->SetBackground("");
+	cout << "Do you want to play once more? - y/n";
+	char key = _getch();
+	int asciiVal = key;
+	switch (asciiVal)
+	{
+	case 121:
+	{
+		system("CLS");
+
+		Start();
+		break;
+	}
+	case 110:
+	{
+		break;
+	}
+	}
+}
+
+GameManager::~GameManager()
+{
+	delete map;
 }

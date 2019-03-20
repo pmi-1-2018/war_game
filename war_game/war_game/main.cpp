@@ -12,6 +12,8 @@ int main() {
 	Menu menu;
 	menu.PrintMenu();
 	menu.KeyHandler();
+	/*HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, 7);*/
 	system("pause");
 	return 0;
 }

@@ -3,7 +3,7 @@
 #include <conio.h>
 #include "Windows.h"
 #include <string>
-#include <vector>
+#include <fstream>
 #include <iostream>
 //#define DEBUG
 using namespace std;
@@ -14,6 +14,7 @@ private:
 	Map* map;
 	char turn;
 	const string MAP_PATH = "Utils\\Read_Edit_Map.txt";
+	const string LOG_PATH = "Utils\\log.txt";
 	int mapHeight;
 	int mapWidth;
 	bool mapGenerated = false;
@@ -22,10 +23,16 @@ public:
 	GameManager();
 	void GenerateMap(int height, int width);
 	void Draw()const;
-	void Start(int height, int width);
+	void Start();
+	void FileLogW(string information);
 	void SwitchTurn();
+	string GetLogPath()const;
+	string GetMapPath()const;
+	void RestartGame();
+	void SetBackground(string flag);
+	string StartBattle()const;
 	bool MapIsGenerated()const;
-	bool MoveChar(char symb, int x, int y);
+	int MoveChar(char symb, int x, int y);
 	~GameManager();
 };
 

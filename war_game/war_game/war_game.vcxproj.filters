@@ -45,6 +45,9 @@
     <ClCompile Include="Controllers\GameManager.cpp">
       <Filter>Resource Files\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Army.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\Menu.h">
@@ -65,9 +68,15 @@
     <ClInclude Include="Controllers\GameManager.h">
       <Filter>Resource Files\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Army.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Utils\Read_Edit_Map.txt">
+      <Filter>Resource Files\Utils</Filter>
+    </Text>
+    <Text Include="Utils\log.txt">
       <Filter>Resource Files\Utils</Filter>
     </Text>
   </ItemGroup>

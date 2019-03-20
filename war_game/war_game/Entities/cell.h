@@ -1,25 +1,25 @@
 #pragma once
-static int counter = 0;
-class Army 
-{
-	char symb;
-	int id;
-
-public:
-	Army(char symb) :symb(symb) 
-	{
-		counter++;
-		id = counter;
-	}
-	char GetSymb() 
-	{
-		return this->symb;
-	}
-	int GetId() 
-	{
-		return this->id;
-	}
-};
+#include "../Entities/Army.h"
+//class Army 
+//{
+//	char symb;
+//	int id;
+//
+//public:
+//	Army(char symb) :symb(symb) 
+//	{
+//		counter++;
+//		id = counter;
+//	}
+//	char GetSymb() 
+//	{
+//		return this->symb;
+//	}
+//	int GetId() 
+//	{
+//		return this->id;
+//	}
+//};
 class Cell
 {
 private:

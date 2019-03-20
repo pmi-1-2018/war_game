@@ -7,12 +7,26 @@
 
 Army::Army() :nameOfArmy("default") {}
 
-Army::Army(string name, Unit*list, int num)
+Army::Army(string name, Unit*list, int num, char symb)
 {
 	nameOfArmy = name;
 	for (int i = 0; i < numberOfUnits; i++)
 	{
 		units[i] = list[i];
+	}
+	this->symb = symb;
+	switch (symb)
+	{
+		case 'F':
+		{
+			id = 1;
+			break;
+		}
+		case 'S':
+		{
+			id = 2;
+			break;
+		}
 	}
 }
 
@@ -66,17 +80,17 @@ void Army::armyAttack(Army a) {
 		}
 	} while ((thisArmy != numberOfUnits) || (otherArmy != a.numberOfUnits));
 }
-/*
-friend Army::istream&operator>>(istream&is, Army &army) {
+
+	istream&operator>>(istream&is, Army &army) {
 	is >> army.nameOfArmy;
 	is >> army.numberOfUnits;
 	for (int i = 0; i < army.numberOfUnits; i++)
 	{
-		is >> army.units[i];
+		//is >> army.units[i];
 	}
 	return is;
 }
-*/
+
 void Army::inputTheArmy(Army army) {
 	cin >> army;
 }
@@ -120,7 +134,14 @@ void Army::armyMove(Unit*list, int number)
 		delete[]newList;
 	}
 }
-
+char Army::GetSymb()
+{
+	return this->symb;
+}
+int Army::GetId()
+{
+	return this->id;
+}
 void Army::addUnit(Unit unit)
 {
 	Unit *temp = new Unit[numberOfUnits];
