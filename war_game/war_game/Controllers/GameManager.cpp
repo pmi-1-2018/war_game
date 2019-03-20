@@ -279,6 +279,11 @@ void GameManager::RestartGame()
 	}
 }
 
+void GameManager::MapFileSet()
+{
+	this->map->readMapFromFile(this->MAP_PATH);
+}
+
 GameManager::~GameManager()
 {
 	delete map;

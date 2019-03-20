@@ -139,6 +139,7 @@ bool Menu::EditMap()
 		if (asciiVal == 121)
 		{
 			system("CLS");
+			this->gm->MapFileSet();
 			this->gm->SetBackground("");
 			PrintMenu();
 			break;

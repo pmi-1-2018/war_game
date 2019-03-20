@@ -29,6 +29,7 @@ public:
 	string GetLogPath()const;
 	string GetMapPath()const;
 	void RestartGame();
+	void MapFileSet();
 	void SetBackground(string flag);
 	string StartBattle()const;
 	bool MapIsGenerated()const;

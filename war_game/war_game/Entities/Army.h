@@ -4,33 +4,8 @@
 #include <typeinfo>
 #include "../Entities/Unit.h"
 #include "../Entities/Archer.h"
-//#include "Unit.h"
-//#include "Archer.h"
 
 using namespace std;
-
-//class Unit {
-//private:
-//	int dmg;
-//	int health;
-//	int defense;
-//public:
-//	int GetDamage() {
-//		return dmg;
-//	}
-//	int GetHealthPoints() {
-//		return health;
-//	}
-//	void SetHealthPoints(int hp) {
-//		health = hp;
-//	}
-//	int GetDefense() {
-//		return defense;
-//	}
-//
-//};
-
-
 
 static int counter = 0;
 class Army
