@@ -1,4 +1,5 @@
 #pragma once
+#include"Barrack.h"
 static int counter = 0;
 class Army 
 {
@@ -26,6 +27,7 @@ private:
 	int passCost;
 	bool isPassable;
 	bool isPlayer = false;
+	Barrack* barrack;
 	Army* army;
 	int x;
 	int y;
@@ -42,6 +44,7 @@ public:
 	int GetArmyId();
 	bool IsPassable();
 	void setPassCost(int value);
+	Barrack* getBarrackPtr();
 
 };
 

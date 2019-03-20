@@ -6,12 +6,14 @@ Cell::Cell() :
 	isPassable(true),
 	isPlayer(false),
 	x(0),
-	y(0)
+	y(0),
+	barrack(nullptr)
 {}
 Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
 	isPlayer(false),
-	isPassable(true)
+	isPassable(true),
+	barrack(nullptr)
 {
 	if (this->passCost == 0)
 	{
@@ -24,6 +26,7 @@ Cell::Cell(int passCost, int x, int y) :
 
 void Cell::setCell(char symb)
 {
+	this->barrack = nullptr;
 	switch (symb)
 	{
 	case '#':
@@ -38,10 +41,19 @@ void Cell::setCell(char symb)
 	case '3':
 		passCost = 3;
 		break;
+	case 'B':
+		passCost = 1;
+		this->barrack = new Barrack;
+		this->isPassable = true;
+		break;
 	default:
-		passCost = 0;
+		passCost = 1;
 		break;
 	}
+}
+Barrack* Cell::getBarrackPtr()
+{
+	return barrack;
 }
 int Cell::getPassCost()
 {
