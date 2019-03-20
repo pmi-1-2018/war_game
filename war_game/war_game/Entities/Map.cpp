@@ -130,10 +130,19 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	map[0][0].SetPlayer(true, 'F');
 	map[this->height-1][this->width-1] = Cell(1, this->width - 1, this->height - 1);
 	map[this->height - 1][this->width - 1].SetPlayer(true, 'S');
+
+
+	int maxBarracksQuantity = this->height * this->width / 100;
+	for (int i = 0; i < maxBarracksQuantity; i++)
+	{
+		map[rand() % height][rand() % width].setCell('B');
+	}
+
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
-	if (check) {
+	if (check) 
+	{
 		myfile << height << " " << width << endl << *this;
 	}
 	myfile.close();
@@ -155,25 +164,25 @@ void Map::setHeight(int h)
 
 bool Map::setPlayer(char symb, int x, int y)
 {
-	if (map[y][x].IsPassable() == true) {
-	bool removePrev = false;
-	for (int i = 0; i < height; i++)
+	if (map[y][x].IsPassable() == true) 
 	{
-		for (int j = 0; j < height; j++)
+		bool removePrev = false;
+		for (int i = 0; i < height; i++)
 		{
-			if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb) 
+			for (int j = 0; j < height; j++)
 			{
-				map[i][j].SetPlayer(false, NULL);
-				removePrev = true;
+				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb) 
+				{
+					map[i][j].SetPlayer(false, NULL);
+					removePrev = true;
+					break;
+				}
+			}
+			if (removePrev)
+			{
 				break;
 			}
 		}
-		if (removePrev)
-		{
-			break;
-		}
-	}
-	
 		map[y][x].SetPlayer(true, symb);
 		return true;
 	}
@@ -214,6 +223,11 @@ ostream& operator<<(ostream& sout, Map &m)
 				m.SetBackground(flag);
 				sout << m.map[i][j].GetArmySign();
 				m.SetBackground("D");
+				continue;
+			}
+			if (m.map[i][j].getBarrackPtr() != nullptr)
+			{
+				sout << 'B';
 				continue;
 			}
 			if (m.map[i][j].getPassCost() == 1)
