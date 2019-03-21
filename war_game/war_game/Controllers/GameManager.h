@@ -2,6 +2,7 @@
 #include "../Entities/Map.h"
 #include <conio.h>
 #include "Windows.h"
+#include "MMSystem.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -28,12 +29,13 @@ public:
 	void SwitchTurn();
 	string GetLogPath()const;
 	string GetMapPath()const;
-	void RestartGame();
+	bool RestartGame();
 	void MapFileSet();
 	void SetBackground(string flag);
 	string StartBattle()const;
 	bool MapIsGenerated()const;
 	int MoveChar(char symb, int x, int y);
+	void SetMusic(const string& filename);
 	~GameManager();
 };
 
