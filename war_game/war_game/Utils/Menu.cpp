@@ -25,6 +25,7 @@ void Menu::KeyHandler()
 {
 	char key;
 	int asciiValue;
+	this->gm->SetMusic("menu");
 	while (true)
 	{
 		key = _getch();
@@ -43,6 +44,7 @@ void Menu::KeyHandler()
 			StartGame();
 			system("CLS");
 			PrintMenu();
+			this->gm->SetMusic("menu");
 			break;
 		}
 		case 51:
@@ -55,6 +57,7 @@ void Menu::KeyHandler()
 			else
 			{
 				PrintMenu();
+				this->gm->SetMusic("Menu");
 				continue;
 			}
 			break;
@@ -64,6 +67,7 @@ void Menu::KeyHandler()
 			validKey = true;
 			ShowLog();
 			PrintMenu();
+			this->gm->SetMusic("Menu");
 			continue;
 		}
 		case 53:

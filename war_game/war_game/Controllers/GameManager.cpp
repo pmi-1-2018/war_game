@@ -79,6 +79,20 @@ int GameManager::MoveChar(char symb, int x, int y)
 	
 }
 
+void GameManager::SetMusic(const string & filename)
+{
+	if (filename == "menu") 
+	{
+		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC);
+		return;
+	}
+	if (filename == "battle")
+	{
+		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC);
+		return;
+	}
+}
+
 void GameManager::Start()
 {
 	if (this->mapGenerated == false)
@@ -96,6 +110,7 @@ void GameManager::Start()
 	cout << "Turn: " << this->turn << endl;
 	this->map->SetBackground("D");
 	Draw();
+	SetMusic("battle");
 	int x_1 = 1;
 	int y_1 = 0;
 	int x_2 = mapWidth-2;
@@ -220,9 +235,12 @@ void GameManager::Start()
 		{
 			string battleLog = StartBattle();
 			FileLogW(battleLog);
-			RestartGame();
+			bool cntinue = RestartGame();
+			if (cntinue == false) 
+			{
+				return;
+			}
 			break;
-			
 		}
 		if (hitTheWall == false && response == 1)
 		{
@@ -257,7 +275,7 @@ void GameManager::SetBackground(string flag)
 	temp.SetBackground(flag);
 }
 
-void GameManager::RestartGame()
+bool GameManager::RestartGame()
 {
 	this->map->SetBackground("");
 	cout << "Do you want to play once more? - y/n";
@@ -274,7 +292,7 @@ void GameManager::RestartGame()
 	}
 	case 110:
 	{
-		break;
+		return false;
 	}
 	}
 }

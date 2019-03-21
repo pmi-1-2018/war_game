@@ -1,9 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <string>
 #include <ctime>
 #include "Utils/Menu.h"
-#include "Windows.h"
 using namespace std;
 
 int main() {
@@ -11,7 +9,6 @@ int main() {
 	Menu menu;
 	menu.PrintMenu();
 	menu.KeyHandler();
-
 	system("pause");
 	return 0;
 }
