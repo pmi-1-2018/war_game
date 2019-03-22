@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C519E0EC-82DF-418A-9238-0EE07D2983B0}</ProjectGuid>
     <RootNamespace>wargame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,6 +77,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,27 +118,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-
     <None Include="..\..\.gitignore" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controllers\Battle.cpp" />
     <ClCompile Include="Controllers\GameManager.cpp" />
+    <ClCompile Include="Entities\Army.cpp" />
+    <ClCompile Include="Entities\Barrack.cpp" />
     <ClCompile Include="Entities\cell.cpp" />
     <ClCompile Include="Entities\Map.cpp" />
+    <ClCompile Include="Entities\Unit.cpp" />
+    <ClCompile Include="Entities\Wizard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controllers\GameManager.h" />
+    <ClInclude Include="Entities\Archer.h" />
+    <ClInclude Include="Entities\Army.h" />
+    <ClInclude Include="Entities\Barrack.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\Map.h" />
-
+    <ClInclude Include="Entities\Swordsman.h" />
+    <ClInclude Include="Entities\Tank.h" />
     <ClInclude Include="Entities\Unit.h" />
+    <ClInclude Include="Entities\Wizard.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Utils\log.txt" />
     <Text Include="Utils\Read_Edit_Map.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

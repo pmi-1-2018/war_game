@@ -1,34 +1,20 @@
 #pragma once
-static int counter = 0;
-class Army 
-{
-	char symb;
-	int id;
+#include"Barrack.h"
+#include "../Entities/Army.h"
 
-public:
-	Army(char symb) :symb(symb) 
-	{
-		counter++;
-		id = counter;
-	}
-	char GetSymb() 
-	{
-		return this->symb;
-	}
-	int GetId() 
-	{
-		return this->id;
-	}
-};
+//static int counter = 0;
+
 class Cell
 {
 private:
 	int passCost;
 	bool isPassable;
 	bool isPlayer = false;
+	Barrack* barrack;
 	Army* army;
 	int x;
 	int y;
+
 public:
 	Cell();
 	Cell(int passCost, int x, int y);	
@@ -42,6 +28,7 @@ public:
 	int GetArmyId();
 	bool IsPassable();
 	void setPassCost(int value);
+	Barrack* getBarrackPtr();
 
 };
 

@@ -1,98 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Resource Files\Utils">
-      <UniqueIdentifier>{2fbb9f2d-0e3d-45c1-8e86-6cc4b77502aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Controllers">
-      <UniqueIdentifier>{58131f45-b4d1-4942-bfbf-bc2087633da7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Entities">
-      <UniqueIdentifier>{b84d37e2-3aee-4997-a1bd-57917a8ae1ce}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\.gitignore" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Menu.cpp">
-      <Filter>Resource Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Controllers\Battle.cpp">
-      <Filter>Resource Files\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="Entities\cell.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Controllers\Battle.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Barrack.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
     <ClCompile Include="Entities\Map.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Unit.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Wizard.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Controllers\GameManager.cpp">
       <Filter>Resource Files\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\Menu.cpp">
+      <Filter>Resource Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Army.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utils\Menu.h">
-      <Filter>Resource Files\Utils</Filter>
+    <ClInclude Include="Entities\cell.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Barrack.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Archer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Map.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Swordsman.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Tank.h">
+      <Filter>Resource Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Unit.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\cell.h">
-      <Filter>Resource Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities\Map.h">
+    <ClInclude Include="Entities\Wizard.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Controllers\GameManager.h">
       <Filter>Resource Files\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Menu.h">
+      <Filter>Resource Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Army.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{6153ae8e-f960-44c0-996a-da6d143561d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{eefe24d1-6891-4dc5-bfd9-454caeca2ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Entities">
+      <UniqueIdentifier>{bb6394d9-c2d3-499c-8d4a-39f3617a8949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Utils">
+      <UniqueIdentifier>{850682fb-f892-4504-a271-3f7cd728cfb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Controllers">
+      <UniqueIdentifier>{37bf7b38-9b81-4726-b3e4-73e2bfa92259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{cfea3ae9-6152-4de1-9720-0076d604b23d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Utils\Read_Edit_Map.txt">
       <Filter>Resource Files\Utils</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Utils\Read_Edit_Map.txt">
-      <Filter>Resource Files</Filter>
+    <Text Include="Utils\log.txt">
+      <Filter>Resource Files\Utils</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Entities\Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entities\cell.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Entities\Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities\cell.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
