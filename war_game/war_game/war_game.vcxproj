@@ -133,6 +133,7 @@
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />
     <ClInclude Include="Entities\Barrack.h" />
@@ -142,7 +143,6 @@
     <ClInclude Include="Entities\Tank.h" />
     <ClInclude Include="Entities\Unit.h" />
     <ClInclude Include="Entities\Wizard.h" />
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,7 @@ public:
 	int setPlayer(char symb, int x, int y);
 	bool getIspassable(int a, int b);
 	void resetPlayers();
+	Cell GetCell(const int& x, const int& y)const;
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
 };

@@ -29,6 +29,22 @@ Army::Army(string name, Unit*list, int num, char symb)
 	}
 }
 
+Army::Army(const Army & army)
+{
+	this->nameOfArmy = army.nameOfArmy;
+	this->symb = army.symb;
+	this->id = army.id;
+	this->numberOfUnits = army.numberOfUnits;
+	if (this->units != nullptr) 
+	{
+		delete[] this->units;
+	}
+	for (int i=0; i<this->numberOfUnits; i++) 
+	{
+		this->units[i] = army.units[i];
+	}
+}
+
 void Army::armyAttack(Army a) {
 	int incomingDamage = 0;
 	int backDamage = 0;
