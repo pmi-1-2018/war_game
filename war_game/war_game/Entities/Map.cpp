@@ -161,14 +161,16 @@ int Map::setPlayer(char symb, int x, int y)
 	if (map[y][x].IsPassable() == true) 
 	{
 		bool removePrev = false;
+		Army army_1;
 		for (int i = 0; i < height; i++)
 		{
-			for (int j = 0; j < height; j++)
+			for (int j = 0; j < this->width; j++)
 			{
-
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
-					map[i][j].SetPlayer(false, NULL);
+					int playersCount;
+					army_1 = *(map[i][j].GetArmy(playersCount));
+					map[i][j].SetPlayer(false, nullptr);
 					removePrev = true;
 					break;
 				}
@@ -180,11 +182,17 @@ int Map::setPlayer(char symb, int x, int y)
 		}
 		if (map[y][x].getIsPlayer() == true && map[y][x].GetArmySign() != NULL)
 		{
+			int playersCount;
+			Army army_2 = *(map[y][x].GetArmy(playersCount));
+			Army* players = new Army[2];
+			players[0] = army_1;
+			players[1] = army_2;
+			map[y][x].SetBattleField(players, 2);
 			return 2;
 		}
 		else
 		{
-			map[y][x].SetPlayer(true, symb);
+			map[y][x].SetPlayer(true, &army_1);
 		}
 		return 1;
 	}
@@ -213,10 +221,19 @@ void Map::resetPlayers()
 		}
 	}
 	// setting the default position of the players.
-	map[0][1] = Cell(1, 0, 0);
-	map[0][1].SetPlayer(true, 'F');
-	map[this->height - 1][this->width - 2] = Cell(1, this->width - 1, this->height - 1);
-	map[this->height - 1][this->width - 2].SetPlayer(true, 'S');
+	Unit* units = nullptr;
+	Army player_1("Aliance", units, 2, 'F');
+	Army player_2("Horde", units, 2, 'S');
+	// cin>>player_1,player_2
+	map[0][1].SetPlayer(true, &player_1);
+	map[this->height - 1][this->width - 2].SetPlayer(true, &player_2);
+}
+
+Cell Map::GetCell(const int& x, const int& y) const
+{
+	if (x <= this->width && y <= this->height) {
+		return this->map[y][x];
+	}
 }
 
 void Map::setWidth(int w)

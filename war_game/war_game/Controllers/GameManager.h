@@ -32,7 +32,7 @@ public:
 	bool RestartGame();
 	void MapFileSet();
 	void SetBackground(string flag);
-	string StartBattle()const;
+	string StartBattle(const int& x, const int& y)const;
 	bool MapIsGenerated()const;
 	int MoveChar(char symb, int x, int y);
 	void SetMusic(const string& filename);
