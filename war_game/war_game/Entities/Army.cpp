@@ -40,7 +40,7 @@ void Army::armyAttack(Army a) {
 		incomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
 		if (numberOfUnits >= 2)
 		{
-			if (typeid(units[thisArmy]) == typeid(archer))
+			if (typeid(units[thisArmy + 1]) == typeid(archer))
 			{
 				incomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 			}
@@ -48,7 +48,7 @@ void Army::armyAttack(Army a) {
 		backDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
 		if (numberOfUnits >= 2)
 		{
-			if (typeid(a.units[numberOfUnits - 1]) == typeid(archer))
+			if (typeid(a.units[otherArmy + 1]) == typeid(archer))
 			{
 				backDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
 			}
@@ -89,9 +89,7 @@ istream&operator>>(istream&is, Army &army) {
 	}
 	return is;
 }
-void Army::inputTheArmy(Army army) {
-	cin >> army;
-}
+
 
 int Army::getNumber()
 {

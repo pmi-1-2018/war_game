@@ -21,7 +21,6 @@ public:
 	Army(string name, Unit*list, int num, char symb);
 	void armyAttack(Army a);
 	friend istream&operator>>(istream&is, Army &army);
-	void inputTheArmy(Army army);
 	int getNumber();
 	Unit *getWarriors();
 	bool isDead(Unit unit);
