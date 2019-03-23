@@ -84,7 +84,7 @@ void Cell::SetBattleField(Army ** players, const int & size)
 	}
 	this->army = new Army[size];
 	this->playersCount = size;
-	for (int i=0; i< this->playersCount; i++) 
+	for (int i=0;i<this->playersCount; i++) 
 	{
 		this->army[i] = *players[i];
 	}
