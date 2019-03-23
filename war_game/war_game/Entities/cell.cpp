@@ -63,12 +63,12 @@ bool Cell::IsPlayer()
 {
 	return this->isPlayer;
 }
-void Cell::SetPlayer(bool val, const Army* army)
+void Cell::SetPlayer(bool val, Army* army)
 {
 	this->isPlayer = val;
 	if (isPlayer == true) 
 	{
-		this->army = new Army(*army);
+		this->army = army;
 	}
 	else
 	{
@@ -76,7 +76,7 @@ void Cell::SetPlayer(bool val, const Army* army)
 	}
 	
 }
-void Cell::SetBattleField(const Army * players, const int & size)
+void Cell::SetBattleField(Army ** players, const int & size)
 {
 	if (this->army != nullptr)
 	{
@@ -84,9 +84,9 @@ void Cell::SetBattleField(const Army * players, const int & size)
 	}
 	this->army = new Army[size];
 	this->playersCount = size;
-	for (int i=0;i<this->playersCount; i++) 
+	for (int i=0; i< this->playersCount; i++) 
 	{
-		this->army[i] = players[i];
+		this->army[i] = *players[i];
 	}
 }
 char Cell::GetArmySign()
@@ -96,6 +96,10 @@ char Cell::GetArmySign()
 int Cell::GetArmyId()
 {
 	return this->army->GetId();
+}
+void Cell::SetArmy(Army * army)
+{
+	this->army = army;
 }
 Army * Cell::GetArmy(int& size)const
 {

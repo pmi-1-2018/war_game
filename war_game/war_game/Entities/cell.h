@@ -22,12 +22,13 @@ public:
 	void setCell(char symb);
 	int getPassCost();
 	bool IsPlayer();
-	void SetPlayer(bool val, const Army* army);
-	void SetBattleField(const Army* players, const int& size);
+	void SetPlayer(bool val, Army* army);
+	void SetBattleField(Army** players, const int& size);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
 	char GetArmySign();
 	int GetArmyId();
+	void SetArmy(Army* army);
 	Army* GetArmy(int& size)const;
 	bool IsPassable();
 	void setPassCost(int value);

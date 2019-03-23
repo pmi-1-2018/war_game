@@ -34,7 +34,7 @@ public:
 	void SetBackground(string flag);
 	string StartBattle(const int& x, const int& y)const;
 	bool MapIsGenerated()const;
-	int MoveChar(char symb, int x, int y);
+	int MoveChar(char symb, Cell* prevCell, Cell* newCell);
 	void SetMusic(const string& filename);
 	~GameManager();
 };
