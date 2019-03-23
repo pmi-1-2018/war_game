@@ -54,8 +54,9 @@ string GameManager::GetMapPath() const
 
 
 
-string GameManager::StartBattle(const int& x, const int& y) const
+string GameManager::StartBattle(const int& x, const int& y) 
 {
+	SetMusic("Attack");
 	cout << "Battle has started" << endl;
 	Cell* battleField = this->map->GetCell(x, y);
 	// battleField - cell with the array of two players
@@ -63,7 +64,6 @@ string GameManager::StartBattle(const int& x, const int& y) const
 	Army* players = battleField->GetArmy(playersCount);
 	// getting the players
 	system("CLS");
-
 	// test whether we got all players
 	this->map->SetBackground("I");
 	cout << players[0].GetSymb() << " " << players[1].GetSymb() << endl;
@@ -99,6 +99,11 @@ void GameManager::SetMusic(const string & filename)
 	if (filename == "battle")
 	{
 		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC);
+		return;
+	}
+	if (filename == "Attack")//attack music
+	{
+		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC);
 		return;
 	}
 }

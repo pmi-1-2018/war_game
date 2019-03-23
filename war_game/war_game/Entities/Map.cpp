@@ -164,7 +164,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 		Army* army_1 = nullptr;
 		for (int i = 0; i < height; i++)
 		{
-			for (int j = 0; j < this->width; j++)
+			for (int j = 0; j < width; j++)
 			{
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
@@ -184,9 +184,9 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 		{
 			int playersCount;
 			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
-			Army** players = new Army*[2];
-			players[0] = army_1;
-			players[1] = army_2;
+			Army* players = new Army[2];
+			players[0] = *army_1;
+			players[1] = *army_2;
 			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
 			return 2;
 		}

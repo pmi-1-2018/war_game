@@ -76,7 +76,7 @@ void Cell::SetPlayer(bool val, Army* army)
 	}
 	
 }
-void Cell::SetBattleField(Army ** players, const int & size)
+void Cell::SetBattleField(Army * players, const int & size)
 {
 	if (this->army != nullptr)
 	{
@@ -86,7 +86,7 @@ void Cell::SetBattleField(Army ** players, const int & size)
 	this->playersCount = size;
 	for (int i=0;i<this->playersCount; i++) 
 	{
-		this->army[i] = *players[i];
+		this->army[i] = players[i];
 	}
 }
 char Cell::GetArmySign()

@@ -23,7 +23,7 @@ public:
 	int getPassCost();
 	bool IsPlayer();
 	void SetPlayer(bool val, Army* army);
-	void SetBattleField(Army** players, const int& size);
+	void SetBattleField(Army* players, const int& size);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
 	char GetArmySign();
