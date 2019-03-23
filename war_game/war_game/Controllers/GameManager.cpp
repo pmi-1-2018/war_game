@@ -54,8 +54,9 @@ string GameManager::GetMapPath() const
 
 
 
-string GameManager::StartBattle() const
+string GameManager::StartBattle() //removed const idk why but it blocked setMusic func
 {
+	SetMusic("Attack");
 	system("CLS");
 	this->map->SetBackground("I");
 	cout << "Battle has started" << endl;
@@ -89,6 +90,11 @@ void GameManager::SetMusic(const string & filename)
 	if (filename == "battle")
 	{
 		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC);
+		return;
+	}
+	if (filename == "Attack")//attack music
+	{
+		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC);
 		return;
 	}
 }

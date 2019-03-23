@@ -163,7 +163,7 @@ int Map::setPlayer(char symb, int x, int y)
 		bool removePrev = false;
 		for (int i = 0; i < height; i++)
 		{
-			for (int j = 0; j < height; j++)
+			for (int j = 0; j < width; j++)
 			{
 
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
