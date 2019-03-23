@@ -156,19 +156,21 @@ void Map::setHeight(int h)
 }
 
 
-int Map::setPlayer(char symb, int x, int y)
+int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 {
-	if (map[y][x].IsPassable() == true) 
+	if (newCell != nullptr && map[newCell->GetY()][newCell->GetX()].IsPassable() == true)
 	{
 		bool removePrev = false;
+		Army* army_1 = nullptr;
 		for (int i = 0; i < height; i++)
 		{
 			for (int j = 0; j < width; j++)
 			{
-
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
-					map[i][j].SetPlayer(false, NULL);
+					int playersCount;
+					army_1 = map[i][j].GetArmy(playersCount);
+					map[i][j].SetPlayer(false, nullptr);
 					removePrev = true;
 					break;
 				}
@@ -178,13 +180,20 @@ int Map::setPlayer(char symb, int x, int y)
 				break;
 			}
 		}
-		if (map[y][x].getIsPlayer() == true && map[y][x].GetArmySign() != NULL)
+		if (map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
+			int playersCount;
+			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
+			Army* players = new Army[2];
+			players[0] = *army_1;
+			players[1] = *army_2;
+			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
 			return 2;
 		}
 		else
 		{
-			map[y][x].SetPlayer(true, symb);
+			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(true, army_1);
 		}
 		return 1;
 	}
@@ -213,10 +222,20 @@ void Map::resetPlayers()
 		}
 	}
 	// setting the default position of the players.
-	map[0][1] = Cell(1, 0, 0);
-	map[0][1].SetPlayer(true, 'F');
-	map[this->height - 1][this->width - 2] = Cell(1, this->width - 1, this->height - 1);
-	map[this->height - 1][this->width - 2].SetPlayer(true, 'S');
+	Unit* units = nullptr;
+	Army* player_1 = new Army("Aliance", units, 2, 'F');
+	Army* player_2 = new Army("Horde", units, 2, 'S');
+	// cin>>player_1,player_2
+	map[0][1].SetPlayer(true, player_1);
+	map[this->height - 1][this->width - 2].SetPlayer(true, player_2);
+}
+
+Cell* Map::GetCell(const int& x, const int& y) const
+{
+	if (x <= this->width && y <= this->height) {
+		return &(this->map[y][x]);
+	}
+	return nullptr;
 }
 
 void Map::setWidth(int w)

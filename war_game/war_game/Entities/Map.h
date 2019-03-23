@@ -25,9 +25,10 @@ public:
 	void SetBackground(const string flag)const;
 	void setWidth(int width);
 	void setHeight(int height);
-	int setPlayer(char symb, int x, int y);
+	int setPlayer(char symb, Cell* prevCell, Cell* newCell);
 	bool getIspassable(int a, int b);
 	void resetPlayers();
+	Cell* GetCell(const int& x, const int& y)const;
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
 };

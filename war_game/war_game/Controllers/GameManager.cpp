@@ -9,7 +9,7 @@ void GameManager::GenerateMap(int height, int width)
 	this->mapHeight = height;
 	this->mapWidth = width;
 	map = new Map();
-	map->generateRandomMap(this->MAP_PATH, mapHeight, mapWidth);
+	map->generateRandomMap(this->MAP_PATH, this->mapHeight, this->mapWidth);
 	this->mapGenerated = true;
 	#ifdef DEBUG
 	cout << "Notice! Map was generated. Now you can start playing." << endl;
@@ -54,13 +54,22 @@ string GameManager::GetMapPath() const
 
 
 
-string GameManager::StartBattle() //removed const idk why but it blocked setMusic func
+string GameManager::StartBattle(const int& x, const int& y) 
 {
 	SetMusic("Attack");
-	system("CLS");
-	this->map->SetBackground("I");
 	cout << "Battle has started" << endl;
+	Cell* battleField = this->map->GetCell(x, y);
+	// battleField - cell with the array of two players
+	int playersCount;
+	Army* players = battleField->GetArmy(playersCount);
+	// getting the players
+	system("CLS");
+	// test whether we got all players
+	this->map->SetBackground("I");
+	cout << players[0].GetSymb() << " " << players[1].GetSymb() << endl;
 	this->map->SetBackground("D");
+
+
 
 	string battleLog = "Someone has won";
 	return battleLog;
@@ -70,12 +79,12 @@ bool GameManager::MapIsGenerated() const
 {
 	return this->mapGenerated;
 }
-int GameManager::MoveChar(char symb, int x, int y) 
+int GameManager::MoveChar(char symb, Cell* prevCell, Cell* newCell)
 {
 	#ifdef DEBUG
 		cout << "Moved " << symb << " to " << x << " " << y << endl;
 	#endif
-	int response = map->setPlayer(symb, x, y);
+	int response = map->setPlayer(symb, prevCell, newCell);
 	return response;
 	
 }
@@ -225,8 +234,9 @@ void GameManager::Start()
 		char symb = turn == 'l' ? 'F' : 'S';
 		int& new_x = turn == 'l' ? x_1 : x_2;
 		int& new_y = turn == 'l' ? y_1 : y_2;
-
-		int response = MoveChar(symb, new_x, new_y);
+		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
+		Cell* newCell = this->map->GetCell(new_x, new_y);
+		int response = MoveChar(symb, currentCell, newCell);
 		// response = 0 - hit the obstacle
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
@@ -239,7 +249,7 @@ void GameManager::Start()
 		}
 		else if (response == 2)
 		{
-			string battleLog = StartBattle();
+			string battleLog = StartBattle(new_x, new_y);
 			FileLogW(battleLog);
 			bool cntinue = RestartGame();
 			if (cntinue == false) 

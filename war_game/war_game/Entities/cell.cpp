@@ -63,20 +63,31 @@ bool Cell::IsPlayer()
 {
 	return this->isPlayer;
 }
-void Cell::SetPlayer(bool val, char symb)
+void Cell::SetPlayer(bool val, Army* army)
 {
 	this->isPlayer = val;
 	if (isPlayer == true) 
 	{
-		// Hard-coded array of 10 units. Probably, this function should take certain arguments to initialize the army.
-		Unit units[10];
-		this->army = new Army(to_string(symb), units, 10, symb);
+		this->army = army;
 	}
 	else
 	{
-		army = nullptr;
+		this->army = nullptr;
 	}
 	
+}
+void Cell::SetBattleField(Army *players, const int & size)
+{
+	if (this->army != nullptr)
+	{
+		delete army;
+	}
+	this->army = new Army[size];
+	this->playersCount = size;
+	for (int i=0;i<this->playersCount; i++) 
+	{
+		this->army[i] = players[i];
+	}
 }
 char Cell::GetArmySign()
 {
@@ -86,6 +97,15 @@ int Cell::GetArmyId()
 {
 	return this->army->GetId();
 }
+void Cell::SetArmy(Army * army)
+{
+	this->army = army;
+}
+Army * Cell::GetArmy(int& size)const
+{
+	size = this->playersCount;
+	return this->army;
+}
 bool Cell::IsPassable()
 {
 	return this->isPassable;
@@ -93,6 +113,14 @@ bool Cell::IsPassable()
 void Cell::setPassCost(int value)
 {
 	this->passCost = value;
+}
+int Cell::GetX() const
+{
+	return this->x;
+}
+int Cell::GetY() const
+{
+	return this->y;
 }
 void Cell::setIsPlayer(bool val)
 {
