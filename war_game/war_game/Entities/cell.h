@@ -19,7 +19,7 @@ private:
 public:
 	Cell();
 	Cell(int passCost, int x, int y);	
-	void setCell(char symb);
+	void setCell(char symb, int x, int y);
 	int getPassCost();
 	bool IsPlayer();
 	void SetPlayer(bool val, Army* army);
