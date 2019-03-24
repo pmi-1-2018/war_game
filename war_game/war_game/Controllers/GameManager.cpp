@@ -114,7 +114,9 @@ void GameManager::Start()
 	{
 		GenerateMap(10, 10);
 	}
-
+	//point of arimies
+	int points_1 = 20;
+	int points_2 = 20;
 	this->map->resetPlayers();
 
 	this->mapHeight = this->map->getHeight();
@@ -123,6 +125,8 @@ void GameManager::Start()
 	this->map->SetBackground("I");
 	this->turn = 'l';
 	cout << "Turn: " << this->turn << endl;
+	cout << "Points of l army:" << points_1 << endl;
+	cout << "Points of r army:" << points_2 << endl;
 	this->map->SetBackground("D");
 	Draw();
 	SetMusic("battle");
@@ -130,6 +134,8 @@ void GameManager::Start()
 	int y_1 = 0;
 	int x_2 = mapWidth-2;
 	int y_2 = mapHeight-1;
+
+	
 	while (true)
 	{
 		int prev_x = turn == 'l' ? x_1 : x_2;
@@ -179,7 +185,7 @@ void GameManager::Start()
 				}
 				else
 				{
-					hitTheWall = true;
+ 					hitTheWall = true;
 				}
 			}
 		}
@@ -237,6 +243,9 @@ void GameManager::Start()
 		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
 		Cell* newCell = this->map->GetCell(new_x, new_y);
 		int response = MoveChar(symb, currentCell, newCell);
+		// points of passing 
+		points_1 = turn == 'l' ? (points_1 - newCell->getPassCost()) : points_1;
+		points_2 = turn == 'l' ? points_2 : (points_2 - newCell->getPassCost());
 		// response = 0 - hit the obstacle
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
@@ -264,6 +273,9 @@ void GameManager::Start()
 			SwitchTurn();
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
+			cout << "Points of l army:" << points_1 << endl;
+			cout << "Points of r army:" << points_2 << endl;
+			
 			this->map->SetBackground("D");
 			Draw();
 		}
