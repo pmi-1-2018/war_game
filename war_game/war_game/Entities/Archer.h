@@ -11,7 +11,6 @@ public:
 		defense = 1;
 		healthPoints = 50;
 		maxHP = 50;
-		id = 2;
-		symb = 'A';
+		dec_energy = -1;
 	}
 };

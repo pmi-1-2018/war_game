@@ -115,15 +115,11 @@ void GameManager::Start()
 		GenerateMap(10, 10);
 	}
 
-	this->map->resetPlayers();
+	this->map->resetPlayers(this->turn);
 
 	this->mapHeight = this->map->getHeight();
 	this->mapWidth = this->map->getWidth();
 	// mapheight - y, mapwidth - x
-	this->map->SetBackground("I");
-	this->turn = 'l';
-	cout << "Turn: " << this->turn << endl;
-	this->map->SetBackground("D");
 	Draw();
 	SetMusic("battle");
 	int x_1 = 1;
@@ -240,7 +236,7 @@ void GameManager::Start()
 		// response = 0 - hit the obstacle
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
-
+		// response = 3 - out of points - switching the turn
 		if (response == 0)
 		{
 			new_x = prev_x;
@@ -258,13 +254,27 @@ void GameManager::Start()
 			}
 			break;
 		}
-		if (hitTheWall == false && response == 1)
+		if (hitTheWall == false && response == 1 || response == 3)
 		{
 			system("CLS");
-			SwitchTurn();
+			int playersCount;
+			Army* army = nullptr;
+			if (response == 3)
+			{
+				army = currentCell->GetArmy(playersCount);
+				SwitchTurn();
+				new_x = prev_x;
+				new_y = prev_y;
+			}
+			else
+			{
+				army = newCell->GetArmy(playersCount);
+			}
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
 			this->map->SetBackground("D");
+			army = nullptr;
 			Draw();
 		}
 	}

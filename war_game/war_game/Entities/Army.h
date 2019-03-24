@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
-#include "Unit.h"
-#include "Archer.h"
+#include "../Entities/Unit.h"
+#include "../Entities/Swordsman.h"
+#include "../Entities/Tank.h"
+#include "../Entities/Archer.h"
 
 using namespace std;
 
@@ -12,29 +14,29 @@ class Army
 {
 private:
 	string nameOfArmy;
-	Unit *units;
-	int numberOfUnits = 5;
+	Unit* units;
+	int numberOfUnits;
 	char symb;
 	int id;
+	static const int START_ENERGY = 10;
+	int dec_energy = 0;
+	int currentEnergy;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb);
-	//Army(const Army& army);
-	void inputTheArmy();
-	void printArmiesFight(Army a, int thisArmy, int otherArmy,int incomingDamage,int outcomingDamage);
-	void printArmies(Army a, int thisArmy, int otherArmy);
-	void printArmy();
-	bool armyAutoAttack(Army a);
-	bool battlePVE(Army a);
-	bool battlePVP(Army a);
-	//friend istream&operator<<(istream&is, Army &army);
+	Army(const Army& army);
+	void armyAttack(Army a);
+	friend istream&operator>>(istream&is, Army &army);
+	void inputTheArmy(Army army);
 	int getNumber();
-	Unit getWarriors();
+	Unit *getWarriors();
 	bool isDead(Unit unit);
 	char GetSymb();
 	int GetId();
 	void armyMove(Unit*list, int number);
 	void addUnit(Unit unit);
-
+	bool SetCurrEnergy(const int& value);
+	int GetCurrEnergy();
+	~Army();
 	//armyMove
 };

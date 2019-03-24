@@ -1,12 +1,11 @@
 #include "Unit.h"
 
-Unit::Unit() : damage(0), defense(0), healthPoints(0), maxHP(0), id(0) {}
+Unit::Unit() : damage(0), defense(0), healthPoints(0), maxHP(0) {}
 Unit::Unit(int dmg, int def, int hp, int maxHPe, int ide) {
 	damage = dmg;
 	defense = def;
 	healthPoints = hp;
 	maxHP = maxHPe;
-	id = ide;
 }
 
 int Unit::GetDefense()
@@ -17,15 +16,6 @@ int Unit::GetDefense()
 int Unit::GetDamage()
 {
 	return damage;
-}
-
-int Unit::getId() {
-	return id;
-}
-
-char Unit::getSymb()
-{
-	return symb;
 }
 
 int Unit::GetHealthPoints()
@@ -61,10 +51,8 @@ int Unit::DamageTaken()
 	return damageTaken;
 }
 
-
-
-ostream& operator<<(ostream &os, Unit &unit) {
-	os << unit.getSymb();
-	return os;
-}
+ int Unit::GetDecEnergy() const
+ {
+	 return this->dec_energy;
+ }
 

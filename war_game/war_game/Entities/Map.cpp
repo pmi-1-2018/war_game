@@ -160,6 +160,7 @@ void Map::setHeight(int h)
 
 int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 {
+
 	if (newCell != nullptr && map[newCell->GetY()][newCell->GetX()].IsPassable() == true)
 	{
 		bool removePrev = false;
@@ -190,14 +191,25 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			players[0] = *army_1;
 			players[1] = *army_2;
 			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
+			prevCell = nullptr;
 			return 2;
 		}
 		else
 		{
+			int cellWeight = newCell->getPassCost();
+			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
 			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
 			map[newCell->GetY()][newCell->GetX()].SetPlayer(true, army_1);
+			if (noPoints == true)
+			{
+				map[newCell->GetY()][newCell->GetX()].SetPlayer(false, nullptr);
+				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(true, army_1);
+				prevCell = nullptr;
+				return 3;
+			}
+			prevCell = nullptr;
+			return 1;
 		}
-		return 1;
 	}
 	else 
 	{
@@ -210,7 +222,7 @@ bool Map::getIspassable(int a, int b)
 	return this->map[a][b].IsPassable();
 }
 
-void Map::resetPlayers()
+void Map::resetPlayers(char& turn)
 {
 	// cleaning the map
 	for (int i = 0; i < height; i++)
@@ -224,12 +236,18 @@ void Map::resetPlayers()
 		}
 	}
 	// setting the default position of the players.
-	Unit* units = nullptr;
+	Swordsman units[2];
 	Army* player_1 = new Army("Aliance", units, 2, 'F');
 	Army* player_2 = new Army("Horde", units, 2, 'S');
 	// cin>>player_1,player_2
 	map[0][1].SetPlayer(true, player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(true, player_2);
+
+	SetBackground("I");
+	turn = 'l';
+	cout << "Turn: " << turn << endl;
+	cout << "Points left: " << player_1->GetCurrEnergy() << endl;
+	SetBackground("D");
 }
 
 Cell* Map::GetCell(const int& x, const int& y) const

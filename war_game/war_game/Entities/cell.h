@@ -11,7 +11,7 @@ private:
 	bool isPassable;
 	bool isPlayer = false;
 	Barrack* barrack;
-	Army* army;
+	Army* army = nullptr;
 	int x;
 	int y;
 	int playersCount = 1;
@@ -35,6 +35,6 @@ public:
 	int GetX()const;
 	int GetY()const;
 	Barrack* getBarrackPtr();
-
+	~Cell();
 };
 

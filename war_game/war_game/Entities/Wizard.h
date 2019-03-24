@@ -11,7 +11,7 @@ public:
 		healthPoints = 60;
 		defense = 1;
 		maxHP = 60;
-		id = 4;
+		dec_energy = -1;
 	}
 
 	//void BuffDamage(Unit other_unit) override;

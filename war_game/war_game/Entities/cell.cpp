@@ -60,6 +60,23 @@ Barrack* Cell::getBarrackPtr()
 {
 	return barrack;
 }
+Cell::~Cell()
+{
+	if (this->army != nullptr)
+	{
+		if (this->playersCount == 1) {
+			delete army;
+		}
+		else 
+		{
+			delete[] army;
+		}
+	}
+	if (this->barrack!=nullptr) 
+	{
+		delete barrack;
+	}
+}
 int Cell::getPassCost()
 {
 	return passCost;

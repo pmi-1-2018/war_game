@@ -27,7 +27,7 @@ public:
 	void setHeight(int height);
 	int setPlayer(char symb, Cell* prevCell, Cell* newCell);
 	bool getIspassable(int a, int b);
-	void resetPlayers();
+	void resetPlayers(char& turn);
 	Cell* GetCell(const int& x, const int& y)const;
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
