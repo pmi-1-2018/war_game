@@ -236,7 +236,7 @@ void Map::resetPlayers(char& turn)
 		}
 	}
 	// setting the default position of the players.
-	Swordsman units[5];
+	Swordsman units[2];
 	Army* player_1 = new Army("Aliance", units, 2, 'F');
 	Army* player_2 = new Army("Horde", units, 2, 'S');
 	// cin>>player_1,player_2
