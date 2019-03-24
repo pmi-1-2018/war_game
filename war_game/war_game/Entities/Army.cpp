@@ -3,33 +3,49 @@
 #include <typeinfo>
 #include "Archer.h"
 #include "Army.h"
+#include "Swordsman.h"
 
-Army::Army() :nameOfArmy("default") {}
+Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
+/*
+Army::Army(string name, Unit*list, int num, char symb) {
 
-Army::Army(string name, Unit*list, int num, char symb)
-{
 	nameOfArmy = name;
+	numberOfUnits = num;
+	this->symb = symb;
+	
 	for (int i = 0; i < numberOfUnits; i++)
 	{
 		units[i] = list[i];
 	}
+}
+*/
+
+
+Army::Army(string name, Unit*list, int num, char symb)
+{
+	nameOfArmy = name;
+	//list = new Unit[num];
+	//for (int i = 0; i < num; i++)
+	//{
+	//	units[i] = list[i];
+	//}
 	this->symb = symb;
 	switch (symb)
 	{
-		case 'F':
-		{
-			id = 1;
-			break;
-		}
-		case 'S':
-		{
-			id = 2;
-			break;
-		}
+	case 'F':
+	{
+		id = 1;
+		break;
+	}
+	case 'S':
+	{
+		id = 2;
+		break;
+	}
 	}
 }
 
-Army::Army(const Army & army)
+Army::Army(const Army &army)
 {
 	this->nameOfArmy = army.nameOfArmy;
 	this->symb = army.symb;
@@ -45,78 +61,119 @@ Army::Army(const Army & army)
 	}
 }
 
-void Army::armyAttack(Army a) {
-	int incomingDamage = 0;
-	int backDamage = 0;
+void Army::inputTheArmy() {
+	char type;
+	Swordsman s;
+	Archer a;
+	for (int i = 0;i < this->numberOfUnits;i++) {
+		cout << "Enter the type of unit " << endl;
+		cin >> type;
+		switch (type) {
+		case 'S':
+			this->units[i] = s;
+			break;
+		case 'A':
+			this->units[i] = a;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+
+bool Army::armyAutoAttack(Army a)
+{
+	int outcomingDamage;
+	int incomingDamage;
 	Archer archer = Archer();
 	int thisArmy{ 0 };
 	int otherArmy{ 0 };
 	do
 	{
-		incomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+		outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
 		if (numberOfUnits >= 2)
 		{
-			if (typeid(units[thisArmy]) == typeid(archer))
+			if (typeid(units[thisArmy + 1]) == typeid(archer))
 			{
-				incomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+				outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 			}
 		}
-		backDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-		if (numberOfUnits >= 2)
+		if (outcomingDamage < 0)
 		{
-			if (typeid(a.units[numberOfUnits - 1]) == typeid(archer))
-			{
-				backDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
-			}
+			outcomingDamage = 0;
 		}
-		if (incomingDamage < 0)
-		{
-			incomingDamage = 0;
-		}
-		if (backDamage < 0)
-		{
-			backDamage = 0;
-		}
-		if ((a.units[otherArmy].GetHealthPoints() - incomingDamage) <= 0)
+		if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
 		{
 			otherArmy++;
+
 		}
 		else
 		{
-			a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - incomingDamage);
+			a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
 		}
-		if ((units[thisArmy].GetHealthPoints() - backDamage) <= 0)
+		if (otherArmy != a.numberOfUnits)
 		{
-			thisArmy++;
-		}
-		else
-		{
-			units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - backDamage);
+			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+			if (numberOfUnits >= 2)
+			{
+				if (typeid(a.units[otherArmy + 1]) == typeid(archer))
+				{
+					incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+				}
+			}
+			if (incomingDamage < 0)
+			{
+				incomingDamage = 0;
+			}
+			if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+			{
+				thisArmy++;
+			}
+			else
+			{
+				units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+			}
 		}
 	} while ((thisArmy != numberOfUnits) || (otherArmy != a.numberOfUnits));
+	if (thisArmy != numberOfUnits)
+	{
+		return false;
+	}
+	return true;
 }
 
-istream&operator>>(istream&is, Army &army) {
-	is >> army.nameOfArmy;
-	is >> army.numberOfUnits;
+/*
+istream&operator<<(ostream&os, Army &army) {
+	os << army.nameOfArmy;
+	os << army.numberOfUnits;
 	for (int i = 0; i < army.numberOfUnits; i++)
 	{
-		//is >> army.units[i];
+		is >> army.units[i];
+		
 	}
 	return is;
 }
-void Army::inputTheArmy(Army army) {
-	cin >> army;
+*/
+
+void Army::printArmy() {
+	system("CLS");
+	for (int i = 0;i < this->numberOfUnits;i++) {
+		cout << this->units[i];
+	}
+	cout << endl;
+	system("pause");
 }
+
 
 int Army::getNumber()
 {
 	return numberOfUnits;
 }
 
-Unit *Army::getWarriors()
+Unit Army::getWarriors()
 {
-	return units;
+	return *units;
 }
 
 bool Army::isDead(Unit unit)

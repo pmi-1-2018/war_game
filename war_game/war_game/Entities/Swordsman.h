@@ -12,5 +12,13 @@ public:
 		defense = 1;
 		healthPoints = 60;
 		maxHP = 60;
+		id = 1;
 	}
+	/*
+	ostream& output(ostream&out) override {
+		out << 'S';
+		return out;
+	}
+	*/
+
 };

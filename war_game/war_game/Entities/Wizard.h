@@ -11,8 +11,9 @@ public:
 		healthPoints = 60;
 		defense = 1;
 		maxHP = 60;
+		id = 4;
 	}
 
-	void BuffDamage(Unit other_unit) override;
-	void BuffDefense(Unit other_unit) override;
+	//void BuffDamage(Unit other_unit) override;
+	//void BuffDefense(Unit other_unit) override;
 };
