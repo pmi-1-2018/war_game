@@ -21,6 +21,7 @@ public:
 	bool EditMap();
 	void ShowLog();
 	void EndGame();
+	~Menu();
 };
 
 

@@ -199,3 +199,8 @@ void Menu::EndGame()
 	exit(0);
 }
 
+Menu::~Menu()
+{
+	delete[] this->options;
+}
+

@@ -4,11 +4,19 @@
 #include "Archer.h"
 #include "Army.h"
 
-Army::Army() :nameOfArmy("default") {}
+Army::Army()
+{
+	nameOfArmy = "default";
+	this->numberOfUnits = 0;
+	this->units = new Unit[0];
+	this->symb = NULL;
+	this->id = 0;
+}
 
 Army::Army(string name, Unit*list, int num, char symb)
 {
 	nameOfArmy = name;
+	this->units = new Unit[num];
 	for (int i = 0; i < numberOfUnits; i++)
 	{
 		units[i] = list[i];
@@ -172,4 +180,12 @@ void Army::addUnit(Unit unit)
 		units[i] = temp[i];
 	}
 	units[numberOfUnits - 1] = unit;
+}
+
+Army::~Army()
+{
+	if (this->units != nullptr) 
+	{
+		delete[] units;
+	}
 }

@@ -12,7 +12,7 @@ class Army
 {
 private:
 	string nameOfArmy;
-	Unit *units;
+	Unit* units;
 	int numberOfUnits;
 	char symb;
 	int id;
@@ -30,6 +30,6 @@ public:
 	int GetId();
 	void armyMove(Unit*list, int number);
 	void addUnit(Unit unit);
-
+	~Army();
 	//armyMove
 };
