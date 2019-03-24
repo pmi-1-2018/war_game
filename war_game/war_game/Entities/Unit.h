@@ -25,7 +25,6 @@ public:
 	int GetHealthPoints();
 	int getId();
 	char getSymb();
-
 	void attack(Unit& unit);
 	int DamageTaken();
 	//virtual ostream&output(ostream&out);
