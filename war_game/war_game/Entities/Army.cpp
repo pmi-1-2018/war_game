@@ -387,6 +387,7 @@ void Army::printArmy()
 
 void Army::printArmiesFight(Army a, int thisArmy, int otherArmy,int incomingDamage,int outcomingDamage)
 {
+	system("CLS");
 	for (size_t i = 0; i < numberOfUnits-thisArmy; i++)
 	{
 		cout << " ";
