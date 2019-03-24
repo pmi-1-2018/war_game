@@ -11,7 +11,8 @@ protected:
 	int healthPoints = 0;
 	int maxHP = 0;
 	int id = 0;
-	
+	char symb = 'U';
+
 public:
 	Unit();
 	Unit(int dmg, int def, int hp, int maxHPe, int ide);
@@ -23,6 +24,7 @@ public:
 	int GetDamage();
 	int GetHealthPoints();
 	int getId();
+	char getSymb();
 
 	void attack(Unit& unit);
 	int DamageTaken();

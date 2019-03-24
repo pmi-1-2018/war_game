@@ -13,12 +13,6 @@ public:
 		healthPoints = 60;
 		maxHP = 60;
 		id = 1;
+		symb = 'S';
 	}
-	/*
-	ostream& output(ostream&out) override {
-		out << 'S';
-		return out;
-	}
-	*/
-
 };
