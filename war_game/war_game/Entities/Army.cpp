@@ -15,11 +15,13 @@ Army::Army()
 
 Army::Army(string name, Unit*list, int num, char symb)
 {
+	this->currentEnergy = 10;
 	nameOfArmy = name;
 	this->units = new Unit[num];
 	for (int i = 0; i < numberOfUnits; i++)
 	{
 		units[i] = list[i];
+		SetCurrEnergy(-(this->units->GetDecEnergy()) );
 	}
 	this->symb = symb;
 	switch (symb)
@@ -180,6 +182,25 @@ void Army::addUnit(Unit unit)
 		units[i] = temp[i];
 	}
 	units[numberOfUnits - 1] = unit;
+}
+
+bool Army::SetCurrEnergy(const int & value)
+{
+	this->currentEnergy += value;
+	if (this->currentEnergy >= 0)
+	{
+		return false;
+	}
+	else 
+	{
+		this->currentEnergy = this->START_ENERGY - this->dec_energy;
+		return true;
+	}
+}
+
+int Army::GetCurrEnergy()
+{
+	return this->currentEnergy;
 }
 
 Army::~Army()

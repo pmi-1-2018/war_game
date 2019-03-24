@@ -11,5 +11,6 @@ public:
 		defense = 1;
 		healthPoints = 50;
 		maxHP = 50;
+		dec_energy = -1;
 	}
 };

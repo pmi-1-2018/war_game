@@ -43,3 +43,8 @@ void Unit:: attack(Unit& otherUnit)
 	return damageTaken;
 }
 
+ int Unit::GetDecEnergy() const
+ {
+	 return this->dec_energy;
+ }
+

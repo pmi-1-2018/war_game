@@ -3,6 +3,8 @@
 #include <string>
 #include <typeinfo>
 #include "../Entities/Unit.h"
+#include "../Entities/Swordsman.h"
+#include "../Entities/Tank.h"
 #include "../Entities/Archer.h"
 
 using namespace std;
@@ -16,6 +18,9 @@ private:
 	int numberOfUnits;
 	char symb;
 	int id;
+	static const int START_ENERGY = 10;
+	int dec_energy = 0;
+	int currentEnergy;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb);
@@ -30,6 +35,8 @@ public:
 	int GetId();
 	void armyMove(Unit*list, int number);
 	void addUnit(Unit unit);
+	bool SetCurrEnergy(const int& value);
+	int GetCurrEnergy();
 	~Army();
 	//armyMove
 };
