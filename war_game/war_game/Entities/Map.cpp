@@ -77,7 +77,7 @@ void Map::readMapFromFile(string fileName)
 			map[i] = new Cell[width];
 			for (int j = 0; j < width; j++)
 			{
-				map[i][j].setCell(matrix[i][j]);
+				map[i][j].setCell(matrix[i][j], j, i);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ void Map::readMapFromFile(string fileName)
 		{
 			for (int j = 0; j < width; j++)
 			{
-				map[i][j].setCell(matrix[i][j]);
+				map[i][j].setCell(matrix[i][j], j, i);
 			}
 		}
 	}
@@ -102,7 +102,7 @@ void Map::readMapFromFile(string fileName)
 			map[i] = new Cell[width];
 			for (int j = 0; j < width; j++)
 			{
-				map[i][j].setCell(matrix[i][j]);
+				map[i][j].setCell(matrix[i][j], j, i);
 			}
 		}
 	}
@@ -128,7 +128,9 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
-		map[rand() % height][rand() % width].setCell('B');
+		int x = rand() % width;
+		int y = rand() % height;
+		map[y][x].setCell('B', x, y);
 	}
 
 	ofstream myfile;
@@ -213,7 +215,7 @@ void Map::resetPlayers()
 	// cleaning the map
 	for (int i = 0; i < height; i++)
 	{
-		for (int j = 0; j < height; j++)
+		for (int j = 0; j < width; j++)
 		{
 			if (map[i][j].IsPlayer() == true)
 			{
@@ -232,7 +234,7 @@ void Map::resetPlayers()
 
 Cell* Map::GetCell(const int& x, const int& y) const
 {
-	if (x <= this->width && y <= this->height) {
+	if (x < this->width && y < this->height) {
 		return &(this->map[y][x]);
 	}
 	return nullptr;
@@ -258,7 +260,7 @@ ostream& operator<<(ostream& sout, Map &m)
 	{
 		for (int j = 0; j < m.getWidth(); j++)
 		{
-			if (m.map[i][j].IsPlayer() == true)
+			if (m.map[i][j].getIsPlayer() == true)
 			{
 				string flag = to_string(m.map[i][j].GetArmyId());
 				m.SetBackground(flag);

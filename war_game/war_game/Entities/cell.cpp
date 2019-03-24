@@ -24,12 +24,17 @@ Cell::Cell(int passCost, int x, int y) :
 
 }
 
-void Cell::setCell(char symb)
+void Cell::setCell(char symb, int x, int y)
 {
+	this->y = y;
+	this->x = x;
+	this->isPlayer = false;
 	this->barrack = nullptr;
+	this->isPassable = true;
 	switch (symb)
 	{
 	case '#':
+		this->isPassable = false;
 		passCost = 0;
 		break;
 	case ' ':
@@ -76,7 +81,7 @@ void Cell::SetPlayer(bool val, Army* army)
 	}
 	
 }
-void Cell::SetBattleField(Army * players, const int & size)
+void Cell::SetBattleField(Army *players, const int & size)
 {
 	if (this->army != nullptr)
 	{

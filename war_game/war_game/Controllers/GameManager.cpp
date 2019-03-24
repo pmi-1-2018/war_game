@@ -164,7 +164,7 @@ void GameManager::Start()
 		else if (asciiValue == 100)
 		{
 			if (turn == 'l') {
-				if (x_1 != mapHeight - 1) {
+				if (x_1 != mapWidth - 1) {
 					x_1 += 1;
 				}
 				else
@@ -174,7 +174,7 @@ void GameManager::Start()
 			}
 			else
 			{
-				if (x_2 != mapHeight - 1) {
+				if (x_2 != mapWidth - 1) {
 					x_2 += 1;
 				}
 				else
@@ -208,7 +208,7 @@ void GameManager::Start()
 		else if (asciiValue == 115)
 		{
 			if (turn == 'l') {
-				if (y_1 != mapWidth - 1) {
+				if (y_1 != mapHeight - 1) {
 					y_1 += 1;
 				}
 				else
@@ -218,7 +218,7 @@ void GameManager::Start()
 			}
 			else
 			{
-				if (y_2 != mapWidth - 1) {
+				if (y_2 != mapHeight - 1) {
 					y_2 += 1;
 				}
 				else
