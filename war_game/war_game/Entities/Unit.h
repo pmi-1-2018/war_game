@@ -10,9 +10,11 @@ protected:
 	int defense = 0;
 	int healthPoints = 0;
 	int maxHP = 0;
+	int id = 0;
 	
 public:
-
+	Unit();
+	Unit(int dmg, int def, int hp, int maxHPe, int ide);
 	void SetDamage(int new_damage);
 	void SetHealthPoints(int new_healthPoints);
 	void SetDefense(int new_defense);
@@ -20,10 +22,12 @@ public:
 	int GetDefense();
 	int GetDamage();
 	int GetHealthPoints();
+	int getId();
 
 	void attack(Unit& unit);
 	int DamageTaken();
-
-	virtual void BuffDamage(Unit other_unit) {};
-	virtual void BuffDefense(Unit other_unit) {};
+	//virtual ostream&output(ostream&out);
+	friend ostream&operator<<(ostream&os, Unit &unit);
+	//virtual void BuffDamage(Unit other_unit) {};
+	//virtual void BuffDefense(Unit other_unit) {};
 };

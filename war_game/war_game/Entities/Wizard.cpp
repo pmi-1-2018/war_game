@@ -1,6 +1,9 @@
 #include "Wizard.h"
 
-void Wizard:: BuffDamage(Unit other_unit) 
+
+
+/*
+void Wizard::BuffDamage(Unit other_unit) 
 {
 	if (other_unit.GetDamage() <= 70)
 	{
@@ -8,10 +11,11 @@ void Wizard:: BuffDamage(Unit other_unit)
 	}
 }
 
-void Wizard:: BuffDefense(Unit other_unit) 
+void Wizard::BuffDefense(Unit other_unit) 
 {
 	if (other_unit.GetDefense() <= 30)
 	{
 		other_unit.SetDefense(other_unit.GetDefense() + 10);
 	}	
 }
+*/

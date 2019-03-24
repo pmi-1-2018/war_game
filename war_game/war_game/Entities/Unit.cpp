@@ -1,5 +1,14 @@
 #include "Unit.h"
 
+Unit::Unit(): damage(0), defense(0), healthPoints(0),maxHP(0),id(0) {}
+Unit::Unit(int dmg, int def, int hp, int maxHPe, int ide) {
+	damage = dmg;
+	defense = def;
+	healthPoints = hp;
+	maxHP = maxHPe;
+	id = ide;
+}
+
 int Unit:: GetDefense()
 {
 	return defense;
@@ -8,6 +17,10 @@ int Unit:: GetDefense()
 int Unit:: GetDamage()
 { 
 	return damage; 
+}
+
+int Unit::getId() {
+	return id;
 }
 
 int Unit:: GetHealthPoints() 
@@ -43,3 +56,11 @@ void Unit:: attack(Unit& otherUnit)
 	return damageTaken;
 }
 
+
+ 
+ostream& operator<<(ostream &os, Unit &unit) {
+	os << unit.getId();
+	return os;
+ }
+ 
+ 
