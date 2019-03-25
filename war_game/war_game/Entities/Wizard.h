@@ -12,6 +12,7 @@ public:
 		defense = 1;
 		maxHP = 60;
 		dec_energy = -1;
+		id = 4;
 	}
 
 	//void BuffDamage(Unit other_unit) override;

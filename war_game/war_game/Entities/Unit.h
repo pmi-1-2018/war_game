@@ -10,7 +10,9 @@ protected:
 	int defense = 0;
 	int healthPoints = 0;
 	int maxHP = 0;
+	int id = 0;
 	int dec_energy = 0;
+	char symb = 'U';
 
 public:
 	Unit();
@@ -24,10 +26,12 @@ public:
 	int GetHealthPoints();
 	int getId();
 	char getSymb();
+
 	void attack(Unit& unit);
 	int DamageTaken();
-	virtual void BuffDamage(Unit other_unit) {};
-	virtual void BuffDefense(Unit other_unit) {};
 	int GetDecEnergy()const;
-
+	//virtual ostream&output(ostream&out);
+	friend ostream&operator<<(ostream&os, Unit &unit);
+	//virtual void BuffDamage(Unit other_unit) {};
+	//virtual void BuffDefense(Unit other_unit) {};
 };

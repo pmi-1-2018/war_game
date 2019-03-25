@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "Unit.h"
@@ -12,5 +13,7 @@ public:
 		healthPoints = 50;
 		maxHP = 50;
 		dec_energy = -1;
+		id = 2;
+		symb = 'A';
 	}
 };
