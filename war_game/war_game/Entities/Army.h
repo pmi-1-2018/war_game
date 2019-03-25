@@ -29,12 +29,14 @@ public:
 	bool battlePVP(Army a);
 	//friend istream&operator<<(istream&is, Army &army);
 	int getNumber();
-	Unit getWarriors();
+	Unit* getWarriors();
 	bool isDead(Unit unit);
 	char GetSymb();
 	int GetId();
+	int getNumberOfUnits();
 	void armyMove(Unit*list, int number);
 	void addUnit(Unit unit);
+	void swapUnits(int& index1, int& index2, Army army2);
 
 	//armyMove
 };
