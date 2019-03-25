@@ -23,7 +23,7 @@ private:
 public:
 	GameManager();
 	void GenerateMap(int height, int width);
-	void Draw()const;
+	void Draw(const char& turn, int x, int y)const;
 	void Start();
 	void FileLogW(string information);
 	void SwitchTurn();

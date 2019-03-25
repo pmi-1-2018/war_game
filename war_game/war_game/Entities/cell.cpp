@@ -128,6 +128,10 @@ Army * Cell::GetArmy(int& size)const
 	size = this->playersCount;
 	return this->army;
 }
+Army* Cell::getArmyPtr()const
+{
+	return this->army;
+}
 bool Cell::IsPassable()
 {
 	return this->isPassable;

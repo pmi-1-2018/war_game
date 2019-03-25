@@ -25,10 +25,9 @@ void GameManager::GenerateMap(int height, int width)
 		}
 	#endif
 }
-void GameManager::Draw()const
+void GameManager::Draw(const char& turn, int x, int y)const
 {
-	cout << *(this->map);
-	
+	this->map->mapDraw(*map, x, y);
 }
 void GameManager::SwitchTurn()
 {
@@ -40,6 +39,7 @@ void GameManager::SwitchTurn()
 	{
 		this->turn = 'l';
 	}
+
 }
 
 string GameManager::GetLogPath() const
@@ -51,8 +51,6 @@ string GameManager::GetMapPath() const
 {
 	return this->MAP_PATH;
 }
-
-
 
 string GameManager::StartBattle(const int& x, const int& y) 
 {
@@ -68,9 +66,6 @@ string GameManager::StartBattle(const int& x, const int& y)
 	this->map->SetBackground("I");
 	cout << players[0].GetSymb() << " " << players[1].GetSymb() << endl;
 	this->map->SetBackground("D");
-
-
-
 	string battleLog = "Someone has won";
 	return battleLog;
 }
@@ -120,12 +115,13 @@ void GameManager::Start()
 	this->mapHeight = this->map->getHeight();
 	this->mapWidth = this->map->getWidth();
 	// mapheight - y, mapwidth - x
-	Draw();
+	
 	SetMusic("battle");
 	int x_1 = 1;
 	int y_1 = 0;
 	int x_2 = mapWidth-2;
 	int y_2 = mapHeight-1;
+	Draw(this->turn, x_1, y_1);
 	while (true)
 	{
 		int prev_x = turn == 'l' ? x_1 : x_2;
@@ -275,7 +271,19 @@ void GameManager::Start()
 			cout << "Points left: " << army->GetCurrEnergy() << endl;
 			this->map->SetBackground("D");
 			army = nullptr;
-			Draw();
+			if (response == 3)
+			{
+				if (new_x == x_1 && new_y == y_1)
+				{
+					Draw(this->turn, x_2, y_2);
+				}
+				else
+				{
+					Draw(this->turn, x_1, y_2);
+				}
+				continue;
+			}
+			Draw(this->turn, new_x, new_y);
 		}
 	}
 }
@@ -310,16 +318,11 @@ bool GameManager::RestartGame()
 	switch (asciiVal)
 	{
 	case 121:
-	{
 		system("CLS");
-
 		Start();
 		break;
-	}
 	case 110:
-	{
 		return false;
-	}
 	}
 }
 

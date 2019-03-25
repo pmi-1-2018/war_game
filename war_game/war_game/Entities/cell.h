@@ -34,6 +34,7 @@ public:
 	void setPassCost(int value);
 	int GetX()const;
 	int GetY()const;
+	Army* getArmyPtr()const;
 	Barrack* getBarrackPtr();
 	~Cell();
 };

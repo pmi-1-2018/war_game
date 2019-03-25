@@ -272,6 +272,58 @@ Map::~Map()
 	delete[] map;
 }
 
+void Map::mapDraw(Map &m, int x, int y)
+{	
+	for (int i = 0; i < m.getHeight(); i++)
+	{
+		for (int j = 0; j < m.getWidth(); j++)
+		{
+			if (abs(m.map[i][j].GetX() - x) + abs(m.map[i][j].GetY() - y) > 3)
+			{
+				SetConsoleTextAttribute(m.HSTDOUT, 64);
+				cout << ' ';
+				continue;
+			}
+			if (m.map[i][j].getIsPlayer() == true)
+			{
+				string flag = to_string(m.map[i][j].GetArmyId());
+				m.SetBackground(flag);
+				cout << m.map[i][j].GetArmySign();
+				m.SetBackground("D");
+				continue;
+			}
+			if (m.map[i][j].getBarrackPtr() != nullptr)
+			{
+				cout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getPassCost() == 1)
+			{
+				m.SetBackground("D");
+				cout << ' ';
+			}
+			else if (m.map[i][j].IsPassable() == false)
+			{
+				m.SetBackground("O");
+				cout << '#';
+				m.SetBackground("D");
+			}
+			else
+			{
+				m.SetBackground("D");
+				cout << m.map[i][j].getPassCost();
+			}
+		}
+		cout << '|' << endl;
+	}
+	for (int i = 0; i <= m.getWidth(); i++)
+	{
+		cout << '-';
+	}
+	SetConsoleTextAttribute(m.HSTDOUT, 0);
+	cout << endl;
+}
+
 ostream& operator<<(ostream& sout, Map &m)
 {
 	for (int i = 0; i < m.getHeight(); i++)
