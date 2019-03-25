@@ -311,7 +311,8 @@ void Map::mapDraw(Map &m, int x, int y)
 			else
 			{
 				m.SetBackground("D");
-				cout << m.map[i][j].getPassCost();
+				//cout << m.map[i][j].getPassCost();
+				cout << '.';
 			}
 		}
 		SetConsoleTextAttribute(m.HSTDOUT, 64);
