@@ -212,7 +212,13 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		int y = rand() % height;
 		map[y][x].setCell('B', x, y);
 	}
-
+	int maxBotArmiesQuantity = this->height * this->width / 50;
+	for (int i = 0; i < maxBotArmiesQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		map[y][x].setCell('A', x, y);
+	}
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
@@ -264,6 +270,17 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			}
 		}
 		if (map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
+		{
+			int playersCount;
+			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
+			Army* players = new Army[2];
+			players[0] = *army_1;
+			players[1] = *army_2;
+			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
+			prevCell = nullptr;
+			return 2;
+		}
+		if (map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
 			int playersCount;
 			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
@@ -369,6 +386,11 @@ ostream& operator<<(ostream& sout, Map &m)
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
 				sout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getArmyPtr() != nullptr)
+			{
+				sout << 'A';
 				continue;
 			}
 			if (m.map[i][j].getPassCost() == 1)
