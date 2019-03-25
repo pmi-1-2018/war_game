@@ -314,13 +314,15 @@ void Map::mapDraw(Map &m, int x, int y)
 				cout << m.map[i][j].getPassCost();
 			}
 		}
+		SetConsoleTextAttribute(m.HSTDOUT, 64);
 		cout << '|' << endl;
 	}
+	SetConsoleTextAttribute(m.HSTDOUT, 64);
 	for (int i = 0; i <= m.getWidth(); i++)
 	{
 		cout << '-';
 	}
-	SetConsoleTextAttribute(m.HSTDOUT, 0);
+	SetConsoleTextAttribute(m.HSTDOUT,15);
 	cout << endl;
 }
 
@@ -365,7 +367,7 @@ ostream& operator<<(ostream& sout, Map &m)
 	{
 		sout << '-';
 	}
-	SetConsoleTextAttribute(m.HSTDOUT, 0);
+	SetConsoleTextAttribute(m.HSTDOUT, 15);
 	sout << endl;
 	return sout;
 }

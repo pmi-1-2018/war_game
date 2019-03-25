@@ -36,6 +36,7 @@ public:
 	bool MapIsGenerated()const;
 	int MoveChar(char symb, Cell* prevCell, Cell* newCell);
 	void SetMusic(const string& filename);
+	void outputTurnSwitch(int response);
 	~GameManager();
 };
 

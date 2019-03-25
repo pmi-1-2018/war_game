@@ -252,6 +252,7 @@ void GameManager::Start()
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
+			outputTurnSwitch(response);
 			system("CLS");
 			int playersCount;
 			Army* army = nullptr;
@@ -279,7 +280,7 @@ void GameManager::Start()
 				}
 				else
 				{
-					Draw(this->turn, x_1, y_2);
+					Draw(this->turn, x_1, y_1);
 				}
 				continue;
 			}
@@ -334,4 +335,39 @@ void GameManager::MapFileSet()
 GameManager::~GameManager()
 {
 	delete map;
+}
+
+void GameManager::outputTurnSwitch(int response)
+{
+	char key;
+	int asciiValue;
+	if (response == 3)
+	{
+		cout << "Press enter to end your turn" << endl;
+		bool loop = true;
+		while (loop)
+		{
+			key = _getch();
+			asciiValue = key;
+			if (asciiValue == 13)
+			{
+				system("CLS");
+				asciiValue = 0;
+				loop = false;
+			}
+		}
+		cout << "Press enter to start your turn" << endl;
+		loop = true;
+		while (loop)
+		{
+			key = _getch();
+			asciiValue = key;
+			if (asciiValue == 13)
+			{
+				system("CLS");
+				asciiValue = 0;
+				loop = false;
+			}
+		}
+	}
 }
