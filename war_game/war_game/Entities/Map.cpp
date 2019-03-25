@@ -132,7 +132,13 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		int y = rand() % height;
 		map[y][x].setCell('B', x, y);
 	}
-
+	int maxBotArmiesQuantity = this->height * this->width / 50;
+	for (int i = 0; i < maxBotArmiesQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		map[y][x].setCell('A', x, y);
+	}
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
