@@ -120,11 +120,91 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	for (int i = 0; i < height; i++)
 	{
 		map[i] = new Cell[width];
-		for (int j = 0; j < width; j++)
+	}
+
+	int countOfCells = this->height * this->width;
+
+	//countofbarriers will be ganarated from 10% to 25%
+	int countOfBarriers = 1000;
+	while (countOfBarriers >= (countOfCells / 4) || countOfBarriers <= (countOfCells / 10))
+	{
+		countOfBarriers = (rand() % countOfCells);
+	}
+
+	//count of lonely barriers
+	int countOfLonelyBarriers = countOfBarriers / 4;
+
+	Cell* lonelyBarriers = new Cell[countOfLonelyBarriers];
+
+	int i = 0;
+	while (i < countOfLonelyBarriers)
+	{
+		int x = rand() % this->height;
+		int y = rand() % this->width;
+		if (map[x][y].IsPassable())
 		{
-			map[i][j] = Cell(rand()% 4, j, i);
+			map[x][y].setCell('#', x, y);
+			lonelyBarriers[i] = map[x][y];
+			i++;
 		}
 	}
+
+	bool* isLonely = new bool[countOfLonelyBarriers];
+	for (int i = 0; i < countOfLonelyBarriers; i++)
+	{
+		isLonely[i] = true;
+	}
+	for (int i = 0; i < countOfLonelyBarriers; i++)
+	{
+		while (isLonely[i])
+		{
+			int shape = rand() % 6;
+			switch (shape)
+			{
+			case 0:
+			{
+				if (lonelyBarriers[i].GetX() + 1 < this->height && lonelyBarriers[i].GetY() + 2 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY() + 2].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 2);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			//here case 1
+			case 2:
+			{
+				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() - 1 >= 0)
+				{
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY() - 1].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() - 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			//here cases 3-5
+			default:
+				break;
+			}
+
+		}
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (map[i][j].IsPassable())
+			{
+				map[i][j] = Cell((rand() % 3) + 1, j, i);
+			}
+		}
+	}
+
+
+
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
