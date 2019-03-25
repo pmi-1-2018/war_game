@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
+#include <Windows.h>
+#include <conio.h>
 #include "Archer.h"
 #include "Army.h"
 #include "Swordsman.h"
@@ -426,9 +428,9 @@ int Army::getNumber()
 	return numberOfUnits;
 }
 
-Unit Army::getWarriors()
+Unit* Army::getWarriors()
 {
-	return *units;
+	return units;
 }
 
 bool Army::isDead(Unit unit)
@@ -468,6 +470,10 @@ int Army::GetId()
 {
 	return this->id;
 }
+int Army::getNumberOfUnits()
+{
+	return numberOfUnits;
+}
 void Army::addUnit(Unit unit)
 {
 	Unit *temp = new Unit[numberOfUnits];
@@ -485,3 +491,229 @@ void Army::addUnit(Unit unit)
 	}
 	units[numberOfUnits - 1] = unit;
 }
+
+
+void printSpace(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		cout << ' ';
+	}
+}
+
+void Army::swapUnits(int & index1, int & index2, Army army2)
+{
+	if (numberOfUnits < 2)
+	{
+		cout << "You have no enough units to swap\n";
+		index1 = -1;
+		index2 = -1;
+		return;
+	}
+
+	index1 = 0;
+	index2 = 0;
+
+	for (int i = numberOfUnits - 1; i >= 0; i--)
+	{
+		cout << units[i];
+	}
+	printSpace(4);
+	for (int i = 0; i < numberOfUnits; i++)
+	{
+		cout << army2.getWarriors()[i];
+	}
+	cout << endl;
+	printSpace(numberOfUnits - 1);
+	cout << '^';
+	cout << "\nFirst unit index: " << index1;
+	cout << "\nSecond unit index: ";
+	cout << "\nPress Enter to select the first unit to swap.";
+
+	bool isSelected = false;
+	do
+	{
+		isSelected = false;
+		switch (_getch())
+		{
+		case 13:
+		{
+			isSelected = true;
+			break;
+		}
+		case 75:
+		{
+			if (index1 != numberOfUnits - 1)
+			{
+				index1++;
+				system("cls");
+				for (int i = numberOfUnits - 1; i >= 0; i--)
+				{
+					cout << units[i];
+				}
+				printSpace(4);
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << army2.getWarriors()[i];
+				}
+				cout << endl;
+				printSpace(numberOfUnits - 1 - index1);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: ";
+				cout << "\nPress Enter to select the first unit to swap.";
+			}
+
+
+			break;
+		}
+		case 77:
+		{
+			if (index1 != 0)
+			{
+				index1--;
+				system("cls");
+				for (int i = numberOfUnits - 1; i >= 0; i--)
+				{
+					cout << units[i];
+				}
+				printSpace(4);
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << army2.getWarriors()[i];
+				}
+				cout << endl;
+				printSpace(numberOfUnits - 1 - index1);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: ";
+				cout << "\nPress Enter to select the first unit to swap.";
+			}
+			break;
+		}
+		}
+
+	} while (isSelected == false);
+
+
+
+	system("cls");
+	for (int i = numberOfUnits - 1; i >= 0; i--)
+	{
+		if (i == index1)
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+			cout << units[i];
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		}
+		else
+		{
+			cout << units[i];
+		}
+
+	}
+	printSpace(4);
+	for (int i = 0; i < numberOfUnits; i++)
+	{
+		cout << army2.getWarriors()[i];
+	}
+	cout << endl;
+	printSpace(numberOfUnits - 1);
+	cout << '^';
+	cout << "\nFirst unit index: " << index1;
+	cout << "\nSecond unit index: " << index2;
+	cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+
+	do
+	{
+		isSelected = false;
+		switch (_getch())
+		{
+		case 13:
+		{
+			if (index2 == index1)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 207);
+				cout << "\nYou can`t select two equal indexes.";
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+				break;
+			}
+			isSelected = true;
+			break;
+		}
+		case 75:
+		{
+			if (index2 != numberOfUnits - 1)
+			{
+				index2++;
+				system("cls");
+				for (int i = numberOfUnits - 1; i >= 0; i--)
+				{
+					if (i == index1)
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+						cout << units[i];
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+					}
+					else
+					{
+						cout << units[i];
+					}
+
+				}
+				printSpace(4);
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << army2.getWarriors()[i];
+				}
+				cout << endl;
+				printSpace(numberOfUnits - 1 - index2);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: " << index2;
+				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+			}
+
+
+			break;
+		}
+		case 77:
+		{
+			if (index2 != 0)
+			{
+				index2--;
+				system("cls");
+				for (int i = numberOfUnits - 1; i >= 0; i--)
+				{
+					if (i == index1)
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+						cout << units[i];
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+					}
+					else
+					{
+						cout << units[i];
+					}
+
+				}
+				printSpace(4);
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << army2.getWarriors()[i];
+				}
+				cout << endl;
+				printSpace(numberOfUnits - 1 - index2);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: " << index2;
+				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+			}
+			break;
+		}
+		}
+	} while (isSelected == false);
+
+}
+
+
