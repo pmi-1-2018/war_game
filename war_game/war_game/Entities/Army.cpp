@@ -141,13 +141,34 @@ bool Army::armyAutoAttack(Army a)
 
 		this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
 	} while ((thisArmy != numberOfUnits) && (otherArmy != a.numberOfUnits));
+	if (otherArmy == a.numberOfUnits)
+	{
+		delete[] a.units;
+		Unit* copy = new Unit[5];
+		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+		{
+			copy[i] = units[i + thisArmy];
+		}
+		delete[] units;
+		units = copy;
+		numberOfUnits -= thisArmy;
+		cout << "you won";
+		return true;
+	}
 	if (thisArmy == numberOfUnits)
 	{
+		delete[] units;
+		Unit* copy = new Unit[5];
+		for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+		{
+			copy[i] = a.units[i + otherArmy];
+		}
+		delete[] a.units;
+		a.units = copy;
+		a.numberOfUnits -= otherArmy;
 		cout << "you lost";
 		return false;
 	}
-	cout << "you won";
-	return true;
 }
 
 bool Army::battlePVE(Army a)
@@ -156,19 +177,21 @@ bool Army::battlePVE(Army a)
 	double incomingDamage = 0;
 	int thisArmy = 0;
 	int otherArmy = 0;
-	Archer archer;
-	int action = 2;
+	char action;
 	int index1 = 0;
 	int index2 = 0;
+	system("CLS");
+	this->printArmies(a, thisArmy, otherArmy);
 	do
 	{
+		cout << "press A to attack, press S to swap";
 		cin >> action;
-		if (action == 0)
+		if (action == 'A')
 		{
 			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-			if (numberOfUnits >= 2)
+			if (numberOfUnits - thisArmy >= 2)
 			{
-				if (typeid(units[thisArmy + 1]) == typeid(archer))
+				if (units[thisArmy + 1].getId() == 2)
 				{
 					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 				}
@@ -189,9 +212,9 @@ bool Army::battlePVE(Army a)
 			if (a.numberOfUnits - 1 != otherArmy)
 			{
 				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-				if (numberOfUnits >= 2)
+				if (a.numberOfUnits - otherArmy >= 2)
 				{
-					if (typeid(a.units[otherArmy + 1]) == typeid(archer))
+					if (a.units[otherArmy + 1].getId() == 2)
 					{
 						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
 					}
@@ -209,15 +232,19 @@ bool Army::battlePVE(Army a)
 					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
 				}
 			}
+			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
+			incomingDamage = 0;
+			outcomingDamage = 0;
 		}
-		if (action == 1)
+		if (action == 'S')
 		{
 			this->swapUnits(index1, index2, a);
 			swap(units[index1], units[index2]);
+
 			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-			if (numberOfUnits >= 2)
+			if (a.numberOfUnits - otherArmy >= 2)
 			{
-				if (typeid(a.units[otherArmy + 1]) == typeid(archer))
+				if (a.units[otherArmy + 1].getId() == 2)
 				{
 					incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
 				}
@@ -234,137 +261,181 @@ bool Army::battlePVE(Army a)
 			{
 				units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
 			}
+			system("CLS");
+			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
 		}
 	} while (numberOfUnits - 1 != thisArmy || a.numberOfUnits - 1 != otherArmy);
-	if (thisArmy != numberOfUnits)
+	if (otherArmy == a.numberOfUnits)
 	{
+		delete[] a.units;
+		Unit* copy = new Unit[5];
+		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+		{
+			copy[i] = units[i + thisArmy];
+		}
+		delete[] units;
+		units = copy;
+		numberOfUnits -= thisArmy;
+		cout << "you won";
+		return true;
+	}
+	if (thisArmy == numberOfUnits)
+	{
+		delete[] units;
+		Unit* copy = new Unit[5];
+		for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+		{
+			copy[i] = a.units[i + otherArmy];
+		}
+		delete[] a.units;
+		a.units = copy;
+		a.numberOfUnits -= otherArmy;
+		cout << "you lost";
 		return false;
 	}
-	return true;
 }
-bool Army::battlePVP(Army a)
-{
-	double outcomingDamage = 0;
-	double incomingDamage = 0;
-	int thisArmy = 0;
-	int otherArmy = 0;
-	Archer archer;
-	int action;
-	int n = 0;
-	do
-	{
-		cin >> action;
-		if (action == 0)
-		{
-			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-			if (numberOfUnits >= 2)
-			{
-				if (typeid(units[thisArmy + 1]) == typeid(archer))
-				{
-					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
-				}
-			}
-			if (outcomingDamage < 0)
-			{
-				outcomingDamage = 0;
-			}
-			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
-			{
-				otherArmy++;
-
-			}
-			else
-			{
-				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-			}
-			if (a.numberOfUnits != otherArmy)
-			{
-				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-				if (numberOfUnits >= 2)
-				{
-					if (typeid(a.units[otherArmy + 1]) == typeid(archer))
-					{
-						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
-					}
-				}
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					thisArmy++;
-				}
-				else
-				{
-					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
-				}
-			}
-		}
-		else
-		{
-			cin >> n;
-			swap(units[n], units[n + 1]);
-		}
-		cin >> action;
-		if (action == 0)
-		{
-			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-			if (a.numberOfUnits >= 2)
-			{
-				if (typeid(a.units[otherArmy + 1]) == typeid(archer))
-				{
-					incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
-				}
-			}
-			if (incomingDamage < 0)
-			{
-				incomingDamage = 0;
-			}
-			if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
-			{
-				thisArmy++;
-			}
-			else
-			{
-				units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
-			}
-			if (numberOfUnits != thisArmy)
-			{
-				outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-				if (a.numberOfUnits >= 2)
-				{
-					if (typeid(units[thisArmy + 1]) == typeid(archer))
-					{
-						outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
-					}
-				}
-				if (outcomingDamage < 0)
-				{
-					outcomingDamage = 0;
-				}
-				if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
-				{
-					otherArmy++;
-				}
-				else
-				{
-					a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-				}
-			}
-		}
-		else
-		{
-			cin >> n;
-			swap(a.units[n], a.units[n + 1]);
-		}
-	} while (numberOfUnits != thisArmy || a.numberOfUnits != otherArmy);
-	if (thisArmy != numberOfUnits)
-	{
-		return false;
-	}
-	return true;
-}
+//bool Army::battlePVP(Army a)
+//{
+//	double outcomingDamage = 0;
+//	double incomingDamage = 0;
+//	int thisArmy = 0;
+//	int otherArmy = 0;
+//	char action;
+//	int index1 = 0;
+//	int index2 = 0;
+//	system("CLS");
+//	this->printArmies(a, thisArmy, otherArmy);
+//	do
+//	{
+//		cout << "press A to attack, press S to swap";
+//		cin >> action;
+//		if (action == 'A')
+//		{
+//			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+//			if (numberOfUnits >= 2)
+//			{
+//				if (units[thisArmy + 1].getId() == 2)
+//				{
+//					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+//				}
+//			}
+//			if (outcomingDamage < 0)
+//			{
+//				outcomingDamage = 0;
+//			}
+//			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
+//			{
+//				otherArmy++;
+//
+//			}
+//			else
+//			{
+//				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+//			}
+//			if (a.numberOfUnits != otherArmy)
+//			{
+//				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+//				if (incomingDamage < 0)
+//				{
+//					incomingDamage = 0;
+//				}
+//				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+//				{
+//					thisArmy++;
+//				}
+//				else
+//				{
+//					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+//				}
+//			}
+//		}
+//		else
+//		{
+//			this->swapUnits(index1, index2, a);
+//			swap(units[index1], units[index2]);
+//		}
+//		cin >> action;
+//		if (action == 0)
+//		{
+//			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+//			if (a.numberOfUnits >= 2)
+//			{
+//				if (a.units[otherArmy + 1].getId() == 2)
+//				{
+//					incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+//				}
+//			}
+//			if (incomingDamage < 0)
+//			{
+//				incomingDamage = 0;
+//			}
+//			if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+//			{
+//				thisArmy++;
+//			}
+//			else
+//			{
+//				units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+//			}
+//			if (numberOfUnits != thisArmy)
+//			{
+//				outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+//				if (a.numberOfUnits >= 2)
+//				{
+//					if (units[thisArmy + 1].getId() == 2)
+//					{
+//						outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+//					}
+//				}
+//				if (outcomingDamage < 0)
+//				{
+//					outcomingDamage = 0;
+//				}
+//				if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
+//				{
+//					otherArmy++;
+//				}
+//				else
+//				{
+//					a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+//				}
+//			}
+//		}
+//		else
+//		{
+//			cin >> n;
+//			swap(a.units[n], a.units[n + 1]);
+//		}
+//	} while (numberOfUnits != thisArmy || a.numberOfUnits != otherArmy);
+//	if (otherArmy == a.numberOfUnits)
+//	{
+//		delete[] a.units;
+//		Unit* copy = new Unit[5];
+//		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+//		{
+//			copy[i] = units[i + thisArmy];
+//		}
+//		delete[] units;
+//		units = copy;
+//		numberOfUnits -= thisArmy;
+//		cout << "you won";
+//		return true;
+//	}
+//	if (thisArmy == numberOfUnits)
+//	{
+//		delete[] units;
+//		Unit* copy = new Unit[5];
+//		for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+//		{
+//			copy[i] = a.units[i + otherArmy];
+//		}
+//		delete[] a.units;
+//		a.units = copy;
+//		a.numberOfUnits -= otherArmy;
+//		cout << "you lost";
+//		return false;
+//	}
+//}
 /*
 istream&operator<<(ostream&os, Army &army) {
 	os << army.nameOfArmy;
@@ -388,14 +459,14 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army a, int thisArmy, int otherArmy,int incomingDamage,int outcomingDamage)
+void Army::printArmiesFight(Army a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
-	for (size_t i = 0; i < numberOfUnits-thisArmy; i++)
+	for (size_t i = 2; i < numberOfUnits - thisArmy; i++)
 	{
 		cout << " ";
 	}
-	cout << "-" << incomingDamage << "     " << "-" << outcomingDamage << endl;
+	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
 	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 	{
 		cout << units[numberOfUnits - i - 1];
