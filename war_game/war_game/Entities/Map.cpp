@@ -172,7 +172,17 @@ void Map::generateRandomMap(string fileName, int height, int width)
 				}
 				break;
 			}
-			//here case 1
+			case 1:
+			{
+				if (lonelyBarriers[i].GetX() + 2 < this->height && lonelyBarriers[i].GetY() + 1 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() + 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
 			case 2:
 			{
 				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() - 1 >= 0)
@@ -184,7 +194,40 @@ void Map::generateRandomMap(string fileName, int height, int width)
 				}
 				break;
 			}
-			//here cases 3-5
+			case 3:
+			{
+				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() + 1 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() + 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 4:
+			{
+				if (lonelyBarriers[i].GetX() + 2 < this->height && lonelyBarriers[i].GetY() - 1 >= 0)
+				{
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY() - 1].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() - 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 5:
+			{
+				if (lonelyBarriers[i].GetX() - 1 >= 0 && lonelyBarriers[i].GetY() + 2 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY() + 2].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 2);
+					isLonely[i] = false;
+				}
+				break;
+			}
+					
 			default:
 				break;
 			}
