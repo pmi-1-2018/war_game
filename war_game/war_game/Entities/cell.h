@@ -10,6 +10,7 @@ private:
 	int passCost;
 	bool isPassable;
 	bool isPlayer = false;
+	bool isBotArmy = false;
 	Barrack* barrack;
 	Army* army = nullptr;
 	int x;
@@ -26,6 +27,7 @@ public:
 	void SetBattleField(Army* players, const int& size);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
+	bool getIsBotArmy();
 	char GetArmySign();
 	int GetArmyId();
 	void SetArmy(Army* army);

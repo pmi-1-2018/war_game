@@ -31,6 +31,7 @@ void Cell::setCell(char symb, int x, int y)
 	this->isPlayer = false;
 	this->barrack = nullptr;
 	this->isPassable = true;
+	Unit* list;
 	switch (symb)
 	{
 	case '#':
@@ -53,8 +54,10 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		this->army = new Army;
+		list = new Unit[3];
+		this->army = new Army("Bot", list , 3, 'A');
 		this->isPassable = true;
+		this->isBotArmy = true;
 		break;
 	default:
 		passCost = 1;
@@ -160,4 +163,8 @@ void Cell::setIsPlayer(bool val)
 bool Cell::getIsPlayer()
 {
 	return isPlayer;
+}
+bool Cell::getIsBotArmy()
+{
+	return isBotArmy;
 }
