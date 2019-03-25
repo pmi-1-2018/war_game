@@ -297,6 +297,11 @@ ostream& operator<<(ostream& sout, Map &m)
 				sout << 'B';
 				continue;
 			}
+			if (m.map[i][j].getArmyPtr() != nullptr)
+			{
+				sout << 'A';
+				continue;
+			}
 			if (m.map[i][j].getPassCost() == 1)
 			{
 				m.SetBackground("D");
