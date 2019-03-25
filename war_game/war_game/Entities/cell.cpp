@@ -51,6 +51,11 @@ void Cell::setCell(char symb, int x, int y)
 		this->barrack = new Barrack;
 		this->isPassable = true;
 		break;
+	case 'A':
+		passCost = 1;
+		this->army = new Army;
+		this->isPassable = true;
+		break;
 	default:
 		passCost = 1;
 		break;
@@ -59,6 +64,10 @@ void Cell::setCell(char symb, int x, int y)
 Barrack* Cell::getBarrackPtr()
 {
 	return barrack;
+}
+Army* Cell::getArmyPtr()
+{
+	return army;
 }
 Cell::~Cell()
 {

@@ -35,6 +35,7 @@ public:
 	int GetX()const;
 	int GetY()const;
 	Barrack* getBarrackPtr();
+	Army* getArmyPtr();
 	~Cell();
 };
 
