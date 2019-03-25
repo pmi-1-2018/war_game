@@ -158,7 +158,8 @@ bool Army::battlePVE(Army a)
 	int otherArmy = 0;
 	Archer archer;
 	int action = 2;
-	int n = 0;
+	int index1 = 0;
+	int index2 = 0;
 	do
 	{
 		cin >> action;
@@ -211,8 +212,8 @@ bool Army::battlePVE(Army a)
 		}
 		if (action == 1)
 		{
-			cin >> n;
-			swap(units[n], units[n + 1]);
+			this->swapUnits(index1, index2, a);
+			swap(units[index1], units[index2]);
 			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
 			if (numberOfUnits >= 2)
 			{
