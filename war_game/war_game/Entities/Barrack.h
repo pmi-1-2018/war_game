@@ -1,9 +1,7 @@
 #pragma once
-#include"Army.h"
-#include"Map.h"
-#include "Swordsman.h"
-#include "Tank.h"
-#include "Wizard.h"
+#include "../Entities/Swordsman.h"
+#include "../Entities/Tank.h"
+#include "../Entities/Wizard.h"
 
 class Barrack
 {
@@ -26,8 +24,6 @@ public:
 	int GetNumberOfTurn();
 	void SetNumberOfTurn(int number);
 
-
-	void giveUnits(Army army);
 	void renewal();
 };
 
