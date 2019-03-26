@@ -18,13 +18,13 @@ private:
 	int numberOfUnits = 5;
 	char symb;
 	int id;
-	static const int START_ENERGY = 10;
+	static const int START_ENERGY = 11;
 	int dec_energy = 0;
 	int currentEnergy;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb);
-	//Army(const Army& army);
+	Army(const Army& army);
 	void inputTheArmy();
 	void printArmiesFight(Army a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage);
 	void printArmies(Army a, int thisArmy, int otherArmy);

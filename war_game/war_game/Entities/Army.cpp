@@ -8,29 +8,19 @@
 #include "Swordsman.h"
 
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
-/*
-Army::Army(string name, Unit*list, int num, char symb) {
-	nameOfArmy = name;
-	numberOfUnits = num;
-	this->symb = symb;
-	for (int i = 0; i < numberOfUnits; i++)
-	{
-		units[i] = list[i];
-	}
-}
-*/
-
 
 Army::Army(string name, Unit*list, int num, char symb)
 {
-	this->currentEnergy = 10;
 	nameOfArmy = name;
-	units = new Unit[num];
-	for (int i = 0; i < num; i++)
+	this->numberOfUnits = num;
+	this->units = new Unit[num];
+	this->dec_energy = 0;
+	for (int i = 0; i < this->numberOfUnits; i++)
 	{
 		units[i] = list[i];
-		SetCurrEnergy(this->units->GetDecEnergy());
+		this->dec_energy += units->GetDecEnergy();
 	}
+	this->currentEnergy = this->START_ENERGY + this->dec_energy;
 	this->symb = symb;
 	switch (symb)
 	{
@@ -55,7 +45,7 @@ bool Army::SetCurrEnergy(const int & value)
 	}
 	else
 	{
-		this->currentEnergy = this->START_ENERGY - this->dec_energy;
+		this->currentEnergy = this->START_ENERGY + this->dec_energy;
 		return true;
 	}
 }
@@ -66,21 +56,21 @@ int Army::GetCurrEnergy()
 }
 
 
-//Army::Army(const Army &army)
-//{
-//	this->nameOfArmy = army.nameOfArmy;
-//	this->symb = army.symb;
-//	this->id = army.id;
-//	this->numberOfUnits = army.numberOfUnits;
-//	if (this->units != nullptr)
-//	{
-//		delete[] this->units;
-//	}
-//	for (int i = 0; i < this->numberOfUnits; i++)
-//	{
-//		this->units[i] = army.units[i];
-//	}
-//}
+Army::Army(const Army &army)
+{
+	this->nameOfArmy = army.nameOfArmy;
+	this->symb = army.symb;
+	this->id = army.id;
+	this->numberOfUnits = army.numberOfUnits;
+	if (this->units != nullptr)
+	{
+		delete[] this->units;
+	}
+	for (int i = 0; i < this->numberOfUnits; i++)
+	{
+		this->units[i] = army.units[i];
+	}
+}
 
 void Army::inputTheArmy() {
 	char type;
