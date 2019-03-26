@@ -93,17 +93,17 @@ void GameManager::SetMusic(const string & filename)
 {
 	if (filename == "menu") 
 	{
-		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 	if (filename == "battle")
 	{
-		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 	if (filename == "Attack")//attack music
 	{
-		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 }
