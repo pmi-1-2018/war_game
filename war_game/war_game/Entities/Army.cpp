@@ -1,38 +1,26 @@
-#include <iostream>
 #include <string>
 #include <typeinfo>
 #include <Windows.h>
 #include <conio.h>
 #include <time.h>
-#include "Archer.h"
-#include "Army.h"
-#include "Swordsman.h"
 #include <thread>
+#include "Army.h"
+
 
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
-/*
-Army::Army(string name, Unit*list, int num, char symb) {
-
-	nameOfArmy = name;
-	numberOfUnits = num;
-	this->symb = symb;
-
-	for (int i = 0; i < numberOfUnits; i++)
-	{
-		units[i] = list[i];
-	}
-}
-*/
-
 
 Army::Army(string name, Unit*list, int num, char symb)
 {
 	nameOfArmy = name;
-	//list = new Unit[num];
-	//for (int i = 0; i < num; i++)
-	//{
-	//	units[i] = list[i];
-	//}
+	this->numberOfUnits = num;
+	this->units = new Unit[num];
+	this->dec_energy = 0;
+	for (int i = 0; i < this->numberOfUnits; i++)
+	{
+		units[i] = list[i];
+		this->dec_energy += units->GetDecEnergy();
+	}
+	this->currentEnergy = this->START_ENERGY + this->dec_energy;
 	this->symb = symb;
 	switch (symb)
 	{
@@ -48,7 +36,26 @@ Army::Army(string name, Unit*list, int num, char symb)
 	}
 	}
 }
+bool Army::SetCurrEnergy(const int & value)
+{
+	this->currentEnergy += value;
+	if (this->currentEnergy >= 0)
+	{
+		return false;
+	}
+	else
+	{
+		this->currentEnergy = this->START_ENERGY + this->dec_energy;
+		return true;
+	}
+}
 
+int Army::GetCurrEnergy()
+{
+	return this->currentEnergy;
+}
+
+//
 //Army::Army(const Army &army)
 //{
 //	this->nameOfArmy = army.nameOfArmy;
@@ -801,6 +808,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army army2, int alive_count_a
 	index2 += numberOfUnits - alive_count_army1;
 }
 
+
 void Army::swapUnits_2(int & index1, int & index2, Army army1, int alive_count_army1, int alive_count_army2)
 {
 	if (alive_count_army2 < 2)
@@ -829,6 +837,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army army1, int alive_count_a
 	cout << "\nFirst unit index: " << index1;
 	cout << "\nSecond unit index: ";
 	cout << "\nPress Enter to select the first unit to swap.";
+
 
 	bool isSelected = false;
 	do
@@ -970,7 +979,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army army1, int alive_count_a
 				cout << "\nFirst unit index: " << index1;
 				cout << "\nSecond unit index: " << index2;
 				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
-			}
+			}	
 
 
 			break;

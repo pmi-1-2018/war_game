@@ -18,7 +18,7 @@ private:
 	int numberOfUnits = 5;
 	char symb;
 	int id;
-	static const int START_ENERGY = 10;
+	static const int START_ENERGY = 11;
 	int dec_energy = 0;
 	int currentEnergy;
 public:
@@ -41,7 +41,8 @@ public:
 	int getNumberOfUnits();
 	void armyMove(Unit*list, int number);
 	void addUnit(Unit unit);
-	void swapUnits(int& index1, int& index2, Army army2);
+	void swapUnits_2(int & index1, int & index2, Army army1, int alive_count_army1, int alive_count_army2);
+	void swapUnits_1(int & index1, int & index2, Army army2, int alive_count_army1, int alive_count_army2);
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
 
