@@ -2,7 +2,7 @@
 #include<string>
 #include<fstream>
 #include<iostream>
-#include"cell.h"
+#include "cell.h"
 #include "Windows.h"
 //#define DEBUG
 
