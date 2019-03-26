@@ -160,11 +160,10 @@ void Map::setHeight(int h)
 
 int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 {
-
-	if (newCell != nullptr && map[newCell->GetY()][newCell->GetX()].IsPassable() == true)
+	Army* army_1 = nullptr;
+	if (newCell != nullptr && newCell->IsPassable() == true)
 	{
 		bool removePrev = false;
-		Army* army_1 = nullptr;
 		for (int i = 0; i < height; i++)
 		{
 			for (int j = 0; j < width; j++)

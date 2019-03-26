@@ -237,6 +237,10 @@ void GameManager::Start()
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
 		// response = 3 - out of points - switching the turn
+		if (hitTheWall == true) 
+		{
+			continue;
+		}
 		if (response == 0)
 		{
 			new_x = prev_x;
