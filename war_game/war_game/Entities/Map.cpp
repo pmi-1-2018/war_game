@@ -311,18 +311,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 				break;
 			}
 		}
-		if (map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
-		{
-			int playersCount;
-			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
-			Army* players = new Army[2];
-			players[0] = *army_1;
-			players[1] = *army_2;
-			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
-			prevCell = nullptr;
-			return 2;
-		}
-		if (map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
+		if ((map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true || map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true) && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
 			int playersCount;
 			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
