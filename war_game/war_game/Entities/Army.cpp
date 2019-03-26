@@ -11,6 +11,9 @@ Army::Army()
 	this->units = new Unit[0];
 	this->symb = NULL;
 	this->id = 0;
+	this->capacity = 3;
+	this->level = 0;
+	this->experience = 0;
 }
 
 Army::Army(string name, Unit*list, int num, char symb)
@@ -19,6 +22,9 @@ Army::Army(string name, Unit*list, int num, char symb)
 	this->numberOfUnits = num;
 	this->units = new Unit[num];
 	this->dec_energy = 0;
+	this->capacity = 3;
+	this->level = 0;
+	this->experience = 0;
 	for (int i = 0; i < this->numberOfUnits; i++)
 	{
 		units[i] = list[i];
@@ -47,6 +53,9 @@ Army::Army(const Army & army)
 	this->symb = army.symb;
 	this->id = army.id;
 	this->numberOfUnits = army.numberOfUnits;
+	this->level = army.level;
+	this->capacity = army.capacity;
+	this->experience = army.experience;
 	if (this->units != nullptr) 
 	{
 		delete[] this->units;
@@ -170,20 +179,22 @@ int Army::GetId()
 }
 void Army::addUnit(Unit unit)
 {
-	Unit *temp = new Unit[numberOfUnits];
-	for (int i = 0; i < numberOfUnits; i++)
-	{
-		temp[i] = units[i];
-	}
+	if (CheckCapacity()) {
+		Unit *temp = new Unit[numberOfUnits];
+		for (int i = 0; i < numberOfUnits; i++)
+		{
+			temp[i] = units[i];
+		}
 
-	numberOfUnits++;
-	units = new Unit[numberOfUnits];
+		numberOfUnits++;
+		units = new Unit[numberOfUnits];
 
-	for (int i = 0; i < numberOfUnits - 1; i++)
-	{
-		units[i] = temp[i];
+		for (int i = 0; i < numberOfUnits - 1; i++)
+		{
+			units[i] = temp[i];
+		}
+		units[numberOfUnits - 1] = unit;
 	}
-	units[numberOfUnits - 1] = unit;
 }
 
 bool Army::SetCurrEnergy(const int & value)
@@ -212,3 +223,39 @@ Army::~Army()
 		delete[] units;
 	}
 }
+int Army::GetLevel()
+{
+	return level;
+}
+int Army::GetExp() {
+	return experience;
+}
+void Army::SetLevel(Army army)
+{
+	int countOfDead = army.getNumber();
+	while (countOfDead)
+	{
+		experience++;
+		if (experience == 3)
+		{
+			level += 1;
+			capacity += 1;
+		}
+		experience = 0;
+		countOfDead--;
+	}
+}
+bool Army::CheckCapacity()
+{
+	if (numberOfUnits < capacity)
+	{
+		cout << "You can add " << capacity - numberOfUnits << " units" << endl;
+		return true;
+	}
+	if (numberOfUnits == capacity)
+	{
+		cout << "You cann't add units" << endl;
+		return false;
+	}
+}
+

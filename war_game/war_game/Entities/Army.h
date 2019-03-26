@@ -21,6 +21,9 @@ private:
 	static const int START_ENERGY = 10;
 	int dec_energy = 0;
 	int currentEnergy;
+	int level;
+	int experience;
+	int capacity;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb);
@@ -38,5 +41,9 @@ public:
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
 	~Army();
+	int GetLevel();
+	int GetExp();
+	void SetLevel(Army army);
+	bool CheckCapacity();
 	//armyMove
 };
