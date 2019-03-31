@@ -136,6 +136,10 @@
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BarrackArcher.h" />
+    <ClInclude Include="BarrackSwordsman.h" />
+    <ClInclude Include="BarrackTank.h" />
+    <ClInclude Include="BarrackWizard.h" />
     <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />

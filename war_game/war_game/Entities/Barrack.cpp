@@ -1,57 +1,56 @@
 #include"Barrack.h"
 
-int Barrack::GetNumberOfSwordsmen()
+int Barrack::GetNumberOfUnits()
 {
-	return numberOfSwordsmen;
+	return numberOfUnits;
 }
 
-void Barrack::SetNumberOfSwordsmen(int number)
+void Barrack::SetNumberOfUnits(int number)
 {
-	this->numberOfSwordsmen = number;
+	this->numberOfUnits = number;
 }
-
-int Barrack::GetNumberOfArchers()
-{
-	return numberOfArchers;
-}
-
-void Barrack::SetNumberOfArchers(int number)
-{
-	this->numberOfArchers = number;
-}
-
-int Barrack::GetNumberOfTanks()
-{
-	return numberOfTanks;
-}
-
-void Barrack::SetNumberOfTanks(int number)
-{
-	this->numberOfTanks = number;
-}
-
-int Barrack::GetNumberOfWizards()
-{
-	return numberOfWizards;
-}
-
-void Barrack::SetNumberOfWizards(int number)
-{
-	this->numberOfWizards = number;
-}
-
-
 
 int Barrack::GetNumberOfTurn()
 {
 	return numberOfTurn;
 }
 
-
 void Barrack::SetNumberOfTurn(int number)
 {
 	this->numberOfTurn = number;
 }
+
+//int Barrack::GetNumberOfArchers()
+//{
+//	return numberOfArchers;
+//}
+//
+//void Barrack::SetNumberOfArchers(int number)
+//{
+//	this->numberOfArchers = number;
+//}
+//
+//int Barrack::GetNumberOfTanks()
+//{
+//	return numberOfTanks;
+//}
+//
+//void Barrack::SetNumberOfTanks(int number)
+//{
+//	this->numberOfTanks = number;
+//}
+//
+//int Barrack::GetNumberOfWizards()
+//{
+//	return numberOfWizards;
+//}
+//
+//void Barrack::SetNumberOfWizards(int number)
+//{
+//	this->numberOfWizards = number;
+//}
+
+
 
 /*void Barrack::renewal()
 {
