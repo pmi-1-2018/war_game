@@ -230,21 +230,30 @@ int Army::GetLevel()
 int Army::GetExp() {
 	return experience;
 }
-void Army::SetLevel(Army army)
+void Army::SetLevel(int a)
 {
-	int countOfDead = army.getNumber();
+	level += a;
+}
+
+void Army::CalcLevelAndCapacity(int countOfDead)
+{
 	while (countOfDead)
 	{
 		experience++;
 		if (experience == 3)
 		{
-			level += 1;
-			capacity += 1;
+			SetLevel(1);
+			SetCapacity(1);
+			experience = 0;
 		}
-		experience = 0;
 		countOfDead--;
 	}
 }
+void Army::SetCapacity(int a)
+{
+	capacity += a;
+}
+
 bool Army::CheckCapacity()
 {
 	if (numberOfUnits < capacity)

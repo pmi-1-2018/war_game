@@ -43,7 +43,9 @@ public:
 	~Army();
 	int GetLevel();
 	int GetExp();
-	void SetLevel(Army army);
+	void SetLevel(int a);
+	void CalcLevelAndCapacity(int countOfDead);
+	void SetCapacity(int a);
 	bool CheckCapacity();
 	//armyMove
 };
