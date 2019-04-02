@@ -20,6 +20,11 @@ void Unit:: SetDamage(int new_damage)
 	damage = new_damage;
 }
 
+int Unit::GetMaxHP()
+{
+	return this->maxHP;
+}
+
 void Unit:: SetDefense(int new_defense) 
 {
 	defense = new_defense;

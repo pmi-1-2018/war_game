@@ -16,4 +16,5 @@ public:
 
 	void BuffDamage(Unit other_unit) override;
 	void BuffDefense(Unit other_unit) override;
+	void Heal(Unit other_unit) override;
 };

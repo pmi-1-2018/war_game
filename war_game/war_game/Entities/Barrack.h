@@ -2,6 +2,7 @@
 #include "../Entities/Swordsman.h"
 #include "../Entities/Tank.h"
 #include "../Entities/Wizard.h"
+#include "../Entities/Archer.h"
 
 class Barrack
 {
@@ -9,10 +10,11 @@ protected:
 	int numberOfUnits = 0;
 	int numberOfTurn;
 public:
-	virtual int GetNumberOfUnits() = 0;
-	virtual void SetNumberOfUnits(int number) = 0;
-	virtual int GetNumberOfTurn() = 0;
-	virtual void SetNumberOfTurn(int number) = 0;
+	virtual int GetNumberOfUnits();
+	virtual void SetNumberOfUnits(int number);
+	virtual int GetNumberOfTurn();
+	virtual void SetNumberOfTurn(int number);
+	virtual Unit* giveUnits();
 	/*int GetNumberOfArchers();
 	void SetNumberOfArchers(int number);
 	int GetNumberOfTanks();

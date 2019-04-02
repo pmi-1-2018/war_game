@@ -20,6 +20,12 @@ void Barrack::SetNumberOfTurn(int number)
 	this->numberOfTurn = number;
 }
 
+Unit* Barrack::giveUnits()
+{
+	Unit* unit[2];
+	return unit[2];
+}
+
 //int Barrack::GetNumberOfArchers()
 //{
 //	return numberOfArchers;
