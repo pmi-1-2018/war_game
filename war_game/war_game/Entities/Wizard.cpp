@@ -15,3 +15,11 @@ void Wizard:: BuffDefense(Unit other_unit)
 		other_unit.SetDefense(other_unit.GetDefense() + 10);
 	}	
 }
+
+void Wizard:: Heal(Unit other_unit)
+{
+	if (other_unit.GetHealthPoints() <= other_unit.GetMaxHP())
+	{
+		other_unit.SetHealthPoints(other_unit.GetHealthPoints() + 5);
+	}
+}

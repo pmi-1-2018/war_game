@@ -8,5 +8,20 @@ public:
 	{
 		numberOfUnits = 7;
 	}
+	Unit* giveUnits() 
+	{
+		cout << "how many archers do you want to take?" << endl;
+		int n;
+		cin >> n;
+		if (n <= GetNumberOfUnits() && n > 0)
+		{
+			Unit* units = new Archer[n];
+			return units;
+		}
+		else
+		{
+			cout << "There is no such number of archers" << endl;
+		}
+	}
 
 };

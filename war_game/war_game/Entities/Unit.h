@@ -26,5 +26,7 @@ public:
 
 	virtual void BuffDamage(Unit other_unit) {};
 	virtual void BuffDefense(Unit other_unit) {};
+	virtual void Heal(Unit other_unit) {};
+	int GetMaxHP();
 	int GetDecEnergy()const;
 };
