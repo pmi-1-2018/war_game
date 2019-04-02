@@ -88,17 +88,17 @@ void GameManager::SetMusic(const string & filename)
 {
 	if (filename == "menu") 
 	{
-		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 	if (filename == "battle")
 	{
-		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 	if (filename == "Attack")//attack music
 	{
-		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 }
@@ -233,6 +233,10 @@ void GameManager::Start()
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
 		// response = 3 - out of points - switching the turn
+		if (hitTheWall == true) 
+		{
+			continue;
+		}
 		if (response == 0)
 		{
 			new_x = prev_x;
