@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 
-GameManager::GameManager() 
+GameManager::GameManager()
 {
 }
 void GameManager::GenerateMap(int height, int width)
@@ -11,24 +11,24 @@ void GameManager::GenerateMap(int height, int width)
 	map = new Map();
 	map->generateRandomMap(this->MAP_PATH, this->mapHeight, this->mapWidth);
 	this->mapGenerated = true;
-	#ifdef DEBUG
+#ifdef DEBUG
 	cout << "Notice! Map was generated. Now you can start playing." << endl;
-		for (int i = 0; i < map->getHeight(); i++)
+	for (int i = 0; i < map->getHeight(); i++)
+	{
+		for (int j = 0; j < map->getWidth(); j++)
 		{
-			for (int j = 0; j < map->getWidth(); j++)
+			if (map->getIspassable(i, j) == false)
 			{
-				if (map->getIspassable(i, j) == false)
-				{
-					cout << i << " " << j << endl;
-				}
+				cout << i << " " << j << endl;
 			}
 		}
-	#endif
+	}
+#endif
 }
 void GameManager::Draw()const
 {
 	cout << *(this->map);
-	
+
 }
 void GameManager::SwitchTurn()
 {
@@ -40,6 +40,7 @@ void GameManager::SwitchTurn()
 	{
 		this->turn = 'l';
 	}
+	this->numberOfTurn++;
 }
 
 string GameManager::GetLogPath() const
@@ -54,7 +55,7 @@ string GameManager::GetMapPath() const
 
 
 
-string GameManager::StartBattle(const int& x, const int& y) 
+string GameManager::StartBattle(const int& x, const int& y)
 {
 	SetMusic("Attack");
 	cout << "Battle has started" << endl;
@@ -81,17 +82,17 @@ bool GameManager::MapIsGenerated() const
 }
 int GameManager::MoveChar(char symb, Cell* prevCell, Cell* newCell)
 {
-	#ifdef DEBUG
-		cout << "Moved " << symb << " to " << x << " " << y << endl;
-	#endif
+#ifdef DEBUG
+	cout << "Moved " << symb << " to " << x << " " << y << endl;
+#endif
 	int response = map->setPlayer(symb, prevCell, newCell);
 	return response;
-	
+
 }
 
 void GameManager::SetMusic(const string & filename)
 {
-	if (filename == "menu") 
+	if (filename == "menu")
 	{
 		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
@@ -107,6 +108,7 @@ void GameManager::SetMusic(const string & filename)
 		return;
 	}
 }
+
 
 void GameManager::Start()
 {
@@ -124,8 +126,8 @@ void GameManager::Start()
 	SetMusic("battle");
 	int x_1 = 1;
 	int y_1 = 0;
-	int x_2 = mapWidth-2;
-	int y_2 = mapHeight-1;
+	int x_2 = mapWidth - 2;
+	int y_2 = mapHeight - 1;
 	while (true)
 	{
 		int prev_x = turn == 'l' ? x_1 : x_2;
@@ -237,7 +239,8 @@ void GameManager::Start()
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
 		// response = 3 - out of points - switching the turn
-		if (hitTheWall == true) 
+		//response = 4 = stepped on a barrack
+		if (hitTheWall == true)
 		{
 			continue;
 		}
@@ -252,11 +255,38 @@ void GameManager::Start()
 			string battleLog = StartBattle(new_x, new_y);
 			FileLogW(battleLog);
 			bool cntinue = RestartGame();
-			if (cntinue == false) 
+			if (cntinue == false)
 			{
 				return;
 			}
 			break;
+		}
+		if (response == 4)
+		{
+			system("CLS");
+			int playersCount;
+			Army* army = nullptr;
+			army = newCell->GetArmy(playersCount);
+			int n;
+			cout << "Enter what you want to do: " << endl;
+			cin >> n;
+			switch (n)
+			{
+			case 1:
+				Unit* units = this->map->GetCell(new_x, new_y)->getBarrackPtr()->giveUnits();
+				for (int i = 0; i < (sizeof(units) / sizeof(*units)); i++)
+				{
+					army.addUnit(units[i]);
+					army.SetCurrEnergy(army->GetCurrEnergy() - 1);
+				}
+			case 2:
+				break;
+			}
+			system("CLS");
+			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			army = nullptr;
+			Draw();
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
@@ -287,11 +317,11 @@ void GameManager::FileLogW(string information)
 {
 	ofstream ofs(this->LOG_PATH);
 	bool checker = ofs.is_open();
-	if (checker == true) 
+	if (checker == true)
 	{
 		ofs << information;
 	}
-	else 
+	else
 	{
 		this->map->SetBackground("");
 		cout << "Error while writing the file" << endl;

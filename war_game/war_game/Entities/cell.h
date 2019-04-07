@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entities/Barrack.h"
+#include"Barrack.h"
 #include "../Entities/Army.h"
 
 //static int counter = 0;
@@ -12,6 +12,7 @@ private:
 	bool isPlayer = false;
 	bool isBotArmy = false;
 	Barrack* barrack;
+	bool isBarrack = false;
 	Army* army = nullptr;
 	int x;
 	int y;
@@ -19,7 +20,7 @@ private:
 
 public:
 	Cell();
-	Cell(int passCost, int x, int y);	
+	Cell(int passCost, int x, int y);
 	void setCell(char symb, int x, int y);
 	int getPassCost();
 	bool IsPlayer();
@@ -37,6 +38,7 @@ public:
 	int GetX()const;
 	int GetY()const;
 	Barrack* getBarrackPtr();
+	bool IsBarrack();
 	Army* getArmyPtr();
 	~Cell();
 };

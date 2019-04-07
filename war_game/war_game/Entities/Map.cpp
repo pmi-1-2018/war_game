@@ -41,7 +41,7 @@ void Map::SetBackground(const string flag) const
 			FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 		return;
 	}
-	else 
+	else
 	{
 		SetConsoleTextAttribute(this->HSTDOUT, 7);
 	}
@@ -68,7 +68,7 @@ void Map::readMapFromFile(string fileName)
 	}
 	myfile.close();
 	if (this->height == 0 && this->width == 0)
-	{ 
+	{
 		this->height = modelHeight;
 		this->width = modelWidth;
 		map = new Cell*[height];
@@ -227,7 +227,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 				}
 				break;
 			}
-					
+
 			default:
 				break;
 			}
@@ -265,7 +265,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
-	if (check) 
+	if (check)
 	{
 		myfile << height << " " << width << endl << *this;
 	}
@@ -322,6 +322,15 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			prevCell = nullptr;
 			return 2;
 		}
+		else if (map[newCell->GetY()][newCell->GetX()].getIsBarrack() == true)
+		{
+			int cellWeight = newCell->getPassCost();
+			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
+			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(true, army_1);
+			prevCell = nullptr;
+			return 4;
+		}
 		else
 		{
 			int cellWeight = newCell->getPassCost();
@@ -339,7 +348,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			return 1;
 		}
 	}
-	else 
+	else
 	{
 		return 0;
 	}
