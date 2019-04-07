@@ -49,13 +49,29 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'B':
 		passCost = 1;
-		this->barrack = new Barrack;
+		this->isBarrack = true;
 		this->isPassable = true;
+		int n = rand(1, 4);
+		switch (n)
+		{
+		case 1:
+			this->barrack = new BarrackOfArchers();
+			break;
+		case 2:
+			this->barrack = new BarrackOfSwordsmen();
+			break;
+		case 3:
+			this->barrack = new BarrackOfTanks();
+			break;
+		case  4:
+			this->barrack = new BarrackOfWizards();
+			break;
+		}
 		break;
 	case 'A':
 		passCost = 1;
 		list = new Unit[3];
-		this->army = new Army("Bot", list , 3, 'A');
+		this->army = new Army("Bot", list, 3, 'A');
 		this->isPassable = true;
 		this->isBotArmy = true;
 		break;
@@ -68,6 +84,13 @@ Barrack* Cell::getBarrackPtr()
 {
 	return barrack;
 }
+
+bool Cell::IsBarrack()
+{
+	return isBarrack;
+}
+
+
 Army* Cell::getArmyPtr()
 {
 	return army;
@@ -79,12 +102,12 @@ Cell::~Cell()
 		if (this->playersCount == 1) {
 			delete army;
 		}
-		else 
+		else
 		{
 			delete[] army;
 		}
 	}
-	if (this->barrack!=nullptr) 
+	if (this->barrack != nullptr)
 	{
 		delete barrack;
 	}
@@ -100,7 +123,7 @@ bool Cell::IsPlayer()
 void Cell::SetPlayer(bool val, Army* army)
 {
 	this->isPlayer = val;
-	if (isPlayer == true) 
+	if (isPlayer == true)
 	{
 		this->army = army;
 	}
@@ -108,7 +131,7 @@ void Cell::SetPlayer(bool val, Army* army)
 	{
 		this->army = nullptr;
 	}
-	
+
 }
 void Cell::SetBattleField(Army *players, const int & size)
 {
@@ -118,7 +141,7 @@ void Cell::SetBattleField(Army *players, const int & size)
 	}
 	this->army = new Army[size];
 	this->playersCount = size;
-	for (int i=0;i<this->playersCount; i++) 
+	for (int i = 0; i < this->playersCount; i++)
 	{
 		this->army[i] = players[i];
 	}
