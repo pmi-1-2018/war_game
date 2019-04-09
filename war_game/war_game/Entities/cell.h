@@ -34,11 +34,16 @@ public:
 	Army* GetArmy(int& size)const;
 	bool IsPassable();
 	void setPassCost(int value);
+	void setIsBotArmy(bool value);
 	int GetX()const;
 	int GetY()const;
 	Army* getArmyPtr()const;
 	Barrack* getBarrackPtr();
 	Army* getArmyPtr();
 	~Cell();
+	friend ostream&operator<<(ostream& os, const Cell &c) {
+		os << "(" << c.x << ":" << c.y << ")";
+		return os;
+	}
 };
 

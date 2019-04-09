@@ -63,10 +63,45 @@ string GameManager::StartBattle(const int& x, const int& y)
 	// getting the players
 	system("CLS");
 	// test whether we got all players
-	this->map->SetBackground("I");
-	cout << players[0].GetSymb() << " " << players[1].GetSymb() << endl;
-	this->map->SetBackground("D");
-	string battleLog = "Someone has won";
+	string battleLog;
+	char action;
+	if (battleField->getIsBotArmy())
+	{
+		bool playerWon;
+		cout << "Press \'a\' for auto fight, or any other key to fight manually";
+		action = _getch();
+		if (action == 'A' || action == 'a')
+		{
+			playerWon = players[0].armyAutoAttack(players[1]);
+		}
+		else
+		{
+			playerWon = players[0].battlePVE(players[1]);
+		}
+		if (!playerWon)
+		{
+			battleLog = this->turn + " lost.";
+			return battleLog;
+		}
+	}
+	else
+	{
+		bool playerWon;
+		playerWon = players[0].battlePVP(players[1]);
+		if (playerWon)
+		{
+			battleLog = this->turn + " won.";
+			return battleLog;
+		}
+		else
+		{
+			battleLog = this->turn + " lost.";
+			return battleLog;
+		}
+	}
+	battleField->setIsPlayer(true);
+	battleField->setIsBotArmy(false);
+	battleField->SetArmy(&players[0]);
 	return battleLog;
 }
 
@@ -246,13 +281,25 @@ void GameManager::Start()
 		else if (response == 2)
 		{
 			string battleLog = StartBattle(new_x, new_y);
-			FileLogW(battleLog);
-			bool cntinue = RestartGame();
-			if (cntinue == false) 
+			int temp;
+			Army* army = (this->map->GetCell(new_x, new_y))->GetArmy(temp);
+			if (battleLog != "")
 			{
-				return;
+
+				FileLogW(battleLog);
+				bool cntinue = RestartGame();
+				if (cntinue == false)
+				{
+					return;
+				}
+				break;
 			}
-			break;
+			system("cls");
+			this->map->SetBackground("I");
+			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			Draw(this->turn, new_x, new_y);
+			continue;
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{

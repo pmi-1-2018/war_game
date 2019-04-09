@@ -4,7 +4,19 @@ Map::Map() :
 	width(0),
 	height(0)
 {}
+void printMap(Cell **map, int height, int width) {
+	cout << "#####################" << endl;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			cout << map[i][j];
+		}
+		cout << endl;
 
+	}
+	cout << "#####################" << endl;
+}
 void Map::SetBackground(const string flag) const
 {
 	// D - default
@@ -149,6 +161,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		}
 	}
 
+
 	bool* isLonely = new bool[countOfLonelyBarriers];
 	for (int i = 0; i < countOfLonelyBarriers; i++)
 	{
@@ -247,20 +260,19 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	}
 
 
-
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		map[y][x].setCell('B', x, y);
+		map[y][x].setCell('B', y, x);
 	}
 	int maxBotArmiesQuantity = this->height * this->width / 50;
 	for (int i = 0; i < maxBotArmiesQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		map[y][x].setCell('A', x, y);
+		map[y][x].setCell('A', y, x);
 	}
 	ofstream myfile;
 	myfile.open(fileName);
@@ -409,6 +421,7 @@ void Map::mapDraw(Map &m, int x, int y)
 			if (abs(m.map[i][j].GetX() - x) + abs(m.map[i][j].GetY() - y) > 3)
 			{
 				SetConsoleTextAttribute(m.HSTDOUT, 64);
+				
 				cout << ' ';
 				continue;
 			}
@@ -422,7 +435,14 @@ void Map::mapDraw(Map &m, int x, int y)
 			}
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
+				m.SetBackground("D");
 				cout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getIsBotArmy() == true)
+			{
+				m.SetBackground("D");
+				cout << 'A';
 				continue;
 			}
 			if (m.map[i][j].getPassCost() == 1)
@@ -474,7 +494,7 @@ ostream& operator<<(ostream& sout, Map &m)
 				sout << 'B';
 				continue;
 			}
-			if (m.map[i][j].getArmyPtr() != nullptr)
+			if (m.map[i][j].getIsBotArmy() != false)
 			{
 				sout << 'A';
 				continue;

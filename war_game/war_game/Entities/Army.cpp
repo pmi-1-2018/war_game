@@ -8,7 +8,6 @@
 
 
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
-
 Army::Army(string name, Unit*list, int num, char symb)
 {
 	nameOfArmy = name;
@@ -49,6 +48,15 @@ bool Army::SetCurrEnergy(const int & value)
 		return true;
 	}
 }
+//bool Army::getIsPlayer()
+//{
+//	return isPlayer;
+//}
+//
+//void Army::setIsPlayer(bool player)
+//{
+//	isPlayer = player;
+//}
 
 int Army::GetCurrEnergy()
 {
@@ -198,7 +206,7 @@ bool Army::battlePVE(Army a)
 	{
 		cout << "press A to attack, press S to swap";
 		action = _getch();
-		if (action == 'A')
+		if (action == 'A' || action == 'a')
 		{
 			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
 			if (numberOfUnits - thisArmy >= 2)
@@ -321,7 +329,7 @@ bool Army::battlePVP(Army a)
 	{
 		cout << "press A to attack, press S to swap";
 		action = _getch();
-		if (action == 'A')
+		if (action == 'A' || action == 'a')
 		{
 			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
 			if (numberOfUnits - thisArmy >= 2)
@@ -376,7 +384,7 @@ bool Army::battlePVP(Army a)
 		{
 			cout << "\npress A to attack, press S to swap";
 			action = _getch();
-			if (action == 'A')
+			if (action == 'A' || action == 'a')
 			{
 				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
 				if (a.numberOfUnits - otherArmy >= 2)
@@ -437,7 +445,7 @@ bool Army::battlePVP(Army a)
 		delete[] units;
 		units = copy;
 		numberOfUnits -= thisArmy;
-		cout << "you won" << endl;
+		cout << endl << symb << "  won" << endl;
 		this->printArmy();
 		return true;
 	}
@@ -452,7 +460,7 @@ bool Army::battlePVP(Army a)
 		delete[] a.units;
 		a.units = copy;
 		a.numberOfUnits -= otherArmy;
-		cout << "you lost" << endl;
+		cout << endl << a.symb << "  won" << endl;
 		a.printArmy();
 		return false;
 	}

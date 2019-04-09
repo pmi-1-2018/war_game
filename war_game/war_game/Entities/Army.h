@@ -21,6 +21,7 @@ private:
 	static const int START_ENERGY = 11;
 	int dec_energy = 0;
 	int currentEnergy;
+	//bool isPlayer;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb);
@@ -32,6 +33,8 @@ public:
 	bool armyAutoAttack(Army a);
 	bool battlePVE(Army a);
 	bool battlePVP(Army a);
+	/*bool getIsPlayer();
+	void setIsPlayer(bool player);*/
 	//friend istream&operator<<(istream&is, Army &army);
 	int getNumber();
 	Unit* getWarriors();
@@ -45,6 +48,12 @@ public:
 	void swapUnits_1(int & index1, int & index2, Army army2, int alive_count_army1, int alive_count_army2);
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
-
+	~Army()
+	{
+		if (this->units!=nullptr) 
+		{
+			delete[] units;
+		}
+	}
 	//armyMove
 };

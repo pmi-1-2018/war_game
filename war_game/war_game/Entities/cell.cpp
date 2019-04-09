@@ -26,8 +26,8 @@ Cell::Cell(int passCost, int x, int y) :
 
 void Cell::setCell(char symb, int x, int y)
 {
-	this->y = y;
-	this->x = x;
+	this->y = x;
+	this->x = y;
 	this->isPlayer = false;
 	this->barrack = nullptr;
 	this->isPassable = true;
@@ -114,7 +114,7 @@ void Cell::SetBattleField(Army *players, const int & size)
 {
 	if (this->army != nullptr)
 	{
-		delete army;
+		delete this->army;
 	}
 	this->army = new Army[size];
 	this->playersCount = size;
@@ -171,4 +171,9 @@ bool Cell::getIsPlayer()
 bool Cell::getIsBotArmy()
 {
 	return isBotArmy;
+}
+
+void Cell::setIsBotArmy(bool value)
+{
+	isBotArmy = value;
 }
