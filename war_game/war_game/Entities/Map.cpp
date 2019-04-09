@@ -322,7 +322,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			prevCell = nullptr;
 			return 2;
 		}
-		else if (map[newCell->GetY()][newCell->GetX()].getIsBarrack() == true)
+		else if (map[newCell->GetY()][newCell->GetX()].IsBarrack() == true)
 		{
 			int cellWeight = newCell->getPassCost();
 			bool noPoints = army_1->SetCurrEnergy(-cellWeight);

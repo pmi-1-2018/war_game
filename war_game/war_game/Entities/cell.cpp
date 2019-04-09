@@ -1,4 +1,6 @@
 #include "Cell.h"
+#include <ctime>
+
 
 
 Cell::Cell() :
@@ -26,6 +28,8 @@ Cell::Cell(int passCost, int x, int y) :
 
 void Cell::setCell(char symb, int x, int y)
 {
+	srand(time(NULL));
+	int n = rand() % 4 + 1;
 	this->y = y;
 	this->x = x;
 	this->isPlayer = false;
@@ -51,21 +55,23 @@ void Cell::setCell(char symb, int x, int y)
 		passCost = 1;
 		this->isBarrack = true;
 		this->isPassable = true;
-		int n = rand(1, 4);
-		switch (n)
+		
+		if (n == 1)
 		{
-		case 1:
-			this->barrack = new BarrackOfArchers();
-			break;
-		case 2:
-			this->barrack = new BarrackOfSwordsmen();
-			break;
-		case 3:
-			this->barrack = new BarrackOfTanks();
-			break;
-		case  4:
-			this->barrack = new BarrackOfWizards();
-			break;
+			this->barrack = new BarrackArcher();
+		}
+		else if (n == 2)
+		{
+			this->barrack = new BarrackSwordsman();
+		}
+		else if (n == 3)
+		{
+
+			this->barrack = new BarrackTank();
+		}
+		else if (n == 4)
+		{
+			this->barrack = new BarrackWizard();
 		}
 		break;
 	case 'A':

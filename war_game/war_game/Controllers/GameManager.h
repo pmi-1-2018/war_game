@@ -20,6 +20,7 @@ private:
 	int mapWidth;
 	bool mapGenerated = false;
 	bool gameStarted = false;
+	int numberOfTurn = 1;
 public:
 	GameManager();
 	void GenerateMap(int height, int width);

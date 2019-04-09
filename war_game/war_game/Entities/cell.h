@@ -1,5 +1,9 @@
 #pragma once
 #include"Barrack.h"
+#include "BarrackArcher.h" 
+#include"BarrackSwordsman.h"
+#include"BarrackTank.h"
+#include"BarrackWizard.h"
 #include "../Entities/Army.h"
 
 //static int counter = 0;

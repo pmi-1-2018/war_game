@@ -14,15 +14,6 @@ public:
 	virtual void SetNumberOfUnits(int number);
 	virtual int GetNumberOfTurn();
 	virtual void SetNumberOfTurn(int number);
-	virtual Unit* giveUnits();
-	/*int GetNumberOfArchers();
-	void SetNumberOfArchers(int number);
-	int GetNumberOfTanks();
-	void SetNumberOfTanks(int number);
-	int GetNumberOfWizards();
-	void SetNumberOfWizards(int number);*/
-	
-
-	void renewal();
+	virtual Unit giveUnit();
 };
 
