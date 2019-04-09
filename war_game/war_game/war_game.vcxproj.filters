@@ -89,9 +89,6 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{eefe24d1-6891-4dc5-bfd9-454caeca2ac4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Entities">
-      <UniqueIdentifier>{bb6394d9-c2d3-499c-8d4a-39f3617a8949}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Utils">
       <UniqueIdentifier>{850682fb-f892-4504-a271-3f7cd728cfb9}</UniqueIdentifier>
     </Filter>
@@ -100,6 +97,9 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{cfea3ae9-6152-4de1-9720-0076d604b23d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Entities">
+      <UniqueIdentifier>{bb6394d9-c2d3-499c-8d4a-39f3617a8949}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
