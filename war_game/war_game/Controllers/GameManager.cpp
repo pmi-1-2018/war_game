@@ -290,6 +290,8 @@ void GameManager::Start()
 			Army* a1 = currentCell->getArmyPtr();
 			Army* a2 = newCell->getArmyPtr();
 			string battleLog = StartBattle(a1, a2);
+			int temp;
+			Army* army = (this->map->GetCell(new_x, new_y))->GetArmy(temp);
 			if (battleLog != "")
 			{
 
