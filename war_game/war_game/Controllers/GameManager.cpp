@@ -51,57 +51,64 @@ string GameManager::GetMapPath() const
 {
 	return this->MAP_PATH;
 }
-
-string GameManager::StartBattle(const int& x, const int& y) 
+/*
+	string GameManager::StartBattle(const int& x, const int& y) 
 {
+*/
+string GameManager::StartBattle(Army* a1, Army* a2)
+{
+	if (a1 == nullptr || a2 == nullptr)
+	{
+		throw "Nullptr came to the func";
+	}
 	SetMusic("Attack");
 	cout << "Battle has started" << endl;
-	Cell* battleField = this->map->GetCell(x, y);
+	//Cell* battleField = this->map->GetCell(x, y);
 	// battleField - cell with the array of two players
 	int playersCount;
-	Army* players = battleField->GetArmy(playersCount);
+	//Army* players = battleField->GetArmy(playersCount);
 	// getting the players
 	system("CLS");
 	// test whether we got all players
 	string battleLog;
 	char action;
-	if (battleField->getIsBotArmy())
+	if (a2->getIsBotArmy() == true)
 	{
 		bool playerWon;
 		cout << "Press \'a\' for auto fight, or any other key to fight manually";
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
-			playerWon = players[0].armyAutoAttack(players[1]);
+			playerWon = a1->armyAutoAttack(*a2);
 		}
 		else
 		{
-			playerWon = players[0].battlePVE(players[1]);
+			playerWon = a1->battlePVE(*a2);
 		}
 		if (!playerWon)
 		{
-			battleLog = this->turn + " lost.";
+			battleLog = this->turn + "lost.";
 			return battleLog;
 		}
 	}
 	else
 	{
 		bool playerWon;
-		playerWon = players[0].battlePVP(players[1]);
+		playerWon = a1->battlePVP(*a2);
 		if (playerWon)
 		{
-			battleLog = this->turn + " won.";
+			battleLog = this->turn + "won.";
 			return battleLog;
 		}
 		else
 		{
-			battleLog = this->turn + " lost.";
+			battleLog = this->turn + "lost.";
 			return battleLog;
 		}
 	}
-	battleField->setIsPlayer(true);
+	/*battleField->setIsPlayer(true);
 	battleField->setIsBotArmy(false);
-	battleField->SetArmy(&players[0]);
+	battleField->SetArmy(&players[0]);*/
 	return battleLog;
 }
 
@@ -280,7 +287,9 @@ void GameManager::Start()
 		}
 		else if (response == 2)
 		{
-			string battleLog = StartBattle(new_x, new_y);
+			Army* a1 = currentCell->getArmyPtr();
+			Army* a2 = newCell->getArmyPtr();
+			string battleLog = StartBattle(a1, a2);
 			int temp;
 			Army* army = (this->map->GetCell(new_x, new_y))->GetArmy(temp);
 			if (battleLog != "")

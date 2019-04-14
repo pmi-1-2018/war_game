@@ -9,8 +9,6 @@ class Cell
 private:
 	int passCost;
 	bool isPassable;
-	bool isPlayer = false;
-	bool isBotArmy = false;
 	Barrack* barrack;
 	Army* army = nullptr;
 	int x;
@@ -23,7 +21,7 @@ public:
 	void setCell(char symb, int x, int y);
 	int getPassCost();
 	bool IsPlayer();
-	void SetPlayer(bool val, Army* army);
+	void SetPlayer(Army* army);
 	void SetBattleField(Army* players, const int& size);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();

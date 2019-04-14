@@ -313,7 +313,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 				{
 					int playersCount;
 					army_1 = map[i][j].GetArmy(playersCount);
-					map[i][j].SetPlayer(false, nullptr);
+					map[i][j].SetPlayer(nullptr);
 					removePrev = true;
 					break;
 				}
@@ -325,13 +325,13 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 		}
 		if ((map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true || map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true) && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
-			int playersCount;
+			/*int playersCount;
 			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
 			Army* players = new Army[2];
 			players[0] = *army_1;
 			players[1] = *army_2;
-			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
-			prevCell = nullptr;
+			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);*/
+			map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 			return 2;
 		}
 		else
@@ -339,15 +339,13 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			int cellWeight = newCell->getPassCost();
 			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
 			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
-			map[newCell->GetY()][newCell->GetX()].SetPlayer(true, army_1);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
 			if (noPoints == true)
 			{
-				map[newCell->GetY()][newCell->GetX()].SetPlayer(false, nullptr);
-				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(true, army_1);
-				prevCell = nullptr;
+				map[newCell->GetY()][newCell->GetX()].SetPlayer(nullptr);
+				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 				return 3;
 			}
-			prevCell = nullptr;
 			return 1;
 		}
 	}
@@ -371,17 +369,17 @@ void Map::resetPlayers(char& turn)
 		{
 			if (map[i][j].IsPlayer() == true)
 			{
-				map[i][j].SetPlayer(false, NULL);
+				map[i][j].SetPlayer(nullptr);
 			}
 		}
 	}
 	// setting the default position of the players.
 	Swordsman units[2];
-	Army* player_1 = new Army("Aliance", units, 2, 'F');
-	Army* player_2 = new Army("Horde", units, 2, 'S');
+	Army* player_1 = new Army("Aliance", units, 2, 'F', true);
+	Army* player_2 = new Army("Horde", units, 2, 'S', true);
 	// cin>>player_1,player_2
-	map[0][1].SetPlayer(true, player_1);
-	map[this->height - 1][this->width - 2].SetPlayer(true, player_2);
+	map[0][1].SetPlayer(player_1);
+	map[this->height - 1][this->width - 2].SetPlayer(player_2);
 
 	SetBackground("I");
 	turn = 'l';
