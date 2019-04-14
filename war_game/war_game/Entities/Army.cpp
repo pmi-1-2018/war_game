@@ -399,7 +399,6 @@ bool Army::battlePVP(Army& a)
 			system("CLS");
 			this->printArmies(a, thisArmy, otherArmy);
 		}
-		system("pause");
 		if (numberOfUnits != thisArmy && a.numberOfUnits != otherArmy)
 		{
 			cout << "\npress A to attack, press S to swap";

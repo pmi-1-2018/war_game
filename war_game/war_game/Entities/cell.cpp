@@ -53,7 +53,7 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		units = new Swordsman[1];
+		units = new Swordsman[3];
 		//this->isBotArmy = true;
 		this->army = new Army("Bot", units , 3, 'A', false);
 		this->isPassable = true;
