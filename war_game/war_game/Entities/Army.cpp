@@ -8,7 +8,7 @@
 
 
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
-Army::Army(string name, Unit*list, int num, char symb)
+Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
 {
 	nameOfArmy = name;
 	this->numberOfUnits = num;
@@ -34,6 +34,9 @@ Army::Army(string name, Unit*list, int num, char symb)
 		break;
 	}
 	}
+	this->isPlayer = isPlayer;
+	this->isBotArmy = isPlayer == true ? false : true;
+
 }
 bool Army::SetCurrEnergy(const int & value)
 {
@@ -101,7 +104,7 @@ void Army::inputTheArmy() {
 }
 
 
-bool Army::armyAutoAttack(Army a)
+bool Army::armyAutoAttack(Army& a)
 {
 	using namespace std::this_thread;
 	using namespace std::chrono;
@@ -136,6 +139,7 @@ bool Army::armyAutoAttack(Army a)
 		}
 		if (otherArmy != a.numberOfUnits)
 		{
+			// after 2 iteration incoming damage is invalid
 			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
 			if (a.numberOfUnits - otherArmy >= 2)
 			{
@@ -190,8 +194,23 @@ bool Army::armyAutoAttack(Army a)
 		return false;
 	}
 }
-
-bool Army::battlePVE(Army a)
+void Army::setIsPlayer(bool val)
+{
+	this->isPlayer = val;
+}
+bool Army::getIsPlayer()
+{
+	return isPlayer;
+}
+bool Army::getIsBotArmy()
+{
+	return isBotArmy;
+}
+void Army::setIsBotArmy(bool value)
+{
+	this->isBotArmy = value;
+}
+bool Army::battlePVE(Army& a)
 {
 	double outcomingDamage = 0;
 	double incomingDamage = 0;
@@ -314,7 +333,7 @@ bool Army::battlePVE(Army a)
 		return false;
 	}
 }
-bool Army::battlePVP(Army a)
+bool Army::battlePVP(Army& a)
 {
 	double outcomingDamage = 0;
 	double incomingDamage = 0;
@@ -379,7 +398,6 @@ bool Army::battlePVP(Army a)
 			system("CLS");
 			this->printArmies(a, thisArmy, otherArmy);
 		}
-		system("pause");
 		if (numberOfUnits != thisArmy && a.numberOfUnits != otherArmy)
 		{
 			cout << "\npress A to attack, press S to swap";
@@ -488,7 +506,7 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
 	for (size_t i = 2; i < numberOfUnits - thisArmy; i++)
@@ -508,7 +526,7 @@ void Army::printArmiesFight(Army a, int thisArmy, int otherArmy, int incomingDam
 	cout << endl;
 }
 
-void Army::printArmies(Army a, int thisArmy, int otherArmy)
+void Army::printArmies(Army& a, int thisArmy, int otherArmy)
 {
 	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 	{
@@ -520,6 +538,24 @@ void Army::printArmies(Army a, int thisArmy, int otherArmy)
 		cout << a.units[i + otherArmy];
 	}
 	cout << endl;
+}
+
+Army & Army::operator=(const Army & army)
+{
+	this->nameOfArmy = army.nameOfArmy;
+	this->numberOfUnits = army.numberOfUnits;
+	this->symb = army.symb;
+	this->id = army.id;
+	this->dec_energy = army.dec_energy;
+	this->currentEnergy = army.currentEnergy;
+	this->isPlayer = army.isPlayer;
+	this->isBotArmy = army.isBotArmy;
+	this->units = new Unit[this->numberOfUnits];
+	for (int i = 0; i < this->numberOfUnits; i++)
+	{
+		this->units[i] = army.units[i];
+	}
+	return *this;
 }
 
 int Army::getNumber()
@@ -600,7 +636,7 @@ void printSpace(int count)
 	}
 }
 
-void Army::swapUnits_1(int & index1, int & index2, Army army2, int alive_count_army1, int alive_count_army2)
+void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2)
 {
 	if (alive_count_army1 < 2)
 	{
@@ -817,7 +853,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army army2, int alive_count_a
 }
 
 
-void Army::swapUnits_2(int & index1, int & index2, Army army1, int alive_count_army1, int alive_count_army2)
+void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_army1, int alive_count_army2)
 {
 	if (alive_count_army2 < 2)
 	{

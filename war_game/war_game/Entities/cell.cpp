@@ -4,14 +4,13 @@
 Cell::Cell() :
 	passCost(1),
 	isPassable(true),
-	isPlayer(false),
 	x(0),
 	y(0),
 	barrack(nullptr)
 {}
 Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
-	isPlayer(false),
+//	isPlayer(false),
 	isPassable(true),
 	barrack(nullptr)
 {
@@ -28,10 +27,10 @@ void Cell::setCell(char symb, int x, int y)
 {
 	this->y = x;
 	this->x = y;
-	this->isPlayer = false;
+	//this->isPlayer = false;
 	this->barrack = nullptr;
 	this->isPassable = true;
-	Unit* list;
+	Unit* units;
 	switch (symb)
 	{
 	case '#':
@@ -54,10 +53,10 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		list = new Unit[3];
-		this->army = new Army("Bot", list , 3, 'A');
+		units = new Swordsman[3];
+		//this->isBotArmy = true;
+		this->army = new Army("Bot", units , 1, 'A', false);
 		this->isPassable = true;
-		this->isBotArmy = true;
 		break;
 	default:
 		passCost = 1;
@@ -71,6 +70,13 @@ Barrack* Cell::getBarrackPtr()
 Army* Cell::getArmyPtr()
 {
 	return army;
+}
+void Cell::setIsBotArmy(bool value)
+{
+	if (army != nullptr) 
+	{
+		this->army->setIsBotArmy(value);
+	}
 }
 Cell::~Cell()
 {
@@ -95,19 +101,22 @@ int Cell::getPassCost()
 }
 bool Cell::IsPlayer()
 {
-	return this->isPlayer;
-}
-void Cell::SetPlayer(bool val, Army* army)
-{
-	this->isPlayer = val;
-	if (isPlayer == true) 
+	if (this->army != nullptr)
 	{
-		this->army = army;
+		return this->army->getIsPlayer();
 	}
+}
+void Cell::SetPlayer(Army* army)
+{
+	/*this->isPlayer = val;
+	if (isPlayer == true) 
+	{*/
+	this->army = army;
+	/*}
 	else
 	{
 		this->army = nullptr;
-	}
+	}*/
 	
 }
 void Cell::SetBattleField(Army *players, const int & size)
@@ -122,6 +131,26 @@ void Cell::SetBattleField(Army *players, const int & size)
 	{
 		this->army[i] = players[i];
 	}
+}
+void Cell::setIsPlayer(bool val)
+{
+	this->army->setIsPlayer(val);
+}
+bool Cell::getIsPlayer()
+{
+	if (this->army != nullptr)
+	{
+		return this->army->getIsPlayer();
+	}
+	return false;
+}
+bool Cell::getIsBotArmy()
+{
+	if (this->army != nullptr)
+	{
+		return this->army->getIsBotArmy();
+	}
+	return false;
 }
 char Cell::GetArmySign()
 {
@@ -159,21 +188,4 @@ int Cell::GetX() const
 int Cell::GetY() const
 {
 	return this->y;
-}
-void Cell::setIsPlayer(bool val)
-{
-	this->isPlayer = val;
-}
-bool Cell::getIsPlayer()
-{
-	return isPlayer;
-}
-bool Cell::getIsBotArmy()
-{
-	return isBotArmy;
-}
-
-void Cell::setIsBotArmy(bool value)
-{
-	isBotArmy = value;
 }
