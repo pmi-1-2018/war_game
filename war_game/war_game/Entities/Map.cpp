@@ -4,7 +4,19 @@ Map::Map() :
 	width(0),
 	height(0)
 {}
+void printMap(Cell **map, int height, int width) {
+	cout << "#####################" << endl;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			cout << map[i][j];
+		}
+		cout << endl;
 
+	}
+	cout << "#####################" << endl;
+}
 void Map::SetBackground(const string flag) const
 {
 	// D - default
@@ -149,6 +161,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		}
 	}
 
+
 	bool* isLonely = new bool[countOfLonelyBarriers];
 	for (int i = 0; i < countOfLonelyBarriers; i++)
 	{
@@ -247,20 +260,19 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	}
 
 
-
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		map[y][x].setCell('B', x, y);
+		map[y][x].setCell('B', y, x);
 	}
 	int maxBotArmiesQuantity = this->height * this->width / 50;
 	for (int i = 0; i < maxBotArmiesQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		map[y][x].setCell('A', x, y);
+		map[y][x].setCell('A', y, x);
 	}
 	ofstream myfile;
 	myfile.open(fileName);
@@ -299,9 +311,8 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			{
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
-					int playersCount;
-					army_1 = map[i][j].GetArmy(playersCount);
-					map[i][j].SetPlayer(false, nullptr);
+					army_1 = map[i][j].GetArmy();
+					map[i][j].SetPlayer(nullptr);
 					removePrev = true;
 					break;
 				}
@@ -313,13 +324,13 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 		}
 		if ((map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true || map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true) && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
-			int playersCount;
+			/*int playersCount;
 			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
 			Army* players = new Army[2];
 			players[0] = *army_1;
 			players[1] = *army_2;
-			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);
-			prevCell = nullptr;
+			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);*/
+			map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 			return 2;
 		}
 		else if (map[newCell->GetY()][newCell->GetX()].IsBarrack() == true)
@@ -327,7 +338,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			int cellWeight = newCell->getPassCost();
 			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
 			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
-			map[newCell->GetY()][newCell->GetX()].SetPlayer(true, army_1);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
 			prevCell = nullptr;
 			return 4;
 		}
@@ -336,15 +347,13 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			int cellWeight = newCell->getPassCost();
 			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
 			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
-			map[newCell->GetY()][newCell->GetX()].SetPlayer(true, army_1);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
 			if (noPoints == true)
 			{
-				map[newCell->GetY()][newCell->GetX()].SetPlayer(false, nullptr);
-				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(true, army_1);
-				prevCell = nullptr;
+				map[newCell->GetY()][newCell->GetX()].SetPlayer(nullptr);
+				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 				return 3;
 			}
-			prevCell = nullptr;
 			return 1;
 		}
 	}
@@ -368,17 +377,17 @@ void Map::resetPlayers(char& turn)
 		{
 			if (map[i][j].IsPlayer() == true)
 			{
-				map[i][j].SetPlayer(false, NULL);
+				map[i][j].SetPlayer(nullptr);
 			}
 		}
 	}
 	// setting the default position of the players.
 	Swordsman units[2];
-	Army* player_1 = new Army("Aliance", units, 2, 'F');
-	Army* player_2 = new Army("Horde", units, 2, 'S');
+	Army* player_1 = new Army("Aliance", units, 2, 'F', true);
+	Army* player_2 = new Army("Horde", units, 2, 'S', true);
 	// cin>>player_1,player_2
-	map[0][1].SetPlayer(true, player_1);
-	map[this->height - 1][this->width - 2].SetPlayer(true, player_2);
+	map[0][1].SetPlayer(player_1);
+	map[this->height - 1][this->width - 2].SetPlayer(player_2);
 
 	SetBackground("I");
 	turn = 'l';
@@ -409,6 +418,69 @@ Map::~Map()
 	delete[] map;
 }
 
+void Map::mapDraw(Map &m, int x, int y)
+{	
+	for (int i = 0; i < m.getHeight(); i++)
+	{
+		for (int j = 0; j < m.getWidth(); j++)
+		{
+			if (abs(m.map[i][j].GetX() - x) + abs(m.map[i][j].GetY() - y) > 3)
+			{
+				SetConsoleTextAttribute(m.HSTDOUT, 64);
+				
+				cout << ' ';
+				continue;
+			}
+			if (m.map[i][j].getIsPlayer() == true)
+			{
+				string flag = to_string(m.map[i][j].GetArmyId());
+				m.SetBackground(flag);
+				cout << m.map[i][j].GetArmySign();
+				m.SetBackground("D");
+				continue;
+			}
+			if (m.map[i][j].getBarrackPtr() != nullptr)
+			{
+				m.SetBackground("D");
+				cout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getIsBotArmy() == true)
+			{
+				m.SetBackground("D");
+				cout << 'A';
+				continue;
+			}
+			if (m.map[i][j].getPassCost() == 1)
+			{
+				m.SetBackground("D");
+				cout << ' ';
+			}
+			else if (m.map[i][j].IsPassable() == false)
+			{
+				m.SetBackground("O");
+				cout << '#';
+				m.SetBackground("D");
+			}
+			else
+			{
+				m.SetBackground("D");
+				//cout << m.map[i][j].getPassCost();
+				cout << '.';
+			}
+		}
+		SetConsoleTextAttribute(m.HSTDOUT, 64);
+		cout << '|' << endl;
+	}
+	SetConsoleTextAttribute(m.HSTDOUT, 64);
+	for (int i = 0; i <= m.getWidth(); i++)
+	{
+		cout << '-';
+	}
+	SetConsoleTextAttribute(m.HSTDOUT,15);
+	cout << endl;
+}
+
 ostream& operator<<(ostream& sout, Map &m)
 {
 	for (int i = 0; i < m.getHeight(); i++)
@@ -428,7 +500,7 @@ ostream& operator<<(ostream& sout, Map &m)
 				sout << 'B';
 				continue;
 			}
-			if (m.map[i][j].getArmyPtr() != nullptr)
+			if (m.map[i][j].getIsBotArmy() != false)
 			{
 				sout << 'A';
 				continue;
@@ -455,7 +527,7 @@ ostream& operator<<(ostream& sout, Map &m)
 	{
 		sout << '-';
 	}
-	SetConsoleTextAttribute(m.HSTDOUT, 0);
+	SetConsoleTextAttribute(m.HSTDOUT, 15);
 	sout << endl;
 	return sout;
 }

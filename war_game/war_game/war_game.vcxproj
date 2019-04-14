@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C519E0EC-82DF-418A-9238-0EE07D2983B0}</ProjectGuid>
     <RootNamespace>wargame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -136,14 +136,14 @@
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BarrackArcher.h" />
-    <ClInclude Include="BarrackSwordsman.h" />
-    <ClInclude Include="BarrackTank.h" />
-    <ClInclude Include="BarrackWizard.h" />
     <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />
     <ClInclude Include="Entities\Barrack.h" />
+    <ClInclude Include="Entities\BarrackArcher.h" />
+    <ClInclude Include="Entities\BarrackSwordsman.h" />
+    <ClInclude Include="Entities\BarrackTank.h" />
+    <ClInclude Include="Entities\BarrackWizard.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\Map.h" />
     <ClInclude Include="Entities\Swordsman.h" />

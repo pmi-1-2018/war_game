@@ -13,8 +13,6 @@ class Cell
 private:
 	int passCost;
 	bool isPassable;
-	bool isPlayer = false;
-	bool isBotArmy = false;
 	Barrack* barrack;
 	bool isBarrack = false;
 	Army* army = nullptr;
@@ -28,7 +26,7 @@ public:
 	void setCell(char symb, int x, int y);
 	int getPassCost();
 	bool IsPlayer();
-	void SetPlayer(bool val, Army* army);
+	void SetPlayer(Army* army);
 	void SetBattleField(Army* players, const int& size);
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
@@ -36,14 +34,20 @@ public:
 	char GetArmySign();
 	int GetArmyId();
 	void SetArmy(Army* army);
-	Army* GetArmy(int& size)const;
+	Army* GetArmy()const;
 	bool IsPassable();
 	void setPassCost(int value);
+	void setIsBotArmy(bool value);
 	int GetX()const;
 	int GetY()const;
+	Army* getArmyPtr()const;
 	Barrack* getBarrackPtr();
 	bool IsBarrack();
 	Army* getArmyPtr();
 	~Cell();
+	friend ostream&operator<<(ostream& os, const Cell &c) {
+		os << "(" << c.x << ":" << c.y << ")";
+		return os;
+	}
 };
 

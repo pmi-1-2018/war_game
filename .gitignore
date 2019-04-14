@@ -372,9 +372,10 @@ ASALocalRun/
 .mfractor/
 
 # map
-war_game/war_game/Utils/Read_Edit_Map.txt
+Read_Edit_Map.txt
 
-war_game/*.sln
-war_game/war_game/*.vcxproj
-war_game/war_game/*.filters
-war_game/war_game/*.user
+*.sln
+*.vcxproj
+*.filters
+*.user
+*.txt

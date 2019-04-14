@@ -25,10 +25,9 @@ void GameManager::GenerateMap(int height, int width)
 	}
 #endif
 }
-void GameManager::Draw()const
+void GameManager::Draw(const char& turn, int x, int y)const
 {
-	cout << *(this->map);
-
+	this->map->mapDraw(*map, x, y);
 }
 void GameManager::SwitchTurn()
 {
@@ -53,26 +52,60 @@ string GameManager::GetMapPath() const
 	return this->MAP_PATH;
 }
 
-
-
-string GameManager::StartBattle(const int& x, const int& y)
+string GameManager::StartBattle(Army* a1, Army* a2)
 {
+	if (a1 == nullptr || a2 == nullptr)
+	{
+		throw "Nullptr came to the func";
+	}
 	SetMusic("Attack");
 	cout << "Battle has started" << endl;
-	Cell* battleField = this->map->GetCell(x, y);
+	//Cell* battleField = this->map->GetCell(x, y);
 	// battleField - cell with the array of two players
 	int playersCount;
-	Army* players = battleField->GetArmy(playersCount);
+	//Army* players = battleField->GetArmy(playersCount);
 	// getting the players
 	system("CLS");
 	// test whether we got all players
-	this->map->SetBackground("I");
-	cout << players[0].GetSymb() << " " << players[1].GetSymb() << endl;
-	this->map->SetBackground("D");
-
-
-
-	string battleLog = "Someone has won";
+	string battleLog;
+	char action;
+	if (a2->getIsBotArmy() == true)
+	{
+		bool playerWon;
+		cout << "Press \'a\' for auto fight, or any other key to fight manually";
+		action = _getch();
+		if (action == 'A' || action == 'a')
+		{
+			playerWon = a1->armyAutoAttack(*a2);
+		}
+		else
+		{
+			playerWon = a1->battlePVE(*a2);
+		}
+		if (!playerWon)
+		{
+			battleLog = this->turn + "lost.";
+			return battleLog;
+		}
+	}
+	else
+	{
+		bool playerWon;
+		playerWon = a1->battlePVP(*a2);
+		if (playerWon)
+		{
+			battleLog = this->turn + "won.";
+			return battleLog;
+		}
+		else
+		{
+			battleLog = this->turn + "lost.";
+			return battleLog;
+		}
+	}
+	/*battleField->setIsPlayer(true);
+	battleField->setIsBotArmy(false);
+	battleField->SetArmy(&players[0]);*/
 	return battleLog;
 }
 
@@ -122,12 +155,14 @@ void GameManager::Start()
 	this->mapHeight = this->map->getHeight();
 	this->mapWidth = this->map->getWidth();
 	// mapheight - y, mapwidth - x
-	Draw();
+	
 	SetMusic("battle");
 	int x_1 = 1;
 	int y_1 = 0;
 	int x_2 = mapWidth - 2;
 	int y_2 = mapHeight - 1;
+	Draw(this->turn, x_1, y_1);
+
 	while (true)
 	{
 		int prev_x = turn == 'l' ? x_1 : x_2;
@@ -252,14 +287,34 @@ void GameManager::Start()
 		}
 		else if (response == 2)
 		{
-			string battleLog = StartBattle(new_x, new_y);
-			FileLogW(battleLog);
-			bool cntinue = RestartGame();
-			if (cntinue == false)
+			Army* a1 = currentCell->getArmyPtr();
+			Army* a2 = newCell->getArmyPtr();
+			string battleLog = StartBattle(a1, a2);
+			if (battleLog != "")
 			{
-				return;
+
+				FileLogW(battleLog);
+				bool cntinue = RestartGame();
+				if (cntinue == false)
+				{
+					return;
+				}
+				break;
 			}
-			break;
+			system("cls");
+			Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
+			currentCell->setIsPlayer(false);
+			currentCell->SetArmy(nullptr);
+			newCell->SetArmy(army);
+			newCell->setIsPlayer(true);
+			newCell->setIsBotArmy(false);
+			SetMusic("battle");
+			army->SetCurrEnergy(-army->GetCurrEnergy());
+			this->map->SetBackground("I");
+			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			Draw(this->turn, new_x, new_y);
+			continue;
 		}
 		if (response == 4)
 		{
@@ -269,9 +324,8 @@ void GameManager::Start()
 				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfUnits(
 					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits() + 5);
 			}
-			int playersCount;
 			Army* army = nullptr;
-			army = newCell->GetArmy(playersCount);
+			army = newCell->GetArmy();
 			int n;
 			cout << "Enter what you want to do: " << endl;
 			cin >> n;
@@ -294,30 +348,49 @@ void GameManager::Start()
 			cout << "Turn: " << this->turn << endl;
 			cout << "Points left: " << army->GetCurrEnergy() << endl;
 			army = nullptr;
-			Draw();
+			Draw(this->turn, new_x, new_y);
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
+			outputTurnSwitch(response);
 			system("CLS");
-			int playersCount;
 			Army* army = nullptr;
 			if (response == 3)
 			{
-				army = currentCell->GetArmy(playersCount);
 				SwitchTurn();
 				new_x = prev_x;
 				new_y = prev_y;
+				if (new_x == x_1 && new_y == y_1)
+				{
+					army = this->map->GetCell(x_2, y_2)->GetArmy();
+				}
+				else
+				{
+					army = this->map->GetCell(x_1, y_1)->GetArmy();
+				}
 			}
 			else
 			{
-				army = newCell->GetArmy(playersCount);
+				army = newCell->GetArmy();
 			}
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
 			cout << "Points left: " << army->GetCurrEnergy() << endl;
 			this->map->SetBackground("D");
 			army = nullptr;
-			Draw();
+			if (response == 3)
+			{
+				if (new_x == x_1 && new_y == y_1)
+				{
+					Draw(this->turn, x_2, y_2);
+				}
+				else
+				{
+					Draw(this->turn, x_1, y_1);
+				}
+				continue;
+			}
+			Draw(this->turn, new_x, new_y);
 		}
 	}
 }
@@ -352,16 +425,11 @@ bool GameManager::RestartGame()
 	switch (asciiVal)
 	{
 	case 121:
-	{
 		system("CLS");
-
 		Start();
 		break;
-	}
 	case 110:
-	{
 		return false;
-	}
 	}
 }
 
@@ -373,4 +441,39 @@ void GameManager::MapFileSet()
 GameManager::~GameManager()
 {
 	delete map;
+}
+
+void GameManager::outputTurnSwitch(int response)
+{
+	char key;
+	int asciiValue;
+	if (response == 3)
+	{
+		cout << "Press enter to end your turn" << endl;
+		bool loop = true;
+		while (loop)
+		{
+			key = _getch();
+			asciiValue = key;
+			if (asciiValue == 13)
+			{
+				system("CLS");
+				asciiValue = 0;
+				loop = false;
+			}
+		}
+		cout << "Press enter to start your turn" << endl;
+		loop = true;
+		while (loop)
+		{
+			key = _getch();
+			asciiValue = key;
+			if (asciiValue == 13)
+			{
+				system("CLS");
+				asciiValue = 0;
+				loop = false;
+			}
+		}
+	}
 }
