@@ -21,8 +21,14 @@ private:
 	static const int START_ENERGY = 11;
 	int dec_energy = 0;
 	int currentEnergy;
+<<<<<<< HEAD
 	bool isPlayer = false;
 	bool isBotArmy = false;
+=======
+	int level;
+	int experience;
+	int capacity;
+>>>>>>> origin/addLevel
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb, bool isPlayer);
@@ -50,6 +56,7 @@ public:
 	void swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2);
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
+<<<<<<< HEAD
 	~Army()
 	{
 		if (this->units != nullptr) 
@@ -57,4 +64,14 @@ public:
 			delete[] this->units;
 		}
 	}
+=======
+	~Army();
+	int GetLevel();
+	int GetExp();
+	void SetLevel(int a);
+	void CalcLevelAndCapacity(int countOfDead);
+	void SetCapacity(int a);
+	bool CheckCapacity();
+	//armyMove
+>>>>>>> origin/addLevel
 };

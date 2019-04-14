@@ -6,6 +6,20 @@
 #include <thread>
 #include "Army.h"
 
+<<<<<<< HEAD
+=======
+Army::Army()
+{
+	nameOfArmy = "default";
+	this->numberOfUnits = 0;
+	this->units = new Unit[0];
+	this->symb = NULL;
+	this->id = 0;
+	this->capacity = 3;
+	this->level = 0;
+	this->experience = 0;
+}
+>>>>>>> origin/addLevel
 
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
 Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
@@ -14,6 +28,9 @@ Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
 	this->numberOfUnits = num;
 	this->units = new Unit[num];
 	this->dec_energy = 0;
+	this->capacity = 3;
+	this->level = 0;
+	this->experience = 0;
 	for (int i = 0; i < this->numberOfUnits; i++)
 	{
 		units[i] = list[i];
@@ -40,8 +57,19 @@ Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
 }
 bool Army::SetCurrEnergy(const int & value)
 {
+<<<<<<< HEAD
 	this->currentEnergy += value;
 	if (this->currentEnergy >= 0)
+=======
+	this->nameOfArmy = army.nameOfArmy;
+	this->symb = army.symb;
+	this->id = army.id;
+	this->numberOfUnits = army.numberOfUnits;
+	this->level = army.level;
+	this->capacity = army.capacity;
+	this->experience = army.experience;
+	if (this->units != nullptr) 
+>>>>>>> origin/addLevel
 	{
 		return false;
 	}
@@ -610,20 +638,22 @@ int Army::getNumberOfUnits()
 }
 void Army::addUnit(Unit unit)
 {
-	Unit *temp = new Unit[numberOfUnits];
-	for (int i = 0; i < numberOfUnits; i++)
-	{
-		temp[i] = units[i];
-	}
+	if (CheckCapacity()) {
+		Unit *temp = new Unit[numberOfUnits];
+		for (int i = 0; i < numberOfUnits; i++)
+		{
+			temp[i] = units[i];
+		}
 
-	numberOfUnits++;
-	units = new Unit[numberOfUnits];
+		numberOfUnits++;
+		units = new Unit[numberOfUnits];
 
-	for (int i = 0; i < numberOfUnits - 1; i++)
-	{
-		units[i] = temp[i];
+		for (int i = 0; i < numberOfUnits - 1; i++)
+		{
+			units[i] = temp[i];
+		}
+		units[numberOfUnits - 1] = unit;
 	}
-	units[numberOfUnits - 1] = unit;
 }
 
 
@@ -861,6 +891,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 		index2 = -1;
 		return;
 	}
+<<<<<<< HEAD
 	system("cls");
 	index1 = 0;
 	index2 = 0;
@@ -1065,3 +1096,51 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	index1 += numberOfUnits - alive_count_army2;
 	index2 += numberOfUnits - alive_count_army2;
 }
+=======
+}
+int Army::GetLevel()
+{
+	return level;
+}
+int Army::GetExp() {
+	return experience;
+}
+void Army::SetLevel(int a)
+{
+	level += a;
+}
+
+void Army::CalcLevelAndCapacity(int countOfDead)
+{
+	while (countOfDead)
+	{
+		experience++;
+		if (experience == 3)
+		{
+			SetLevel(1);
+			SetCapacity(1);
+			experience = 0;
+		}
+		countOfDead--;
+	}
+}
+void Army::SetCapacity(int a)
+{
+	capacity += a;
+}
+
+bool Army::CheckCapacity()
+{
+	if (numberOfUnits < capacity)
+	{
+		cout << "You can add " << capacity - numberOfUnits << " units" << endl;
+		return true;
+	}
+	if (numberOfUnits == capacity)
+	{
+		cout << "You cann't add units" << endl;
+		return false;
+	}
+}
+
+>>>>>>> origin/addLevel
