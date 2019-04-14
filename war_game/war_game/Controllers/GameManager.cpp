@@ -302,11 +302,14 @@ void GameManager::Start()
 				break;
 			}
 			system("cls");
-			int temp;
-			Army* army = (this->map->GetCell(new_x, new_y))->GetArmy(temp);
+			Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
+			currentCell->setIsPlayer(false);
+			currentCell->SetArmy(nullptr);
 			newCell->SetArmy(army);
+			newCell->setIsPlayer(true);
 			newCell->setIsBotArmy(false);
 			SetMusic("battle");
+			army->SetCurrEnergy(-army->GetCurrEnergy());
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
 			cout << "Points left: " << army->GetCurrEnergy() << endl;
@@ -317,18 +320,17 @@ void GameManager::Start()
 		{
 			outputTurnSwitch(response);
 			system("CLS");
-			int playersCount;
 			Army* army = nullptr;
 			if (response == 3)
 			{
-				army = currentCell->GetArmy(playersCount);
+				army = currentCell->GetArmy();
 				SwitchTurn();
 				new_x = prev_x;
 				new_y = prev_y;
 			}
 			else
 			{
-				army = newCell->GetArmy(playersCount);
+				army = newCell->GetArmy();
 			}
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;

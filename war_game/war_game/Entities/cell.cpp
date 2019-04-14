@@ -53,7 +53,7 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		units = new Swordsman[3];
+		units = new Swordsman[1];
 		//this->isBotArmy = true;
 		this->army = new Army("Bot", units , 1, 'A', false);
 		this->isPassable = true;
@@ -164,9 +164,8 @@ void Cell::SetArmy(Army * army)
 {
 	this->army = army;
 }
-Army * Cell::GetArmy(int& size)const
+Army * Cell::GetArmy()const
 {
-	size = this->playersCount;
 	return this->army;
 }
 Army* Cell::getArmyPtr()const
