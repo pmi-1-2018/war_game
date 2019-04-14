@@ -1,17 +1,18 @@
 #include "Cell.h"
+#include <ctime>
+
 
 
 Cell::Cell() :
 	passCost(1),
 	isPassable(true),
-	isPlayer(false),
 	x(0),
 	y(0),
 	barrack(nullptr)
 {}
 Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
-	isPlayer(false),
+//	isPlayer(false),
 	isPassable(true),
 	barrack(nullptr)
 {
@@ -24,12 +25,19 @@ Cell::Cell(int passCost, int x, int y) :
 
 }
 
-void Cell::setCell(char symb)
+void Cell::setCell(char symb, int x, int y)
 {
+	srand(time(NULL));
+	int n = rand() % 4 + 1;
+	this->y = x;
+	this->x = y;
 	this->barrack = nullptr;
+	this->isPassable = true;
+	Unit* units;
 	switch (symb)
 	{
 	case '#':
+		this->isPassable = false;
 		passCost = 0;
 		break;
 	case ' ':
@@ -43,7 +51,32 @@ void Cell::setCell(char symb)
 		break;
 	case 'B':
 		passCost = 1;
-		this->barrack = new Barrack;
+		this->isBarrack = true;
+		this->isPassable = true;
+		
+		if (n == 1)
+		{
+			this->barrack = new BarrackArcher();
+		}
+		else if (n == 2)
+		{
+			this->barrack = new BarrackSwordsman();
+		}
+		else if (n == 3)
+		{
+
+			this->barrack = new BarrackTank();
+		}
+		else if (n == 4)
+		{
+			this->barrack = new BarrackWizard();
+		}
+		break;
+	case 'A':
+		passCost = 1;
+		units = new Swordsman[1];
+		//this->isBotArmy = true;
+		this->army = new Army("Bot", units , 1, 'A', false);
 		this->isPassable = true;
 		break;
 	default:
@@ -55,28 +88,88 @@ Barrack* Cell::getBarrackPtr()
 {
 	return barrack;
 }
+
+bool Cell::IsBarrack()
+{
+	return isBarrack;
+}
+
+
+Army* Cell::getArmyPtr()
+{
+	return army;
+}
+void Cell::setIsBotArmy(bool value)
+{
+	if (army != nullptr) 
+	{
+		this->army->setIsBotArmy(value);
+	}
+}
+Cell::~Cell()
+{
+	if (this->army != nullptr)
+	{
+		if (this->playersCount == 1) {
+			delete army;
+		}
+		else
+		{
+			delete[] army;
+		}
+	}
+	if (this->barrack != nullptr)
+	{
+		delete barrack;
+	}
+}
 int Cell::getPassCost()
 {
 	return passCost;
 }
 bool Cell::IsPlayer()
 {
-	return this->isPlayer;
+	if (this->army != nullptr)
+	{
+		return this->army->getIsPlayer();
+	}
 }
-void Cell::SetPlayer(bool val, char symb)
+void Cell::SetPlayer(Army* army)
 {
-	this->isPlayer = val;
-	if (isPlayer == true) 
+	this->army = army;
+}
+void Cell::SetBattleField(Army *players, const int & size)
+{
+	if (this->army != nullptr)
 	{
-		// Hard-coded array of 10 units. Probably, this function should take certain arguments to initialize the army.
-		Unit units[10];
-		this->army = new Army(to_string(symb), units, 10, symb);
+		delete this->army;
 	}
-	else
+	this->army = new Army[size];
+	this->playersCount = size;
+	for (int i = 0; i < this->playersCount; i++)
 	{
-		army = nullptr;
+		this->army[i] = players[i];
 	}
-	
+}
+void Cell::setIsPlayer(bool val)
+{
+	this->army->setIsPlayer(val);
+}
+bool Cell::getIsPlayer()
+{
+	if (this->army != nullptr)
+	{
+		return this->army->getIsPlayer();
+	}
+	return false;
+}
+bool Cell::getIsBotArmy()
+{
+	if (this->army != nullptr)
+	{
+		return this->army->getIsBotArmy();
+	}
+	return false;
 }
 char Cell::GetArmySign()
 {
@@ -86,6 +179,18 @@ int Cell::GetArmyId()
 {
 	return this->army->GetId();
 }
+void Cell::SetArmy(Army * army)
+{
+	this->army = army;
+}
+Army * Cell::GetArmy()const
+{
+	return this->army;
+}
+Army* Cell::getArmyPtr()const
+{
+	return this->army;
+}
 bool Cell::IsPassable()
 {
 	return this->isPassable;
@@ -94,11 +199,11 @@ void Cell::setPassCost(int value)
 {
 	this->passCost = value;
 }
-void Cell::setIsPlayer(bool val)
+int Cell::GetX() const
 {
-	this->isPlayer = val;
+	return this->x;
 }
-bool Cell::getIsPlayer()
+int Cell::GetY() const
 {
-	return isPlayer;
+	return this->y;
 }

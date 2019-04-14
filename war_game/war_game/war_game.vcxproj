@@ -140,6 +140,10 @@
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />
     <ClInclude Include="Entities\Barrack.h" />
+    <ClInclude Include="Entities\BarrackArcher.h" />
+    <ClInclude Include="Entities\BarrackSwordsman.h" />
+    <ClInclude Include="Entities\BarrackTank.h" />
+    <ClInclude Include="Entities\BarrackWizard.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\Map.h" />
     <ClInclude Include="Entities\Swordsman.h" />

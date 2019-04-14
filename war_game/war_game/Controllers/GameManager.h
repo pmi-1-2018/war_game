@@ -20,10 +20,11 @@ private:
 	int mapWidth;
 	bool mapGenerated = false;
 	bool gameStarted = false;
+	int numberOfTurn = 1;
 public:
 	GameManager();
 	void GenerateMap(int height, int width);
-	void Draw()const;
+	void Draw(const char& turn, int x, int y)const;
 	void Start();
 	void FileLogW(string information);
 	void SwitchTurn();
@@ -32,10 +33,11 @@ public:
 	bool RestartGame();
 	void MapFileSet();
 	void SetBackground(string flag);
-	string StartBattle()const;
+	string StartBattle(Army* a1, Army* a2);
 	bool MapIsGenerated()const;
-	int MoveChar(char symb, int x, int y);
+	int MoveChar(char symb, Cell* prevCell, Cell* newCell);
 	void SetMusic(const string& filename);
+	void outputTurnSwitch(int response);
 	~GameManager();
 };
 

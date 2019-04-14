@@ -2,8 +2,9 @@
 #include<string>
 #include<fstream>
 #include<iostream>
-#include"cell.h"
+#include "cell.h"
 #include "Windows.h"
+#include<cmath>
 //#define DEBUG
 
 using namespace std;
@@ -25,9 +26,11 @@ public:
 	void SetBackground(const string flag)const;
 	void setWidth(int width);
 	void setHeight(int height);
-	int setPlayer(char symb, int x, int y);
+	int setPlayer(char symb, Cell* prevCell, Cell* newCell);
 	bool getIspassable(int a, int b);
-	void resetPlayers();
+	void resetPlayers(char& turn);
+	void mapDraw(Map &m, int x, int y);
+	Cell* GetCell(const int& x, const int& y)const;
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);
 };

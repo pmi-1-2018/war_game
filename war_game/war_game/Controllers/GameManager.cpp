@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 
-GameManager::GameManager() 
+GameManager::GameManager()
 {
 }
 void GameManager::GenerateMap(int height, int width)
@@ -9,26 +9,25 @@ void GameManager::GenerateMap(int height, int width)
 	this->mapHeight = height;
 	this->mapWidth = width;
 	map = new Map();
-	map->generateRandomMap(this->MAP_PATH, mapHeight, mapWidth);
+	map->generateRandomMap(this->MAP_PATH, this->mapHeight, this->mapWidth);
 	this->mapGenerated = true;
-	#ifdef DEBUG
+#ifdef DEBUG
 	cout << "Notice! Map was generated. Now you can start playing." << endl;
-		for (int i = 0; i < map->getHeight(); i++)
+	for (int i = 0; i < map->getHeight(); i++)
+	{
+		for (int j = 0; j < map->getWidth(); j++)
 		{
-			for (int j = 0; j < map->getWidth(); j++)
+			if (map->getIspassable(i, j) == false)
 			{
-				if (map->getIspassable(i, j) == false)
-				{
-					cout << i << " " << j << endl;
-				}
+				cout << i << " " << j << endl;
 			}
 		}
-	#endif
+	}
+#endif
 }
-void GameManager::Draw()const
+void GameManager::Draw(const char& turn, int x, int y)const
 {
-	cout << *(this->map);
-	
+	this->map->mapDraw(*map, x, y);
 }
 void GameManager::SwitchTurn()
 {
@@ -40,6 +39,7 @@ void GameManager::SwitchTurn()
 	{
 		this->turn = 'l';
 	}
+	this->numberOfTurn++;
 }
 
 string GameManager::GetLogPath() const
@@ -52,16 +52,60 @@ string GameManager::GetMapPath() const
 	return this->MAP_PATH;
 }
 
-
-
-string GameManager::StartBattle() const
+string GameManager::StartBattle(Army* a1, Army* a2)
 {
-	system("CLS");
-	this->map->SetBackground("I");
+	if (a1 == nullptr || a2 == nullptr)
+	{
+		throw "Nullptr came to the func";
+	}
+	SetMusic("Attack");
 	cout << "Battle has started" << endl;
-	this->map->SetBackground("D");
-
-	string battleLog = "Someone has won";
+	//Cell* battleField = this->map->GetCell(x, y);
+	// battleField - cell with the array of two players
+	int playersCount;
+	//Army* players = battleField->GetArmy(playersCount);
+	// getting the players
+	system("CLS");
+	// test whether we got all players
+	string battleLog;
+	char action;
+	if (a2->getIsBotArmy() == true)
+	{
+		bool playerWon;
+		cout << "Press \'a\' for auto fight, or any other key to fight manually";
+		action = _getch();
+		if (action == 'A' || action == 'a')
+		{
+			playerWon = a1->armyAutoAttack(*a2);
+		}
+		else
+		{
+			playerWon = a1->battlePVE(*a2);
+		}
+		if (!playerWon)
+		{
+			battleLog = this->turn + "lost.";
+			return battleLog;
+		}
+	}
+	else
+	{
+		bool playerWon;
+		playerWon = a1->battlePVP(*a2);
+		if (playerWon)
+		{
+			battleLog = this->turn + "won.";
+			return battleLog;
+		}
+		else
+		{
+			battleLog = this->turn + "lost.";
+			return battleLog;
+		}
+	}
+	/*battleField->setIsPlayer(true);
+	battleField->setIsBotArmy(false);
+	battleField->SetArmy(&players[0]);*/
 	return battleLog;
 }
 
@@ -69,29 +113,35 @@ bool GameManager::MapIsGenerated() const
 {
 	return this->mapGenerated;
 }
-int GameManager::MoveChar(char symb, int x, int y) 
+int GameManager::MoveChar(char symb, Cell* prevCell, Cell* newCell)
 {
-	#ifdef DEBUG
-		cout << "Moved " << symb << " to " << x << " " << y << endl;
-	#endif
-	int response = map->setPlayer(symb, x, y);
+#ifdef DEBUG
+	cout << "Moved " << symb << " to " << x << " " << y << endl;
+#endif
+	int response = map->setPlayer(symb, prevCell, newCell);
 	return response;
-	
+
 }
 
 void GameManager::SetMusic(const string & filename)
 {
-	if (filename == "menu") 
+	if (filename == "menu")
 	{
-		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\menu_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 	if (filename == "battle")
 	{
-		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("Utils\\battle_soundtrack.wav"), NULL, SND_ASYNC | SND_LOOP);
+		return;
+	}
+	if (filename == "Attack")//attack music
+	{
+		PlaySound(TEXT("Utils\\Combat01.wav"), NULL, SND_ASYNC | SND_LOOP);
 		return;
 	}
 }
+
 
 void GameManager::Start()
 {
@@ -100,21 +150,19 @@ void GameManager::Start()
 		GenerateMap(10, 10);
 	}
 
-	this->map->resetPlayers();
+	this->map->resetPlayers(this->turn);
 
 	this->mapHeight = this->map->getHeight();
 	this->mapWidth = this->map->getWidth();
 	// mapheight - y, mapwidth - x
-	this->map->SetBackground("I");
-	this->turn = 'l';
-	cout << "Turn: " << this->turn << endl;
-	this->map->SetBackground("D");
-	Draw();
+	
 	SetMusic("battle");
 	int x_1 = 1;
 	int y_1 = 0;
-	int x_2 = mapWidth-2;
-	int y_2 = mapHeight-1;
+	int x_2 = mapWidth - 2;
+	int y_2 = mapHeight - 1;
+	Draw(this->turn, x_1, y_1);
+
 	while (true)
 	{
 		int prev_x = turn == 'l' ? x_1 : x_2;
@@ -149,7 +197,7 @@ void GameManager::Start()
 		else if (asciiValue == 100)
 		{
 			if (turn == 'l') {
-				if (x_1 != mapHeight - 1) {
+				if (x_1 != mapWidth - 1) {
 					x_1 += 1;
 				}
 				else
@@ -159,7 +207,7 @@ void GameManager::Start()
 			}
 			else
 			{
-				if (x_2 != mapHeight - 1) {
+				if (x_2 != mapWidth - 1) {
 					x_2 += 1;
 				}
 				else
@@ -193,7 +241,7 @@ void GameManager::Start()
 		else if (asciiValue == 115)
 		{
 			if (turn == 'l') {
-				if (y_1 != mapWidth - 1) {
+				if (y_1 != mapHeight - 1) {
 					y_1 += 1;
 				}
 				else
@@ -203,7 +251,7 @@ void GameManager::Start()
 			}
 			else
 			{
-				if (y_2 != mapWidth - 1) {
+				if (y_2 != mapHeight - 1) {
 					y_2 += 1;
 				}
 				else
@@ -219,12 +267,18 @@ void GameManager::Start()
 		char symb = turn == 'l' ? 'F' : 'S';
 		int& new_x = turn == 'l' ? x_1 : x_2;
 		int& new_y = turn == 'l' ? y_1 : y_2;
-
-		int response = MoveChar(symb, new_x, new_y);
+		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
+		Cell* newCell = this->map->GetCell(new_x, new_y);
+		int response = MoveChar(symb, currentCell, newCell);
 		// response = 0 - hit the obstacle
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
-
+		// response = 3 - out of points - switching the turn
+		//response = 4 = stepped on a barrack
+		if (hitTheWall == true)
+		{
+			continue;
+		}
 		if (response == 0)
 		{
 			new_x = prev_x;
@@ -233,23 +287,110 @@ void GameManager::Start()
 		}
 		else if (response == 2)
 		{
-			string battleLog = StartBattle();
-			FileLogW(battleLog);
-			bool cntinue = RestartGame();
-			if (cntinue == false) 
+			Army* a1 = currentCell->getArmyPtr();
+			Army* a2 = newCell->getArmyPtr();
+			string battleLog = StartBattle(a1, a2);
+			if (battleLog != "")
 			{
-				return;
+
+				FileLogW(battleLog);
+				bool cntinue = RestartGame();
+				if (cntinue == false)
+				{
+					return;
+				}
+				break;
 			}
-			break;
-		}
-		if (hitTheWall == false && response == 1)
-		{
-			system("CLS");
-			SwitchTurn();
+			system("cls");
+			Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
+			currentCell->setIsPlayer(false);
+			currentCell->SetArmy(nullptr);
+			newCell->SetArmy(army);
+			newCell->setIsPlayer(true);
+			newCell->setIsBotArmy(false);
+			SetMusic("battle");
+			army->SetCurrEnergy(-army->GetCurrEnergy());
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			Draw(this->turn, new_x, new_y);
+			continue;
+		}
+		if (response == 4)
+		{
+			system("CLS");
+			while (this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() - numberOfTurn >= 7)
+			{
+				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfUnits(
+					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits() + 5);
+			}
+			Army* army = nullptr;
+			army = newCell->GetArmy();
+			int n;
+			cout << "Enter what you want to do: " << endl;
+			cin >> n;
+			if(n == 1)
+			{
+				cout << "How many units you want to take? " << endl;
+				int number;
+				cin >> number;
+				if (number > 0 && number <= this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits())
+				{
+					for (int i = 0; i < number; i++)
+					{
+						army->addUnit(this->map->GetCell(new_x, new_y)->getBarrackPtr()->giveUnit());
+					}
+				}
+				else
+				break;
+			}
+			system("CLS");
+			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			army = nullptr;
+			Draw(this->turn, new_x, new_y);
+		}
+		if (hitTheWall == false && response == 1 || response == 3)
+		{
+			outputTurnSwitch(response);
+			system("CLS");
+			Army* army = nullptr;
+			if (response == 3)
+			{
+				SwitchTurn();
+				new_x = prev_x;
+				new_y = prev_y;
+				if (new_x == x_1 && new_y == y_1)
+				{
+					army = this->map->GetCell(x_2, y_2)->GetArmy();
+				}
+				else
+				{
+					army = this->map->GetCell(x_1, y_1)->GetArmy();
+				}
+			}
+			else
+			{
+				army = newCell->GetArmy();
+			}
+			this->map->SetBackground("I");
+			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
 			this->map->SetBackground("D");
-			Draw();
+			army = nullptr;
+			if (response == 3)
+			{
+				if (new_x == x_1 && new_y == y_1)
+				{
+					Draw(this->turn, x_2, y_2);
+				}
+				else
+				{
+					Draw(this->turn, x_1, y_1);
+				}
+				continue;
+			}
+			Draw(this->turn, new_x, new_y);
 		}
 	}
 }
@@ -257,11 +398,11 @@ void GameManager::FileLogW(string information)
 {
 	ofstream ofs(this->LOG_PATH);
 	bool checker = ofs.is_open();
-	if (checker == true) 
+	if (checker == true)
 	{
 		ofs << information;
 	}
-	else 
+	else
 	{
 		this->map->SetBackground("");
 		cout << "Error while writing the file" << endl;
@@ -284,16 +425,11 @@ bool GameManager::RestartGame()
 	switch (asciiVal)
 	{
 	case 121:
-	{
 		system("CLS");
-
 		Start();
 		break;
-	}
 	case 110:
-	{
 		return false;
-	}
 	}
 }
 
@@ -305,4 +441,39 @@ void GameManager::MapFileSet()
 GameManager::~GameManager()
 {
 	delete map;
+}
+
+void GameManager::outputTurnSwitch(int response)
+{
+	char key;
+	int asciiValue;
+	if (response == 3)
+	{
+		cout << "Press enter to end your turn" << endl;
+		bool loop = true;
+		while (loop)
+		{
+			key = _getch();
+			asciiValue = key;
+			if (asciiValue == 13)
+			{
+				system("CLS");
+				asciiValue = 0;
+				loop = false;
+			}
+		}
+		cout << "Press enter to start your turn" << endl;
+		loop = true;
+		while (loop)
+		{
+			key = _getch();
+			asciiValue = key;
+			if (asciiValue == 13)
+			{
+				system("CLS");
+				asciiValue = 0;
+				loop = false;
+			}
+		}
+	}
 }

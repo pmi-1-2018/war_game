@@ -4,7 +4,19 @@ Map::Map() :
 	width(0),
 	height(0)
 {}
+void printMap(Cell **map, int height, int width) {
+	cout << "#####################" << endl;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			cout << map[i][j];
+		}
+		cout << endl;
 
+	}
+	cout << "#####################" << endl;
+}
 void Map::SetBackground(const string flag) const
 {
 	// D - default
@@ -41,7 +53,7 @@ void Map::SetBackground(const string flag) const
 			FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 		return;
 	}
-	else 
+	else
 	{
 		SetConsoleTextAttribute(this->HSTDOUT, 7);
 	}
@@ -68,7 +80,7 @@ void Map::readMapFromFile(string fileName)
 	}
 	myfile.close();
 	if (this->height == 0 && this->width == 0)
-	{ 
+	{
 		this->height = modelHeight;
 		this->width = modelWidth;
 		map = new Cell*[height];
@@ -77,7 +89,7 @@ void Map::readMapFromFile(string fileName)
 			map[i] = new Cell[width];
 			for (int j = 0; j < width; j++)
 			{
-				map[i][j].setCell(matrix[i][j]);
+				map[i][j].setCell(matrix[i][j], j, i);
 			}
 		}
 	}
@@ -87,7 +99,7 @@ void Map::readMapFromFile(string fileName)
 		{
 			for (int j = 0; j < width; j++)
 			{
-				map[i][j].setCell(matrix[i][j]);
+				map[i][j].setCell(matrix[i][j], j, i);
 			}
 		}
 	}
@@ -102,7 +114,7 @@ void Map::readMapFromFile(string fileName)
 			map[i] = new Cell[width];
 			for (int j = 0; j < width; j++)
 			{
-				map[i][j].setCell(matrix[i][j]);
+				map[i][j].setCell(matrix[i][j], j, i);
 			}
 		}
 	}
@@ -120,21 +132,152 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	for (int i = 0; i < height; i++)
 	{
 		map[i] = new Cell[width];
-		for (int j = 0; j < width; j++)
+	}
+
+	int countOfCells = this->height * this->width;
+
+	//countofbarriers will be ganarated from 10% to 25%
+	int countOfBarriers = 1000;
+	while (countOfBarriers >= (countOfCells / 4) || countOfBarriers <= (countOfCells / 10))
+	{
+		countOfBarriers = (rand() % countOfCells);
+	}
+
+	//count of lonely barriers
+	int countOfLonelyBarriers = countOfBarriers / 4;
+
+	Cell* lonelyBarriers = new Cell[countOfLonelyBarriers];
+
+	int i = 0;
+	while (i < countOfLonelyBarriers)
+	{
+		int x = rand() % this->height;
+		int y = rand() % this->width;
+		if (map[x][y].IsPassable())
 		{
-			map[i][j] = Cell(rand()% 4, j, i);
+			map[x][y].setCell('#', x, y);
+			lonelyBarriers[i] = map[x][y];
+			i++;
 		}
 	}
+
+
+	bool* isLonely = new bool[countOfLonelyBarriers];
+	for (int i = 0; i < countOfLonelyBarriers; i++)
+	{
+		isLonely[i] = true;
+	}
+	for (int i = 0; i < countOfLonelyBarriers; i++)
+	{
+		while (isLonely[i])
+		{
+			int shape = rand() % 6;
+			switch (shape)
+			{
+			case 0:
+			{
+				if (lonelyBarriers[i].GetX() + 1 < this->height && lonelyBarriers[i].GetY() + 2 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY() + 2].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 2);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 1:
+			{
+				if (lonelyBarriers[i].GetX() + 2 < this->height && lonelyBarriers[i].GetY() + 1 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() + 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 2:
+			{
+				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() - 1 >= 0)
+				{
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY() - 1].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() - 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 3:
+			{
+				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() + 1 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() + 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 4:
+			{
+				if (lonelyBarriers[i].GetX() + 2 < this->height && lonelyBarriers[i].GetY() - 1 >= 0)
+				{
+					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY() - 1].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() - 1);
+					isLonely[i] = false;
+				}
+				break;
+			}
+			case 5:
+			{
+				if (lonelyBarriers[i].GetX() - 1 >= 0 && lonelyBarriers[i].GetY() + 2 < this->width)
+				{
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY() + 2].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 2);
+					isLonely[i] = false;
+				}
+				break;
+			}
+
+			default:
+				break;
+			}
+
+		}
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (map[i][j].IsPassable())
+			{
+				map[i][j] = Cell((rand() % 3) + 1, j, i);
+			}
+		}
+	}
+
+
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
-		map[rand() % height][rand() % width].setCell('B');
+		int x = rand() % width;
+		int y = rand() % height;
+		map[y][x].setCell('B', y, x);
 	}
-
+	int maxBotArmiesQuantity = this->height * this->width / 50;
+	for (int i = 0; i < maxBotArmiesQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		map[y][x].setCell('A', y, x);
+	}
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
-	if (check) 
+	if (check)
 	{
 		myfile << height << " " << width << endl << *this;
 	}
@@ -156,19 +299,20 @@ void Map::setHeight(int h)
 }
 
 
-int Map::setPlayer(char symb, int x, int y)
+int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 {
-	if (map[y][x].IsPassable() == true) 
+	Army* army_1 = nullptr;
+	if (newCell != nullptr && newCell->IsPassable() == true)
 	{
 		bool removePrev = false;
 		for (int i = 0; i < height; i++)
 		{
-			for (int j = 0; j < height; j++)
+			for (int j = 0; j < width; j++)
 			{
-
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
-					map[i][j].SetPlayer(false, NULL);
+					army_1 = map[i][j].GetArmy();
+					map[i][j].SetPlayer(nullptr);
 					removePrev = true;
 					break;
 				}
@@ -178,17 +322,42 @@ int Map::setPlayer(char symb, int x, int y)
 				break;
 			}
 		}
-		if (map[y][x].getIsPlayer() == true && map[y][x].GetArmySign() != NULL)
+		if ((map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true || map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true) && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
+			/*int playersCount;
+			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
+			Army* players = new Army[2];
+			players[0] = *army_1;
+			players[1] = *army_2;
+			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);*/
+			map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 			return 2;
+		}
+		else if (map[newCell->GetY()][newCell->GetX()].IsBarrack() == true)
+		{
+			int cellWeight = newCell->getPassCost();
+			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
+			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
+			prevCell = nullptr;
+			return 4;
 		}
 		else
 		{
-			map[y][x].SetPlayer(true, symb);
+			int cellWeight = newCell->getPassCost();
+			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
+			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
+			if (noPoints == true)
+			{
+				map[newCell->GetY()][newCell->GetX()].SetPlayer(nullptr);
+				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
+				return 3;
+			}
+			return 1;
 		}
-		return 1;
 	}
-	else 
+	else
 	{
 		return 0;
 	}
@@ -199,24 +368,40 @@ bool Map::getIspassable(int a, int b)
 	return this->map[a][b].IsPassable();
 }
 
-void Map::resetPlayers()
+void Map::resetPlayers(char& turn)
 {
 	// cleaning the map
 	for (int i = 0; i < height; i++)
 	{
-		for (int j = 0; j < height; j++)
+		for (int j = 0; j < width; j++)
 		{
 			if (map[i][j].IsPlayer() == true)
 			{
-				map[i][j].SetPlayer(false, NULL);
+				map[i][j].SetPlayer(nullptr);
 			}
 		}
 	}
 	// setting the default position of the players.
-	map[0][1] = Cell(1, 0, 0);
-	map[0][1].SetPlayer(true, 'F');
-	map[this->height - 1][this->width - 2] = Cell(1, this->width - 1, this->height - 1);
-	map[this->height - 1][this->width - 2].SetPlayer(true, 'S');
+	Swordsman units[2];
+	Army* player_1 = new Army("Aliance", units, 2, 'F', true);
+	Army* player_2 = new Army("Horde", units, 2, 'S', true);
+	// cin>>player_1,player_2
+	map[0][1].SetPlayer(player_1);
+	map[this->height - 1][this->width - 2].SetPlayer(player_2);
+
+	SetBackground("I");
+	turn = 'l';
+	cout << "Turn: " << turn << endl;
+	cout << "Points left: " << player_1->GetCurrEnergy() << endl;
+	SetBackground("D");
+}
+
+Cell* Map::GetCell(const int& x, const int& y) const
+{
+	if (x < this->width && y < this->height) {
+		return &(this->map[y][x]);
+	}
+	return nullptr;
 }
 
 void Map::setWidth(int w)
@@ -233,13 +418,76 @@ Map::~Map()
 	delete[] map;
 }
 
+void Map::mapDraw(Map &m, int x, int y)
+{	
+	for (int i = 0; i < m.getHeight(); i++)
+	{
+		for (int j = 0; j < m.getWidth(); j++)
+		{
+			if (abs(m.map[i][j].GetX() - x) + abs(m.map[i][j].GetY() - y) > 3)
+			{
+				SetConsoleTextAttribute(m.HSTDOUT, 64);
+				
+				cout << ' ';
+				continue;
+			}
+			if (m.map[i][j].getIsPlayer() == true)
+			{
+				string flag = to_string(m.map[i][j].GetArmyId());
+				m.SetBackground(flag);
+				cout << m.map[i][j].GetArmySign();
+				m.SetBackground("D");
+				continue;
+			}
+			if (m.map[i][j].getBarrackPtr() != nullptr)
+			{
+				m.SetBackground("D");
+				cout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getIsBotArmy() == true)
+			{
+				m.SetBackground("D");
+				cout << 'A';
+				continue;
+			}
+			if (m.map[i][j].getPassCost() == 1)
+			{
+				m.SetBackground("D");
+				cout << ' ';
+			}
+			else if (m.map[i][j].IsPassable() == false)
+			{
+				m.SetBackground("O");
+				cout << '#';
+				m.SetBackground("D");
+			}
+			else
+			{
+				m.SetBackground("D");
+				//cout << m.map[i][j].getPassCost();
+				cout << '.';
+			}
+		}
+		SetConsoleTextAttribute(m.HSTDOUT, 64);
+		cout << '|' << endl;
+	}
+	SetConsoleTextAttribute(m.HSTDOUT, 64);
+	for (int i = 0; i <= m.getWidth(); i++)
+	{
+		cout << '-';
+	}
+	SetConsoleTextAttribute(m.HSTDOUT,15);
+	cout << endl;
+}
+
 ostream& operator<<(ostream& sout, Map &m)
 {
 	for (int i = 0; i < m.getHeight(); i++)
 	{
 		for (int j = 0; j < m.getWidth(); j++)
 		{
-			if (m.map[i][j].IsPlayer() == true)
+			if (m.map[i][j].getIsPlayer() == true)
 			{
 				string flag = to_string(m.map[i][j].GetArmyId());
 				m.SetBackground(flag);
@@ -250,6 +498,11 @@ ostream& operator<<(ostream& sout, Map &m)
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
 				sout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getIsBotArmy() != false)
+			{
+				sout << 'A';
 				continue;
 			}
 			if (m.map[i][j].getPassCost() == 1)
@@ -274,7 +527,7 @@ ostream& operator<<(ostream& sout, Map &m)
 	{
 		sout << '-';
 	}
-	SetConsoleTextAttribute(m.HSTDOUT, 0);
+	SetConsoleTextAttribute(m.HSTDOUT, 15);
 	sout << endl;
 	return sout;
 }
