@@ -325,10 +325,17 @@ void GameManager::Start()
 			Army* army = nullptr;
 			if (response == 3)
 			{
-				army = currentCell->GetArmy(playersCount);
 				SwitchTurn();
 				new_x = prev_x;
 				new_y = prev_y;
+				if (new_x == x_1 && new_y == y_1)
+				{
+					army = this->map->GetCell(x_2, y_2)->GetArmy(playersCount);
+				}
+				else
+				{
+					army = this->map->GetCell(x_1, y_1)->GetArmy(playersCount);
+				}
 			}
 			else
 			{
