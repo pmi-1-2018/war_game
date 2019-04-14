@@ -290,8 +290,6 @@ void GameManager::Start()
 			Army* a1 = currentCell->getArmyPtr();
 			Army* a2 = newCell->getArmyPtr();
 			string battleLog = StartBattle(a1, a2);
-			int temp;
-			Army* army = (this->map->GetCell(new_x, new_y))->GetArmy(temp);
 			if (battleLog != "")
 			{
 
@@ -305,10 +303,14 @@ void GameManager::Start()
 			}
 			system("cls");
 			int temp;
-			Army* army = (this->map->GetCell(new_x, new_y))->GetArmy(temp);
+			Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy(temp);
+			currentCell->setIsPlayer(false);
+			currentCell->SetArmy(nullptr);
 			newCell->SetArmy(army);
+			newCell->setIsPlayer(true);
 			newCell->setIsBotArmy(false);
 			SetMusic("battle");
+			army->SetCurrEnergy(-army->GetCurrEnergy());
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
 			cout << "Points left: " << army->GetCurrEnergy() << endl;

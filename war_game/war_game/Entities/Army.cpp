@@ -176,6 +176,11 @@ bool Army::armyAutoAttack(Army& a)
 		delete[] units;
 		units = copy;
 		numberOfUnits -= thisArmy;
+		dec_energy = 0;
+		for (size_t i = 0; i < numberOfUnits; i++)
+		{
+			dec_energy += units[i].GetDecEnergy();
+		}
 		cout << "you won" << endl;
 		return true;
 	}
@@ -315,6 +320,11 @@ bool Army::battlePVE(Army& a)
 		delete[] units;
 		units = copy;
 		numberOfUnits -= thisArmy;
+		dec_energy = 0;
+		for (size_t i = 0; i < numberOfUnits; i++)
+		{
+			dec_energy += units[i].GetDecEnergy();
+		}
 		cout << "you won" << endl;
 		return true;
 	}
@@ -463,6 +473,11 @@ bool Army::battlePVP(Army& a)
 		delete[] units;
 		units = copy;
 		numberOfUnits -= thisArmy;
+		dec_energy = 0;
+		for (size_t i = 0; i < numberOfUnits; i++)
+		{
+			dec_energy += units[i].GetDecEnergy();
+		}
 		cout << endl << symb << "  won" << endl;
 		this->printArmy();
 		return true;
@@ -478,6 +493,11 @@ bool Army::battlePVP(Army& a)
 		delete[] a.units;
 		a.units = copy;
 		a.numberOfUnits -= otherArmy;
+		a.dec_energy = 0;
+		for (size_t i = 0; i < a.numberOfUnits; i++)
+		{
+			a.dec_energy += a.units[i].GetDecEnergy();
+		}
 		cout << endl << a.symb << "  won" << endl;
 		a.printArmy();
 		return false;
