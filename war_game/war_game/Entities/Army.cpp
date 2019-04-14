@@ -17,7 +17,7 @@ Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
 	for (int i = 0; i < this->numberOfUnits; i++)
 	{
 		units[i] = list[i];
-		this->dec_energy += units->GetDecEnergy();
+		this->dec_energy += units[i].GetDecEnergy();
 	}
 	this->currentEnergy = this->START_ENERGY + this->dec_energy;
 	this->symb = symb;
@@ -1086,5 +1086,3 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	index1 += numberOfUnits - alive_count_army2;
 	index2 += numberOfUnits - alive_count_army2;
 }
-
-

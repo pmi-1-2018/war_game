@@ -311,8 +311,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			{
 				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
 				{
-					int playersCount;
-					army_1 = map[i][j].GetArmy(playersCount);
+					army_1 = map[i][j].GetArmy();
 					map[i][j].SetPlayer(nullptr);
 					removePrev = true;
 					break;

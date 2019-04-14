@@ -302,8 +302,7 @@ void GameManager::Start()
 				break;
 			}
 			system("cls");
-			int temp;
-			Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy(temp);
+			Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
 			currentCell->setIsPlayer(false);
 			currentCell->SetArmy(nullptr);
 			newCell->SetArmy(army);
@@ -321,7 +320,6 @@ void GameManager::Start()
 		{
 			outputTurnSwitch(response);
 			system("CLS");
-			int playersCount;
 			Army* army = nullptr;
 			if (response == 3)
 			{
@@ -330,16 +328,16 @@ void GameManager::Start()
 				new_y = prev_y;
 				if (new_x == x_1 && new_y == y_1)
 				{
-					army = this->map->GetCell(x_2, y_2)->GetArmy(playersCount);
+					army = this->map->GetCell(x_2, y_2)->GetArmy();
 				}
 				else
 				{
-					army = this->map->GetCell(x_1, y_1)->GetArmy(playersCount);
+					army = this->map->GetCell(x_1, y_1)->GetArmy();
 				}
 			}
 			else
 			{
-				army = newCell->GetArmy(playersCount);
+				army = newCell->GetArmy();
 			}
 			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;

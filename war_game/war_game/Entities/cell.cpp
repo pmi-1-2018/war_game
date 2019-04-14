@@ -164,9 +164,8 @@ void Cell::SetArmy(Army * army)
 {
 	this->army = army;
 }
-Army * Cell::GetArmy(int& size)const
+Army * Cell::GetArmy()const
 {
-	size = this->playersCount;
 	return this->army;
 }
 Army* Cell::getArmyPtr()const

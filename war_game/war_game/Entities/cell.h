@@ -29,7 +29,7 @@ public:
 	char GetArmySign();
 	int GetArmyId();
 	void SetArmy(Army* army);
-	Army* GetArmy(int& size)const;
+	Army* GetArmy()const;
 	bool IsPassable();
 	void setPassCost(int value);
 	void setIsBotArmy(bool value);
