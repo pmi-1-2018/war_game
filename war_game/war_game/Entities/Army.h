@@ -3,9 +3,10 @@
 #include <string>
 #include <typeinfo>
 #include "Unit.h"
-#include "../Entities/Swordsman.h"
-#include "../Entities/Tank.h"
+#include "Swordsman.h"
+#include "Tank.h"
 #include "Archer.h"
+#include "Wizard.h"
 
 using namespace std;
 

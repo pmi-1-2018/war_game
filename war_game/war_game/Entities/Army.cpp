@@ -162,6 +162,7 @@ bool Army::armyAutoAttack(Army& a)
 	if (otherArmy == a.numberOfUnits)
 	{
 		delete[] a.units;
+		CalcLevelAndCapacity(otherArmy);
 		Unit* copy = new Unit[5];
 		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 		{
@@ -307,6 +308,7 @@ bool Army::battlePVE(Army& a)
 	{
 		delete[] a.units;
 		Unit* copy = new Unit[5];
+		CalcLevelAndCapacity(otherArmy);
 		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 		{
 			copy[i] = units[i + thisArmy];
@@ -460,6 +462,7 @@ bool Army::battlePVP(Army& a)
 	{
 		delete[] a.units;
 		Unit* copy = new Unit[5];
+		CalcLevelAndCapacity(otherArmy);
 		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 		{
 			copy[i] = units[i + thisArmy];
@@ -480,6 +483,7 @@ bool Army::battlePVP(Army& a)
 	{
 		delete[] units;
 		Unit* copy = new Unit[5];
+		CalcLevelAndCapacity(thisArmy);
 		for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
 		{
 			copy[i] = a.units[i + otherArmy];

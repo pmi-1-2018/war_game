@@ -4,7 +4,7 @@
 #include"BarrackSwordsman.h"
 #include"BarrackTank.h"
 #include"BarrackWizard.h"
-#include "../Entities/Army.h"
+#include "Army.h"
 
 //static int counter = 0;
 
