@@ -642,6 +642,8 @@ void printSpace(int count)
 	}
 }
 
+
+
 void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2)
 {
 	if (alive_count_army1 < 2)
@@ -1071,6 +1073,185 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	} while (isSelected == false);
 	index1 += numberOfUnits - alive_count_army2;
 	index2 += numberOfUnits - alive_count_army2;
+
+}
+void Army::swapUnits()
+{
+	if (numberOfUnits < 2)
+	{
+		cout << "You have no enough units to swap\n";
+		return;
+	}
+	system("cls");
+	int index1 = 0;
+	int index2 = 0;
+
+	for (int i = 0; i < numberOfUnits; i++)
+	{
+		cout << units[i];
+	}
+	cout << endl;
+	cout << '^';
+	cout << "\nFirst unit index: " << index1;
+	cout << "\nSecond unit index: ";
+	cout << "\nPress Enter to select the first unit to swap.";
+
+
+	bool isSelected = false;
+	do
+	{
+		isSelected = false;
+		switch (_getch())
+		{
+		case 13:
+		{
+			isSelected = true;
+			break;
+		}
+		case 75:
+		{
+			if (index1 != 0)
+			{
+				index1--;
+				system("cls");
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << units[i];
+				}
+				cout << endl;
+				printSpace(index1);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: ";
+				cout << "\nPress Enter to select the first unit to swap.";
+			}
+
+
+			break;
+		}
+		case 77:
+		{
+			if (index1 != numberOfUnits - 1)
+			{
+				index1++;
+				system("cls");
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << units[i];
+				}
+				cout << endl;
+				printSpace(index1);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: ";
+				cout << "\nPress Enter to select the first unit to swap.";
+			}
+			break;
+		}
+		}
+
+	} while (isSelected == false);
+
+
+
+	system("cls");
+	for (int i = 0, k = 0; i < numberOfUnits; i++, k++)
+	{
+		if (k == index1)
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+			cout << units[i];
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		}
+		else
+		{
+			cout << units[i];
+		}
+	}
+	cout << endl;
+	cout << '^';
+	cout << "\nFirst unit index: " << index1;
+	cout << "\nSecond unit index: " << index2;
+	cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+
+	do
+	{
+		isSelected = false;
+		switch (_getch())
+		{
+		case 13:
+		{
+			if (index2 == index1)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 207);
+				cout << "\nYou can`t select two equal indexes.";
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+				break;
+			}
+			isSelected = true;
+			break;
+		}
+		case 75:
+		{
+			if (index2 != 0)
+			{
+				index2--;
+				system("cls");
+				for (int i = 0, k = 0; i < numberOfUnits; i++, k++)
+				{
+					if (k == index1)
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+						cout << units[i];
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+					}
+					else
+					{
+						cout << units[i];
+					}
+				}
+				cout << endl;
+				printSpace(index2);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: " << index2;
+				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+			}
+
+
+			break;
+		}
+		case 77:
+		{
+			if (index2 != numberOfUnits - 1)
+			{
+				index2++;
+				system("cls");
+				for (int i = 0, k = 0; i < numberOfUnits; i++, k++)
+				{
+					if (k == index1)
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+						cout << units[i];
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+					}
+					else
+					{
+						cout << units[i];
+					}
+				}
+				cout << endl;
+				printSpace(index2);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: " << index2;
+				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+			}
+			break;
+		}
+		}
+	} while (isSelected == false);
+	swap(units[index1], units[2]);
 
 }
 int Army::GetLevel()

@@ -52,6 +52,7 @@ public:
 	void addUnit(Unit unit);
 	void swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_army1, int alive_count_army2);
 	void swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2);
+	void swapUnits();
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
 	~Army()
