@@ -267,11 +267,16 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		int y = rand() % height;
 		map[y][x].setCell('B', y, x);
 	}
-	int maxBotArmiesQuantity = this->height * this->width / 50;
+	int maxBotArmiesQuantity = this->height * this->width / 50 + 1;
 	for (int i = 0; i < maxBotArmiesQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || map[y][x].IsBarrack() || !map[y][x].IsPassable())
+		{
+			i--;
+			continue;
+		}
 		map[y][x].setCell('A', y, x);
 	}
 	ofstream myfile;
