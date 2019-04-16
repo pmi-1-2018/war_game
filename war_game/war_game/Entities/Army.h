@@ -6,6 +6,8 @@
 #include "Swordsman.h"
 #include "Tank.h"
 #include "Archer.h"
+#include "Buffer.h"
+#include "Healer.h"
 #include "Wizard.h"
 
 using namespace std;
