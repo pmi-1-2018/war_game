@@ -1302,3 +1302,4 @@ int Army::GetCapacity()
 {
 	return capacity;
 }
+
