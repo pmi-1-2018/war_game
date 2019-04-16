@@ -323,10 +323,12 @@ void GameManager::Start()
 			{
 				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfUnits(
 					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits() + 5);
+				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfTurn(
+					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() + 7);
 			}
-			Army* army = nullptr;
-			army = newCell->GetArmy();
+			Army* army = newCell->GetArmy();			
 			int n;
+			Barrack *barrack = this->map->GetCell(new_x, new_y)->getBarrackPtr();
 			cout << "Enter what you want to do: " << endl;
 			cin >> n;
 			if(n == 1)
@@ -334,15 +336,12 @@ void GameManager::Start()
 				cout << "How many units you want to take? " << endl;
 				int number;
 				cin >> number;
-				if (number > 0 && number <= this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits())
+				while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0)
 				{
-					for (int i = 0; i < number; i++)
-					{
-						army->addUnit(this->map->GetCell(new_x, new_y)->getBarrackPtr()->giveUnit());
-					}
+					army->addUnit(barrack->giveUnit());
+					barrack->SetNumberOfUnits(barrack->GetNumberOfUnits() - 1);
+					number--;
 				}
-				else
-				break;
 			}
 			system("CLS");
 			cout << "Turn: " << this->turn << endl;

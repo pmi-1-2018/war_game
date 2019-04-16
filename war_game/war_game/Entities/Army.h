@@ -66,5 +66,6 @@ public:
 	void SetLevel(int a);
 	void CalcLevelAndCapacity(int countOfDead);
 	void SetCapacity(int a);
+	int GetCapacity();
 	bool CheckCapacity();
 };

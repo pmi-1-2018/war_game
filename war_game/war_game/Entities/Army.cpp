@@ -617,22 +617,20 @@ int Army::getNumberOfUnits()
 }
 void Army::addUnit(Unit unit)
 {
-	if (CheckCapacity()) {
-		Unit *temp = new Unit[numberOfUnits];
-		for (int i = 0; i < numberOfUnits; i++)
-		{
-			temp[i] = units[i];
-		}
-
-		numberOfUnits++;
-		units = new Unit[numberOfUnits];
-
-		for (int i = 0; i < numberOfUnits - 1; i++)
-		{
-			units[i] = temp[i];
-		}
-		units[numberOfUnits - 1] = unit;
+	Unit *temp = new Unit[numberOfUnits];
+	for (int i = 0; i < numberOfUnits; i++)
+	{
+		temp[i] = units[i];
 	}
+
+	numberOfUnits++;
+	units = new Unit[numberOfUnits];
+
+	for (int i = 0; i < numberOfUnits - 1; i++)
+	{
+		units[i] = temp[i];
+	}
+	units[numberOfUnits - 1] = unit;
 }
 
 
@@ -662,7 +660,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 		cout << units[i];
 	}
 	printSpace(4);
-	for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+	for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 	{
 		cout << army2.getWarriors()[i];
 	}
@@ -695,7 +693,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					cout << units[i];
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -721,7 +719,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					cout << units[i];
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -756,7 +754,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 
 	}
 	printSpace(4);
-	for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+	for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 	{
 		cout << army2.getWarriors()[i];
 	}
@@ -805,7 +803,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -841,7 +839,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -874,7 +872,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	index1 = 0;
 	index2 = 0;
 
-	for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+	for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 	{
 		cout << army1.getWarriors()[i];
 	}
@@ -908,7 +906,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index1--;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -934,7 +932,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index1++;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -959,7 +957,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 
 
 	system("cls");
-	for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+	for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 	{
 		cout << army1.getWarriors()[i];
 	}
@@ -1007,7 +1005,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index2--;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -1042,7 +1040,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index2++;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -1118,4 +1116,8 @@ bool Army::CheckCapacity()
 		cout << "You cann't add units" << endl;
 		return false;
 	}
+}
+int Army::GetCapacity()
+{
+	return capacity;
 }
