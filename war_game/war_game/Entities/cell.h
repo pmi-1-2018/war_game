@@ -22,6 +22,7 @@ private:
 
 public:
 	Cell();
+	Cell(const Cell& other);
 	Cell(int passCost, int x, int y);
 	void setCell(char symb, int x, int y);
 	int getPassCost();

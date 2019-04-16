@@ -5,6 +5,7 @@
 #include "cell.h"
 #include "Windows.h"
 #include<cmath>
+#include<ctime>
 //#define DEBUG
 
 using namespace std;
