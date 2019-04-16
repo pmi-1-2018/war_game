@@ -5,7 +5,7 @@
 
 Cell::Cell() :
 	passCost(1),
-	isPassable(true),
+	isBarrier(true),
 	x(0),
 	y(0),
 	barrack(nullptr)
@@ -13,12 +13,12 @@ Cell::Cell() :
 Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
 //	isPlayer(false),
-	isPassable(true),
+	isBarrier(true),
 	barrack(nullptr)
 {
 	if (this->passCost == 0)
 	{
-		this->isPassable = false;
+		this->isBarrier = false;
 	}
 	this->x = x;
 	this->y = y;
@@ -32,12 +32,12 @@ void Cell::setCell(char symb, int x, int y)
 	this->y = x;
 	this->x = y;
 	this->barrack = nullptr;
-	this->isPassable = true;
+	this->isBarrier = true;
 	Unit* units;
 	switch (symb)
 	{
 	case '#':
-		this->isPassable = false;
+		this->isBarrier = false;
 		passCost = 0;
 		break;
 	case ' ':
@@ -52,7 +52,7 @@ void Cell::setCell(char symb, int x, int y)
 	case 'B':
 		passCost = 1;
 		this->isBarrack = true;
-		this->isPassable = true;
+		this->isBarrier = true;
 		
 		if (n == 1)
 		{
@@ -77,7 +77,7 @@ void Cell::setCell(char symb, int x, int y)
 		units = new Swordsman[1];
 		//this->isBotArmy = true;
 		this->army = new Army("Bot", units , 1, 'A', false);
-		this->isPassable = true;
+		this->isBarrier = true;
 		break;
 	default:
 		passCost = 1;
@@ -193,7 +193,7 @@ Army* Cell::getArmyPtr()const
 }
 bool Cell::IsPassable()
 {
-	return this->isPassable;
+	return this->isBarrier;
 }
 void Cell::setPassCost(int value)
 {

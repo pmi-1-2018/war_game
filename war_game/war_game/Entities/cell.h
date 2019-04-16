@@ -12,7 +12,7 @@ class Cell
 {
 private:
 	int passCost;
-	bool isPassable;
+	bool isBarrier;
 	Barrack* barrack;
 	bool isBarrack = false;
 	Army* army = nullptr;
@@ -36,6 +36,9 @@ public:
 	void SetArmy(Army* army);
 	Army* GetArmy()const;
 	bool IsPassable();
+	bool isPassableGenerate() {
+		return this->army == nullptr && this->barrack == nullptr && this->isBarrier;
+	}
 	void setPassCost(int value);
 	void setIsBotArmy(bool value);
 	int GetX()const;

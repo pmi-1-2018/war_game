@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <time.h>
 
 Map::Map() :
 	width(0),
@@ -122,6 +123,7 @@ void Map::readMapFromFile(string fileName)
 
 void Map::generateRandomMap(string fileName, int height, int width)
 {
+	srand(time(NULL));
 	if (this->height != 0 || this->width != 0)
 	{
 		this->~Map();
@@ -272,13 +274,15 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || map[y][x].IsBarrack() || !map[y][x].IsPassable())
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) ||  !map[y][x].isPassableGenerate())
 		{
 			i--;
 			continue;
 		}
 		map[y][x].setCell('A', y, x);
+		cout << x << "  " << y << endl;
 	}
+	system("pause");
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();

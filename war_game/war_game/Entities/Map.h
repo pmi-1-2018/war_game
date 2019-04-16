@@ -1,10 +1,10 @@
 #pragma once
-#include<string>
-#include<fstream>
-#include<iostream>
+#include <string>
+#include <fstream>
+#include <iostream>
 #include "cell.h"
 #include "Windows.h"
-#include<cmath>
+#include <cmath>
 //#define DEBUG
 
 using namespace std;
