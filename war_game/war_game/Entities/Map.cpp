@@ -122,6 +122,7 @@ void Map::readMapFromFile(string fileName)
 
 void Map::generateRandomMap(string fileName, int height, int width)
 {
+	srand(time(NULL));
 	if (this->height != 0 || this->width != 0)
 	{
 		this->~Map();
@@ -137,11 +138,11 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	int countOfCells = this->height * this->width;
 
 	//countofbarriers will be ganarated from 10% to 25%
-	int countOfBarriers = 1000;
-	while (countOfBarriers >= (countOfCells / 4) || countOfBarriers <= (countOfCells / 10))
+	int countOfBarriers = 0;
+	do
 	{
 		countOfBarriers = (rand() % countOfCells);
-	}
+	} while (countOfBarriers >= (countOfCells / 4) || countOfBarriers <= (countOfCells / 10));
 
 	//count of lonely barriers
 	int countOfLonelyBarriers = countOfBarriers / 4;
@@ -151,12 +152,12 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	int i = 0;
 	while (i < countOfLonelyBarriers)
 	{
-		int x = rand() % this->height;
-		int y = rand() % this->width;
-		if (map[x][y].IsPassable())
+		int x = rand() % this->width;
+		int y = rand() % this->height;
+		if (map[y][x].IsPassable())
 		{
-			map[x][y].setCell('#', x, y);
-			lonelyBarriers[i] = map[x][y];
+			map[y][x].setCell('#', x, y);
+			lonelyBarriers[i] = map[y][x];
 			i++;
 		}
 	}
@@ -176,22 +177,22 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			{
 			case 0:
 			{
-				if (lonelyBarriers[i].GetX() + 1 < this->height && lonelyBarriers[i].GetY() + 2 < this->width)
+				if (lonelyBarriers[i].GetX() + 1 < this->width && lonelyBarriers[i].GetY() + 2 < this->height)
 				{
-					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 1);
-					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY() + 2].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 2);
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY() + 1][lonelyBarriers[i].GetX() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetY() + 2][lonelyBarriers[i].GetX() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY() + 2);
 					isLonely[i] = false;
 				}
 				break;
 			}
 			case 1:
 			{
-				if (lonelyBarriers[i].GetX() + 2 < this->height && lonelyBarriers[i].GetY() + 1 < this->width)
+				if (lonelyBarriers[i].GetX() + 2 < this->width && lonelyBarriers[i].GetY() + 1 < this->height)
 				{
-					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() + 2].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY() + 1][lonelyBarriers[i].GetX() + 2].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() + 1);
 					isLonely[i] = false;
 				}
 				break;
@@ -200,42 +201,42 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			{
 				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() - 1 >= 0)
 				{
-					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY() - 1].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() - 1);
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() - 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() - 2].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY() - 1][lonelyBarriers[i].GetX() - 2].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() - 1);
 					isLonely[i] = false;
 				}
 				break;
 			}
 			case 3:
 			{
-				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() + 1 < this->width)
+				if (lonelyBarriers[i].GetX() - 2 >= 0 && lonelyBarriers[i].GetY() + 1 < this->height)
 				{
-					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() - 2][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() - 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() - 2].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY() + 1][lonelyBarriers[i].GetX() - 2].setCell('#', lonelyBarriers[i].GetX() - 2, lonelyBarriers[i].GetY() + 1);
 					isLonely[i] = false;
 				}
 				break;
 			}
 			case 4:
 			{
-				if (lonelyBarriers[i].GetX() + 2 < this->height && lonelyBarriers[i].GetY() - 1 >= 0)
+				if (lonelyBarriers[i].GetX() + 2 < this->width && lonelyBarriers[i].GetY() - 1 >= 0)
 				{
-					map[lonelyBarriers[i].GetX() + 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() + 2][lonelyBarriers[i].GetY() - 1].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() - 1);
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() + 1].setCell('#', lonelyBarriers[i].GetX() + 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() + 2].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY() - 1][lonelyBarriers[i].GetX() + 2].setCell('#', lonelyBarriers[i].GetX() + 2, lonelyBarriers[i].GetY() - 1);
 					isLonely[i] = false;
 				}
 				break;
 			}
 			case 5:
 			{
-				if (lonelyBarriers[i].GetX() - 1 >= 0 && lonelyBarriers[i].GetY() + 2 < this->width)
+				if (lonelyBarriers[i].GetX() - 1 >= 0 && lonelyBarriers[i].GetY() + 2 < this->height)
 				{
-					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY()].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
-					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY() + 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 1);
-					map[lonelyBarriers[i].GetX() - 1][lonelyBarriers[i].GetY() + 2].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 2);
+					map[lonelyBarriers[i].GetY()][lonelyBarriers[i].GetX() - 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY());
+					map[lonelyBarriers[i].GetY() + 1][lonelyBarriers[i].GetX() - 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 1);
+					map[lonelyBarriers[i].GetY() + 2][lonelyBarriers[i].GetX() - 1].setCell('#', lonelyBarriers[i].GetX() - 1, lonelyBarriers[i].GetY() + 2);
 					isLonely[i] = false;
 				}
 				break;
@@ -244,10 +245,8 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			default:
 				break;
 			}
-
 		}
 	}
-
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
@@ -258,21 +257,19 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			}
 		}
 	}
-
-
 	int maxBarracksQuantity = this->height * this->width / 100;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		map[y][x].setCell('B', y, x);
+		map[y][x].setCell('B', x, y);
 	}
 	int maxBotArmiesQuantity = this->height * this->width / 50;
 	for (int i = 0; i < maxBotArmiesQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
-		map[y][x].setCell('A', y, x);
+		map[y][x].setCell('A', x, y);
 	}
 	ofstream myfile;
 	myfile.open(fileName);
