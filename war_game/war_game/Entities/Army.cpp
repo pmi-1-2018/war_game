@@ -131,6 +131,7 @@ bool Army::armyAutoAttack(Army& a)
 		else
 		{
 			a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+
 		}
 		if (otherArmy != a.numberOfUnits)
 		{
@@ -746,7 +747,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 		if (i == index1 + numberOfUnits - alive_count_army1)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-			cout << units[i];
+			cout << units[i].getSymb();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		else
@@ -795,7 +796,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					if (i == index1 + numberOfUnits - alive_count_army1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -831,7 +832,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					if (i == index1 + numberOfUnits - alive_count_army1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -969,7 +970,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 		if (k == index1)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-			cout << units[i];
+			cout << units[i].getSymb();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		else
@@ -1017,7 +1018,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 					if (k == index1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -1052,7 +1053,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 					if (k == index1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -1160,7 +1161,7 @@ void Army::swapUnits()
 		if (k == index1)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-			cout << units[i];
+			cout << units[i].getSymb();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		else
@@ -1202,7 +1203,7 @@ void Army::swapUnits()
 					if (k == index1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -1232,7 +1233,7 @@ void Army::swapUnits()
 					if (k == index1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else

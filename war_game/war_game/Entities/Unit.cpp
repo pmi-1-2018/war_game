@@ -28,6 +28,11 @@ char Unit::getSymb()
 	return symb;
 }
 
+void Unit::setSymb(char symb)
+{
+	this->symb = symb;
+}
+
 int Unit::GetHealthPoints()
 {
 	return healthPoints;
@@ -69,7 +74,26 @@ int Unit::DamageTaken()
 
 
 ostream& operator<<(ostream &os, Unit &unit) {
-	os << unit.getSymb();
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (unit.healthPoints == unit.maxHP)
+	{
+		SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 11));
+
+		os << unit.getSymb();
+		SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 7));
+	}
+	else if (unit.healthPoints >= 10 && unit.healthPoints < unit.maxHP)
+	{
+		SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 6));
+		os << unit.getSymb();
+		SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 7));
+	}
+	else
+	{
+		SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 4));
+		os << unit.getSymb();
+		SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 7));
+	}
 	return os;
 }
 int Unit::GetDecEnergy() const
