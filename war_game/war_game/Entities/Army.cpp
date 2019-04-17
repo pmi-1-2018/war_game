@@ -7,6 +7,9 @@
 #include "Army.h"
 
 
+using namespace std::this_thread;
+using namespace std::chrono;
+
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
 Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
 {
@@ -101,9 +104,9 @@ void Army::inputTheArmy() {
 
 bool Army::armyAutoAttack(Army& a)
 {
-	using namespace std::this_thread;
-	using namespace std::chrono;
 	int outcomingDamage;
+	double outcomingMagic = 0;
+	double incomingMagic = 0;
 	int incomingDamage;
 	int thisArmy{ 0 };
 	int otherArmy{ 0 };
@@ -111,53 +114,70 @@ bool Army::armyAutoAttack(Army& a)
 	this->printArmies(a, thisArmy, otherArmy);
 	do
 	{
-		outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-		if (numberOfUnits - thisArmy >= 2)
+		if (units[thisArmy].getId() != 4 && a.units[otherArmy].getId() != 4)// if there are no wizards 
 		{
-			if (units[thisArmy + 1].getId() == 2)
+			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+			if (numberOfUnits - thisArmy >= 2)
 			{
-				outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
-			}
-		}
-		if (outcomingDamage < 0)
-		{
-			outcomingDamage = 0;
-		}
-		if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
-		{
-			otherArmy++;
-
-		}
-		else
-		{
-			a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-
-		}
-		if (otherArmy != a.numberOfUnits)
-		{
-			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-			if (a.numberOfUnits - otherArmy >= 2)
-			{
-				if (a.units[otherArmy + 1].getId() == 2)
+				if (units[thisArmy + 1].getId() == 2)
 				{
-					incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 				}
 			}
-			if (incomingDamage < 0)
+			if (outcomingDamage < 0)
 			{
-				incomingDamage = 0;
+				outcomingDamage = 0;
 			}
-			if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
 			{
-				thisArmy++;
+				otherArmy++;
+
 			}
 			else
 			{
-				units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+
+			}
+			if (otherArmy != a.numberOfUnits)
+			{
+				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+				if (a.numberOfUnits - otherArmy >= 2)
+				{
+					if (a.units[otherArmy + 1].getId() == 2)
+					{
+						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+					}
+				}
+				if (incomingDamage < 0)
+				{
+					incomingDamage = 0;
+				}
+				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+				{
+					thisArmy++;
+				}
+				else
+				{
+					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+				}
+			}
+			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
+		}
+		else if(units[thisArmy].getId() == 4 && a.units[otherArmy].getId() != 4) // if wizard is in the left army
+		{
+			if (numberOfUnits - thisArmy >= 2)
+			{
+				if (units[thisArmy + 1].getId() == 2)
+				{
+					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+				}
+			}
+			outcomingMagic = units[thisArmy].GetDamage();
+			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
+			{
+				thisArmy++;
 			}
 		}
-
-		this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
 		sleep_for(seconds(1));
 	} while ((thisArmy != numberOfUnits) && (otherArmy != a.numberOfUnits));
 	if (otherArmy == a.numberOfUnits)
@@ -214,6 +234,8 @@ void Army::setIsBotArmy(bool value)
 bool Army::battlePVE(Army& a)
 {
 	double outcomingDamage = 0;
+	double outcomingMagic = 0;
+	double incomingMagic = 0;
 	double incomingDamage = 0;
 	int thisArmy = 0;
 	int otherArmy = 0;
@@ -228,48 +250,73 @@ bool Army::battlePVE(Army& a)
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
-			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-			if (numberOfUnits - thisArmy >= 2)
+			if (units[thisArmy].getId() != 4 && a.units[otherArmy].getId() != 4)
 			{
-				if (units[thisArmy + 1].getId() == 2)
+				outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+				if (numberOfUnits - thisArmy >= 2)
 				{
-					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
-				}
-			}
-			if (outcomingDamage < 0)
-			{
-				outcomingDamage = 0;
-			}
-			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
-			{
-				otherArmy++;
-
-			}
-			else
-			{
-				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-			}
-			if (a.numberOfUnits != otherArmy)
-			{
-				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-				if (a.numberOfUnits - otherArmy >= 2)
-				{
-					if (a.units[otherArmy + 1].getId() == 2)
+					if (units[thisArmy + 1].getId() == 2)
 					{
-						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+						outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 					}
 				}
-				if (incomingDamage < 0)
+				if (outcomingDamage < 0)
 				{
-					incomingDamage = 0;
+					outcomingDamage = 0;
 				}
-				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+				if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
 				{
-					thisArmy++;
+					otherArmy++;
 				}
 				else
 				{
-					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+					a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+				}
+				if (a.numberOfUnits != otherArmy)
+				{
+					incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+					if (a.numberOfUnits - otherArmy >= 2)
+					{
+						if (a.units[otherArmy + 1].getId() == 2)
+						{
+							incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+						}
+					}
+					if (incomingDamage < 0)
+					{
+						incomingDamage = 0;
+					}
+					if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+					{
+						thisArmy++;
+					}
+					else
+					{
+						units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+					}
+				}
+			}
+			else if(units[thisArmy].getId() == 4 && a.units[otherArmy].getId() != 4)
+			{
+				outcomingDamage = units[thisArmy].GetDamage();
+				if (numberOfUnits - thisArmy >= 2)
+				{
+					if (units[thisArmy + 1].getId() == 2)
+					{
+						outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+					}
+				}
+				if (outcomingDamage < 0)
+				{
+					outcomingDamage = 0;
+				}
+				if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
+				{
+					otherArmy++;
+				}
+				else
+				{
+					a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
 				}
 			}
 			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
@@ -533,7 +580,7 @@ void Army::printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDa
 	cout << endl;
 }
 
-void Army::printArmyWizard1(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmyWizardLeft(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
 	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
@@ -554,7 +601,7 @@ void Army::printArmyWizard1(Army& a, int thisArmy, int otherArmy, int incomingDa
 }
 
 
-void Army::printArmyWizard2(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmyWizardBoth(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
 	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
@@ -575,7 +622,7 @@ void Army::printArmyWizard2(Army& a, int thisArmy, int otherArmy, int incomingDa
 }
 
 
-void Army::printArmyWizard2(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmyWizardRight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
 	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
