@@ -8,7 +8,7 @@ class Wizard : public Unit
 public:
 	Wizard()
 	{
-		damage = 30;
+		damage = 32;
 		defense = 1;
 		healthPoints = 50;
 		maxHP = 50;

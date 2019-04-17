@@ -36,6 +36,7 @@ public:
 	void printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage);
 	void printArmies(Army& a, int thisArmy, int otherArmy);
 	void printArmy();
+	void printArmyWizard(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);

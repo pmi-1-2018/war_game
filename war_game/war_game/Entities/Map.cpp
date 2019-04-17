@@ -280,9 +280,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			continue;
 		}
 		map[y][x].setCell('A', y, x);
-		cout << x << "  " << y << endl;
 	}
-	system("pause");
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();

@@ -533,6 +533,68 @@ void Army::printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDa
 	cout << endl;
 }
 
+void Army::printArmyWizard1(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+{
+	system("CLS");
+	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << " ";
+	}
+	cout << "-" << incomingDamage/4 << '-' << incomingDamage/2 << '-' << incomingDamage << "  " << "-" << outcomingDamage << endl;
+	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << units[numberOfUnits - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	{
+		cout << a.units[i + otherArmy] << " ";
+	}
+	cout << endl;
+}
+
+
+void Army::printArmyWizard2(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+{
+	system("CLS");
+	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << " ";
+	}
+	cout << "-" << incomingDamage / 4 << '-' << incomingDamage / 2 << "-" <<  incomingDamage << "  " << "-" << outcomingDamage << "-" << outcomingDamage/2 << "-" << outcomingDamage/4 << endl;
+	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << units[numberOfUnits - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	{
+		cout << a.units[i + otherArmy] << " ";
+	}
+	cout << endl;
+}
+
+
+void Army::printArmyWizard2(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+{
+	system("CLS");
+	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << " ";
+	}
+	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << "-" << outcomingDamage / 2 << "-" << outcomingDamage / 4 << endl;
+	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << units[numberOfUnits - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	{
+		cout << a.units[i + otherArmy] << " ";
+	}
+	cout << endl;
+}
+
 void Army::printArmies(Army& a, int thisArmy, int otherArmy)
 {
 	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
@@ -1076,6 +1138,8 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	index2 += numberOfUnits - alive_count_army2;
 
 }
+
+
 void Army::swapUnits()
 {
 	if (numberOfUnits < 2)
