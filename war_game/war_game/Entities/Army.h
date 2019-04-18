@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <iterator>
 #include <string>
 #include <typeinfo>
 #include "Unit.h"
@@ -17,8 +19,8 @@ class Army
 {
 private:
 	string nameOfArmy;
-	Unit *units = nullptr;
-	int numberOfUnits;
+	vector<Unit> units;
+	vector<Unit>::iterator it;
 	char symb;
 	int id;
 	static const int START_ENERGY = 11;
@@ -31,14 +33,14 @@ private:
 	int capacity;
 public:
 	Army();
-	Army(string name, Unit*list, int num, char symb, bool isPlayer);
+	Army(string name,vector<Unit> list, char symb, bool isPlayer);
 	void inputTheArmy();
-	void printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage);
-	void printArmies(Army& a, int thisArmy, int otherArmy);
+	void printArmiesFight(Army& a, int incomingDamage, int outcomingDamage);
+	void printArmies(Army& a);
 	void printArmy();
-	void printArmyWizardLeft(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
-	void printArmyWizardRight(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
-	void printArmyWizardBoth(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
+	void printArmyWizardLeft(Army& a, int outcomingMagic, int incomingDamage, int outcomingDamage);
+	void printArmyWizardRight(Army& a,int incomingMagic, int incomingDamage, int outcomingDamage);
+	void printArmyWizardBoth(Army& a,int incomingMagic,int outcomingMagic, int incomingDamage, int outcomingDamage);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
@@ -60,13 +62,6 @@ public:
 	void swapUnits();
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
-	~Army()
-	{
-		if (this->units != nullptr) 
-		{
-			delete[] this->units;
-		}
-	}
 	int GetLevel();
 	int GetExp();
 	void SetLevel(int a);

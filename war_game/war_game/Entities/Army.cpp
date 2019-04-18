@@ -10,19 +10,18 @@
 using namespace std::this_thread;
 using namespace std::chrono;
 
-Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
-Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
+Army::Army() :nameOfArmy("default") {}
+Army::Army(string name, vector<Unit> list, char symb, bool isPlayer)
 {
 	nameOfArmy = name;
-	this->numberOfUnits = num;
-	this->units = new Unit[num];
+	this->units = list;
 	this->dec_energy = 0;
 	this->capacity = 3;
 	this->level = 0;
 	this->experience = 0;
-	for (int i = 0; i < this->numberOfUnits; i++)
+	for (int i = 0; i < list.size(); i++)
 	{
-		units[i] = list[i];
+		units.push_back(list[i]);
 		this->dec_energy += units[i].GetDecEnergy();
 	}
 	this->currentEnergy = this->START_ENERGY + this->dec_energy;
@@ -85,7 +84,7 @@ void Army::inputTheArmy() {
 	char type;
 	Swordsman s;
 	Archer a;
-	for (int i = 0; i < this->numberOfUnits; i++) {
+	for (int i = 0; i < this->units.size(); i++) {
 		cout << "Enter the type of unit " << endl;
 		cin >> type;
 		switch (type) {
@@ -104,79 +103,188 @@ void Army::inputTheArmy() {
 
 bool Army::armyAutoAttack(Army& a)
 {
+	it = units.begin();
+	a.it = a.units.begin();
 	int outcomingDamage;
 	double outcomingMagic = 0;
 	double incomingMagic = 0;
 	int incomingDamage;
-	int thisArmy{ 0 };
-	int otherArmy{ 0 };
 	system("CLS");
-	this->printArmies(a, thisArmy, otherArmy);
+	this->printArmies(a);
 	do
 	{
-		if (units[thisArmy].getId() != 4 && a.units[otherArmy].getId() != 4)// if there are no wizards 
+		if (units[0].getId() != 4 && a.units[0].getId() != 4)// if there are no wizards 
 		{
-			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-			if (numberOfUnits - thisArmy >= 2)
+			outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
+			if (units.size() >= 2)
 			{
-				if (units[thisArmy + 1].getId() == 2)
+				if (units[1].getId() == 2)
 				{
-					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
 				}
 			}
 			if (outcomingDamage < 0)
 			{
 				outcomingDamage = 0;
 			}
-			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
+			if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
 			{
-				otherArmy++;
-
+				a.units.erase(a.it);
+				a.it = a.units.begin();
 			}
 			else
 			{
-				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
 
 			}
-			if (otherArmy != a.numberOfUnits)
+			if (a.units.size() != 0)
 			{
-				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-				if (a.numberOfUnits - otherArmy >= 2)
+				incomingDamage = a.units[0].GetDamage() - units[0].GetDefense();
+				if (a.units.size() >= 2)
 				{
-					if (a.units[otherArmy + 1].getId() == 2)
+					if (a.units[1].getId() == 2)
 					{
-						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
 					}
 				}
 				if (incomingDamage < 0)
 				{
 					incomingDamage = 0;
 				}
-				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
 				{
-					thisArmy++;
+					units.erase(it);
+					it = units.begin();
 				}
 				else
 				{
-					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
 				}
 			}
-			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
+			this->printArmiesFight(a, incomingDamage, outcomingDamage);
 		}
-		else if(units[thisArmy].getId() == 4 && a.units[otherArmy].getId() != 4) // if wizard is in the left army
+		else if(units[0].getId() == 4 && a.units[0].getId() != 4) // if wizard is in the left army
 		{
-			if (numberOfUnits - thisArmy >= 2)
+			if (units.size() >= 2)
 			{
-				if (units[thisArmy + 1].getId() == 2)
+				if (units[1].getId() == 2)
 				{
-					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
 				}
 			}
-			outcomingMagic = units[thisArmy].GetDamage();
-			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
+			outcomingMagic = units[0].GetDamage();
+			if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
 			{
-				thisArmy++;
+				a.units.erase(a.it);
+				a.it = a.units.begin();
+
+				if (a.units.size() != 0)
+				{
+					if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
+					{
+						a.units.erase(a.it);
+						a.it = a.units.begin();
+						if (units.size() != 0)
+						{
+							if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
+							{
+								a.units.erase(a.it);
+								a.it = a.units.begin();
+							}
+							else
+							{
+								a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
+							}
+						}
+					}
+					else
+					{
+						a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
+						if (units.size() >= 1)
+						{
+							if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
+							{
+								a.it++;
+								a.units.erase(a.it);
+								a.it = a.units.begin();
+							}
+							else
+							{
+								a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
+							}
+						}
+					}
+				}
 			}
+			else
+			{
+				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
+				if (a.units.size() >= 1)
+				{
+					if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
+					{
+						a.it++;
+						a.units.erase(a.it);
+						a.it = a.units.begin();
+						if (units.size() >= 1)
+						{
+							if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
+							{
+								a.it++;
+								a.units.erase(a.it);
+								a.it = a.units.begin();
+							}
+							else
+							{
+								a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
+							}
+						}
+					}
+					else
+					{
+						a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
+						if (units.size() >= 2)
+						{
+							if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
+							{
+								a.it++;
+								a.it++;
+								a.units.erase(a.it);
+								a.it = a.units.begin();
+							}
+							else
+							{
+								a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
+							}
+						}
+					}
+				}
+			}
+			if (a.units.size() != 0)
+			{
+				incomingDamage = a.units[0].GetDamage() - units[0].GetDefense();
+				if (a.units.size() >= 2)
+				{
+					if (a.units[1].getId() == 2)
+					{
+						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
+					}
+				}
+				if (incomingDamage < 0)
+				{
+					incomingDamage = 0;
+				}
+				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
+				{
+					units.erase(it);
+					it = units.begin();
+				}
+				else
+				{
+					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
+				}
+			}
+			this->printArmyWizardLeft(a,)
 		}
 		sleep_for(seconds(1));
 	} while ((thisArmy != numberOfUnits) && (otherArmy != a.numberOfUnits));
@@ -560,42 +668,42 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmiesFight(Army& a, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
-	for (size_t i = 2; i < numberOfUnits - thisArmy; i++)
+	for (size_t i = 2; i < units.size(); i++)
 	{
 		cout << " ";
 	}
 	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
-	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	for (size_t i = 0; i < units.size(); i++)
 	{
-		cout << units[numberOfUnits - i - 1];
+		cout << units[units.size() - i - 1];
 	}
 	cout << "     ";
-	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	for (size_t i = 0; i < a.units.size(); i++)
 	{
-		cout << a.units[i + otherArmy];
+		cout << a.units[i];
 	}
 	cout << endl;
 }
 
-void Army::printArmyWizardLeft(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmyWizardLeft(Army& a, int outcomingMagic, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
-	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	for (size_t i = 4; i < units.size(); i++)
 	{
 		cout << " ";
 	}
-	cout << "-" << incomingDamage/4 << '-' << incomingDamage/2 << '-' << incomingDamage << "  " << "-" << outcomingDamage << endl;
-	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic << "-" << outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
+	for (size_t i = 0; i < units.size(); i++)
 	{
-		cout << units[numberOfUnits - i - 1] << " ";
+		cout << units[units.size() - i - 1] << " ";
 	}
 	cout << "     ";
-	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	for (size_t i = 0; i < a.units.size(); i++)
 	{
-		cout << a.units[i + otherArmy] << " ";
+		cout << a.units[i] << " ";
 	}
 	cout << endl;
 }
@@ -622,36 +730,36 @@ void Army::printArmyWizardBoth(Army& a, int thisArmy, int otherArmy, int incomin
 }
 
 
-void Army::printArmyWizardRight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+void Army::printArmyWizardRight(Army& a, int incomingMagic, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
-	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	for (size_t i = 4; i < units.size(); i++)
 	{
 		cout << " ";
 	}
-	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << "-" << outcomingDamage / 2 << "-" << outcomingDamage / 4 << endl;
-	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	cout << "-" << incomingDamage / 4 << '-' << incomingDamage / 2 << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
+	for (size_t i = 0; i < units.size(); i++)
 	{
-		cout << units[numberOfUnits - i - 1] << " ";
+		cout << units[units.size() - i - 1] << " ";
 	}
 	cout << "     ";
-	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	for (size_t i = 0; i < a.units.size(); i++)
 	{
-		cout << a.units[i + otherArmy] << " ";
+		cout << a.units[i] << " ";
 	}
 	cout << endl;
 }
 
-void Army::printArmies(Army& a, int thisArmy, int otherArmy)
+void Army::printArmies(Army& a)
 {
-	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	for (size_t i = 0; i < units.size(); i++)
 	{
-		cout << units[numberOfUnits - i - 1];
+		cout << units[units.size() - i - 1];
 	}
 	cout << "     ";
-	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	for (size_t i = 0; i < a.units.size(); i++)
 	{
-		cout << a.units[i + otherArmy];
+		cout << a.units[i + units.size()];
 	}
 	cout << endl;
 }
