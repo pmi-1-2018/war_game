@@ -129,7 +129,8 @@ bool Army::armyAutoAttack(Army& a)
 	a.it = a.units.begin();
 	bool check = true;
 	system("CLS");
-	this->printArmiesFight(a, 0, 0, 0, 0);
+	int var = 0;
+	this->printArmiesFight(a, var, var, var, var);
 	do
 	{
 		this->fight(a,check);
@@ -169,7 +170,8 @@ bool Army::battlePVE(Army& a)
 	int index1 = 0;
 	int index2 = 0;
 	system("CLS");
-	this->printArmiesFight(a, 0, 0, 0, 0);
+	int var = 0;
+	this->printArmiesFight(a, var, var, var, var);
 	do
 	{
 		cout << "press A to attack, press S to swap";
@@ -222,8 +224,9 @@ bool Army::battlePVP(Army& a)
 	char action;
 	int index1 = 0;
 	int index2 = 0;
+	int var = 0;
 	system("CLS");
-	this->printArmiesFight(a,0,0,0,0);
+	this->printArmiesFight(a, var, var, var, var);
 	do
 	{
 		system("CLS");
@@ -749,10 +752,10 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage)
+void Army::printArmiesFight(Army& a, int& incomingMagic, int& outcomingMagic, int& incomingDamage, int& outcomingDamage)
 {
 	system("CLS");
-	if (incomingDamage == 0 && outcomingDamage == 0)
+	if (incomingDamage != 0 && incomingMagic != 0)
 	{
 		if (units[0].getId() != 4 && a.units[0].getId() != 4)
 		{
@@ -824,35 +827,6 @@ vector<Unit> Army::getUnits()
 	return units;
 }
 
-bool Army::isDead(Unit unit)
-{
-	if (unit.GetHealthPoints() == 0 && unit.GetHealthPoints() < 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-void Army::armyMove(Unit*list, int number)
-{
-	if (isDead(list[0]))
-	{
-		Unit*newList = new Unit[number - 1];
-		for (int i = 1; i < number; i)
-		{
-			newList[i - 1] = list[i];
-		}
-		delete[]list;
-		for (int j = 0; j < number - 1; j)
-		{
-			list[j] = newList[j];
-		}
-		delete[]newList;
-	}
-}
 char Army::GetSymb()
 {
 	return this->symb;
@@ -866,7 +840,6 @@ void Army::addUnit(Unit unit)
 	units.push_back(unit);
 }
 
-
 void printSpace(int count)
 {
 	for (int i = 0; i < count; i++)
@@ -874,8 +847,6 @@ void printSpace(int count)
 		cout << ' ';
 	}
 }
-
-
 
 void Army::swapUnits_1(int & index1, int & index2, Army& army2)
 {
@@ -1090,8 +1061,6 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2)
 		}
 	} while (isSelected == false);
 }
-
-
 void Army::swapUnits_2(int & index1, int & index2, Army& army1)
 {
 	if (units.size() < 2)
@@ -1303,8 +1272,6 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1)
 		}
 	} while (isSelected == false);
 }
-
-
 void Army::swapUnits()
 {
 	if (units.size() < 2)
@@ -1484,6 +1451,7 @@ void Army::swapUnits()
 	swap(units[index1], units[2]);
 
 }
+
 int Army::GetLevel()
 {
 	return level;
@@ -1495,7 +1463,6 @@ void Army::SetLevel(int a)
 {
 	level += a;
 }
-
 void Army::CalcLevelAndCapacity(int countOfDead)
 {
 	while (countOfDead)
@@ -1514,20 +1481,6 @@ void Army::SetCapacity(int a)
 {
 	capacity += a;
 }
-
-//bool Army::CheckCapacity()
-//{
-//	if (numberOfUnits < capacity)
-//	{
-//		cout << "You can add " << capacity - numberOfUnits << " units" << endl;
-//		return true;
-//	}
-//	if (numberOfUnits == capacity)
-//	{
-//		cout << "You cann't add units" << endl;
-//		return false;
-//	}
-//}
 int Army::GetCapacity()
 {
 	return capacity;

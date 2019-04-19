@@ -34,35 +34,38 @@ private:
 public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer);
+
 	void inputTheArmy();
-	void printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage);
+	void printArmiesFight(Army& a, int& incomingMagic, int& outcomingMagic, int& incomingDamage, int& outcomingDamage);
 	void printArmy();
-	int getNumberOfUnits();
+
 	void fight(Army& a,bool check);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
+
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
 	bool getIsBotArmy();
 	void setIsBotArmy(bool value);
+
 	Army& operator= (const Army& army);
 	vector<Unit> getUnits();
-	bool isDead(Unit unit);
-	char GetSymb();
-	int GetId();
-	void armyMove(Unit*list, int number);
+	void CalcLevelAndCapacity(int countOfDead);
 	void addUnit(Unit unit);
+
 	void swapUnits_2(int & index1, int & index2, Army& army1);
 	void swapUnits_1(int & index1, int & index2, Army& army2);
 	void swapUnits();
+
+	char GetSymb();
+	int GetId();
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
 	int GetLevel();
 	int GetExp();
 	void SetLevel(int a);
-	void CalcLevelAndCapacity(int countOfDead);
 	void SetCapacity(int a);
 	int GetCapacity();
-	bool CheckCapacity();
+	int getNumberOfUnits();
 };

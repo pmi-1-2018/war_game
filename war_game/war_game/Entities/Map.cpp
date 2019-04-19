@@ -389,9 +389,12 @@ void Map::resetPlayers(char& turn)
 		}
 	}
 	// setting the default position of the players.
-	Swordsman units[2];
-	Army* player_1 = new Army("Aliance", units, 2, 'F', true);
-	Army* player_2 = new Army("Horde", units, 2, 'S', true);
+	Swordsman unit;
+	vector<Unit> units;
+	units.push_back(unit);
+	units.push_back(unit);
+	Army* player_1 = new Army("Aliance", units, 'F', true);
+	Army* player_2 = new Army("Horde", units, 'S', true);
 	// cin>>player_1,player_2
 	map[0][1].SetPlayer(player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);

@@ -33,7 +33,8 @@ void Cell::setCell(char symb, int x, int y)
 	this->x = y;
 	this->barrack = nullptr;
 	this->isBarrier = true;
-	Unit* units;
+	vector<Unit> units;
+	Swordsman unit;
 	switch (symb)
 	{
 	case '#':
@@ -74,9 +75,9 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		units = new Swordsman[1];
+		units.push_back(unit);
 		//this->isBotArmy = true;
-		this->army = new Army("Bot", units , 1, 'A', false);
+		this->army = new Army("Bot", units , 'A', false);
 		this->isBarrier = true;
 		break;
 	default:
