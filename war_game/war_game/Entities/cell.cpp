@@ -29,11 +29,11 @@ void Cell::setCell(char symb, int x, int y)
 {
 	srand(time(NULL));
 	int n = rand() % 4 + 1;
+	int quantity;
 	this->y = x;
 	this->x = y;
 	this->barrack = nullptr;
 	this->isPassable = true;
-	Unit* units;
 	switch (symb)
 	{
 	case '#':
@@ -64,7 +64,6 @@ void Cell::setCell(char symb, int x, int y)
 		}
 		else if (n == 3)
 		{
-
 			this->barrack = new BarrackTank();
 		}
 		else if (n == 4)
@@ -74,9 +73,23 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		units = new Swordsman[1];
-		//this->isBotArmy = true;
-		this->army = new Army("Bot", units , 1, 'A', false);
+		quantity = rand() % 3 + 1;
+		if (n == 1)
+		{
+			this->army = new Army("botsArchers", new Archer[quantity], quantity, 'A', false);
+		}
+		else if (n == 2)
+		{
+			this->army = new Army("BotsSwordsmans", new Swordsman[quantity], quantity, 'A', false);
+		}
+		else if (n == 3)
+		{
+			this->army = new Army("BotsTanks", new Tank[quantity], quantity, 'A', false);
+		}
+		else if (n == 4)
+		{
+			this->army = new Army("BotsWizards", new Wizard[quantity], quantity, 'A', false);
+		}
 		this->isPassable = true;
 		break;
 	default:
