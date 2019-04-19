@@ -31,6 +31,9 @@
     <ClCompile Include="Entities\Army.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\GoldMine.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h">
@@ -76,6 +79,9 @@
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\BarrackSwordsman.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\GoldMine.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
