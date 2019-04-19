@@ -4,8 +4,8 @@
 #include"BarrackSwordsman.h"
 #include"BarrackTank.h"
 #include"BarrackWizard.h"
-#include "../Entities/Army.h"
-
+#include "Army.h"
+#include"GoldMine.h"
 //static int counter = 0;
 
 class Cell
@@ -14,6 +14,7 @@ private:
 	int passCost;
 	bool isPassable;
 	Barrack* barrack;
+	GoldMine* goldMine;
 	bool isBarrack = false;
 	Army* army = nullptr;
 	int x;
@@ -45,6 +46,8 @@ public:
 	Barrack* getBarrackPtr();
 	bool IsBarrack();
 	Army* getArmyPtr();
+	bool isPossibleGenerate();
+	GoldMine* getGoldMinePtr();
 	~Cell();
 	friend ostream&operator<<(ostream& os, const Cell &c) {
 		os << "(" << c.x << ":" << c.y << ")";

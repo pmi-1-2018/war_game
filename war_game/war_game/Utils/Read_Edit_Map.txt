@@ -1,0 +1,7 @@
+5 5
+2  GG|
+  GGG|
+2GGGG|
+GGGGG|
+GGG3G|
+------

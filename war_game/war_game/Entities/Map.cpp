@@ -137,12 +137,12 @@ void Map::generateRandomMap(string fileName, int height, int width)
 
 	int countOfCells = this->height * this->width;
 
-	//countofbarriers will be ganarated from 10% to 25%
+	//countofbarriers will be generated from 10% to 25%
 	int countOfBarriers = 0;
 	do
 	{
 		countOfBarriers = (rand() % countOfCells);
-	} while (countOfBarriers >= (countOfCells / 4) || countOfBarriers <= (countOfCells / 10));
+	} while (countOfBarriers > (countOfCells / 4) || countOfBarriers < (countOfCells / 10));
 
 	//count of lonely barriers
 	int countOfLonelyBarriers = countOfBarriers / 4;
@@ -257,11 +257,28 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			}
 		}
 	}
-	int maxBarracksQuantity = this->height * this->width / 100;
+	int maxGoldMinesQuantity = this->height * this->width / 50;
+	for (size_t i = 0; i < maxGoldMinesQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || !map[y][x].isPossibleGenerate())
+		{
+			i--;
+			continue;
+		}
+		map[y][x].setCell('G', x, y);
+	}
+	int maxBarracksQuantity = this->height * this->width / 50;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || !map[y][x].isPossibleGenerate())
+		{
+			i--;
+			continue;
+		}
 		map[y][x].setCell('B', x, y);
 	}
 	int maxBotArmiesQuantity = this->height * this->width / 50;
@@ -269,6 +286,11 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	{
 		int x = rand() % width;
 		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || !map[y][x].isPossibleGenerate())
+		{
+			i--;
+			continue;
+		}
 		map[y][x].setCell('A', x, y);
 	}
 	ofstream myfile;
@@ -442,6 +464,12 @@ void Map::mapDraw(Map &m, int x, int y)
 				cout << 'B';
 				continue;
 			}
+			if (m.map[i][j].getGoldMinePtr() != nullptr)
+			{
+				m.SetBackground("D");
+				cout << 'G';
+				continue;
+			}
 			if (m.map[i][j].getIsBotArmy() == true)
 			{
 				m.SetBackground("D");
@@ -495,6 +523,11 @@ ostream& operator<<(ostream& sout, Map &m)
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
 				sout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getGoldMinePtr() != nullptr)
+			{
+				sout << 'G';
 				continue;
 			}
 			if (m.map[i][j].getIsBotArmy() != false)
