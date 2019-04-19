@@ -274,7 +274,8 @@ void GameManager::Start()
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
 		// response = 3 - out of points - switching the turn
-		//response = 4 = stepped on a barrack
+		// response = 4 - stepped on a barrack
+		// response = 5 - stepped on a Gold Mine
 		if (hitTheWall == true)
 		{
 			continue;
@@ -345,10 +346,28 @@ void GameManager::Start()
 				break;
 			}
 			system("CLS");
+			this->map->SetBackground("I");
 			cout << "Turn: " << this->turn << endl;
 			cout << "Points left: " << army->GetCurrEnergy() << endl;
 			army = nullptr;
 			Draw(this->turn, new_x, new_y);
+			continue;
+		}
+		if (response == 5)
+		{
+			Army *army = newCell->GetArmy();
+			GoldMine *goldMine = newCell->getGoldMinePtr();
+			if (goldMine->getOwner() != this->turn)
+			{
+				goldMine->setOwner(this->turn);
+			}
+			system("CLS");
+			this->map->SetBackground("I");
+			cout << "Turn: " << this->turn << endl;
+			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			army = nullptr;
+			Draw(this->turn, new_x, new_y);
+			continue;
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{

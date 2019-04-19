@@ -361,6 +361,15 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			prevCell = nullptr;
 			return 4;
 		}
+		else if (map[newCell->GetY()][newCell->GetX()].getGoldMinePtr() != nullptr)
+		{
+			int cellWeight = newCell->getPassCost();
+			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
+			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
+			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
+			prevCell = nullptr;
+			return 5;
+		}
 		else
 		{
 			int cellWeight = newCell->getPassCost();
@@ -402,8 +411,8 @@ void Map::resetPlayers(char& turn)
 	}
 	// setting the default position of the players.
 	Swordsman units[2];
-	Army* player_1 = new Army("Aliance", units, 2, 'F', true);
-	Army* player_2 = new Army("Horde", units, 2, 'S', true);
+	Army* player_1 = new Army("Aliance", units, 2, 'F', true, 100);
+	Army* player_2 = new Army("Horde", units, 2, 'S', true, 100);
 	// cin>>player_1,player_2
 	map[0][1].SetPlayer(player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);

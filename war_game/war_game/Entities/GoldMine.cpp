@@ -46,4 +46,14 @@ void GoldMine::increaseLvl(int& vallet)
 	}
 }
 
+void GoldMine::setOwner(char newOwnerSymb)
+{
+	this->owner = newOwnerSymb;
+}
+
+void GoldMine::giveGold(int& wallet)
+{
+	wallet += income;
+}
+
 

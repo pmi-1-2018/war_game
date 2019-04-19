@@ -7,10 +7,11 @@
 #include "Army.h"
 
 
-Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]) {}
-Army::Army(string name, Unit*list, int num, char symb, bool isPlayer)
+Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]), wallet(0) {}
+Army::Army(string name, Unit*list, int num, char symb, bool isPlayer, int money)
 {
 	nameOfArmy = name;
+	this->wallet = money;
 	this->numberOfUnits = num;
 	this->units = new Unit[num];
 	this->dec_energy = 0;

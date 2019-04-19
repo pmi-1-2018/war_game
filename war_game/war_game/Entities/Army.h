@@ -23,9 +23,10 @@ private:
 	int currentEnergy;
 	bool isPlayer = false;
 	bool isBotArmy = false;
+	int wallet;
 public:
 	Army();
-	Army(string name, Unit*list, int num, char symb, bool isPlayer);
+	Army(string name, Unit*list, int num, char symb, bool isPlayer, int money);
 	void inputTheArmy();
 	void printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage);
 	void printArmies(Army& a, int thisArmy, int otherArmy);

@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include"Army.h"
 class GoldMine
 {
 private:
@@ -14,4 +15,6 @@ public:
 	int getIncome();
 	int getOwner();
 	int getLvl();
+	void giveGold(int& vallet);
+	void setOwner(char newOwnerSymb);
 };

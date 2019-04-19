@@ -91,19 +91,19 @@ void Cell::setCell(char symb, int x, int y)
 		quantity = rand() % 3 + 1;
 		if (n == 1)
 		{
-			this->army = new Army("botsArchers", new Archer[quantity], quantity, 'A', false);
+			this->army = new Army("botsArchers", new Archer[quantity], quantity, 'A', false, 50);
 		}
 		else if (n == 2)
 		{
-			this->army = new Army("BotsSwordsmans", new Swordsman[quantity], quantity, 'A', false);
+			this->army = new Army("BotsSwordsmans", new Swordsman[quantity], quantity, 'A', false, 50);
 		}
 		else if (n == 3)
 		{
-			this->army = new Army("BotsTanks", new Tank[quantity], quantity, 'A', false);
+			this->army = new Army("BotsTanks", new Tank[quantity], quantity, 'A', false, 50);
 		}
 		else if (n == 4)
 		{
-			this->army = new Army("BotsWizards", new Wizard[quantity], quantity, 'A', false);
+			this->army = new Army("BotsWizards", new Wizard[quantity], quantity, 'A', false, 50);
 		}
 		break;
 	case 'G':
