@@ -43,6 +43,24 @@ Army::Army(string name, vector<Unit> list, char symb, bool isPlayer)
 	this->isBotArmy = isPlayer == true ? false : true;
 
 }
+
+void Army::setIsPlayer(bool val)
+{
+	this->isPlayer = val;
+}
+bool Army::getIsPlayer()
+{
+	return isPlayer;
+}
+bool Army::getIsBotArmy()
+{
+	return isBotArmy;
+}
+void Army::setIsBotArmy(bool value)
+{
+	this->isBotArmy = value;
+}
+
 bool Army::SetCurrEnergy(const int & value)
 {
 	this->currentEnergy += value;
@@ -101,536 +119,21 @@ void Army::inputTheArmy() {
 }
 
 
+
+
 bool Army::armyAutoAttack(Army& a)
 {
 	int thisArmy = units.size();
 	int otherArmy = a.units.size();
 	it = units.begin();
 	a.it = a.units.begin();
-	int outcomingDamage;
-	int outcomingMagic = 0;
-	int incomingMagic = 0;
-	int incomingDamage;
+	bool check = true;
 	system("CLS");
-	this->printArmies(a);
+	this->printArmiesFight(a, 0, 0, 0, 0);
 	do
 	{
-		if (units[0].getId() != 4 && a.units[0].getId() != 4)// if there are no wizards 
-		{
-			outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-			if (units.size() >= 2)
-			{
-				if (units[1].getId() == 2)
-				{
-					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-				}
-			}
-			if (outcomingDamage < 0)
-			{
-				outcomingDamage = 0;
-			}
-			if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-			{
-				a.units.erase(a.it);
-				a.it = a.units.begin();
-			}
-			else
-			{
-				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-
-			}
-			if (a.units.size() != 0)
-			{
-				incomingDamage = a.units[0].GetDamage() - units[0].GetDefense();
-				if (a.units.size() >= 2)
-				{
-					if (a.units[1].getId() == 2)
-					{
-						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-					}
-				}
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-				}
-			}
-			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-		}
-		else if(units[0].getId() == 4 && a.units[0].getId() != 4) // if wizard is in the left army
-		{
-			if (units.size() >= 2)
-			{
-				if (units[1].getId() == 2)
-				{
-					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-				}
-			}
-			outcomingMagic = units[0].GetDamage();
-			if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
-			{
-				a.units.erase(a.it);
-				a.it = a.units.begin();
-
-				if (a.units.size() != 0)
-				{
-					if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
-					{
-						a.units.erase(a.it);
-						a.it = a.units.begin();
-						if (a.units.size() != 0)
-						{
-							if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-					else
-					{
-						a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
-						if (a.units.size() >= 1)
-						{
-							if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.it++;
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
-				if (a.units.size() >= 1)
-				{
-					if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
-					{
-						a.it++;
-						a.units.erase(a.it);
-						a.it = a.units.begin();
-						if (a.units.size() >= 1)
-						{
-							if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.it++;
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-					else
-					{
-						a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
-						if (a.units.size() >= 2)
-						{
-							if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.it++;
-								a.it++;
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-				}
-			}
-			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-		}
-		else if (units[0].getId() != 4 && units[0].getId() == 4) // wizard in right army
-		{
-			outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-			if (units.size() >= 2)
-			{
-				if (units[1].getId() == 2)
-				{
-					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-				}
-			}
-			if (outcomingDamage < 0)
-			{
-				outcomingDamage = 0;
-			}
-			if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-			{
-				a.units.erase(a.it);
-				a.it = a.units.begin();
-			}
-			else
-			{
-				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-			}
-			if (a.units.size() != 0)
-			{
-				if (a.units.size() >= 2)
-				{
-					if (a.units[1].getId() == 2)
-					{
-						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-					}
-				}
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-				}
-				incomingMagic = a.units[0].GetDamage();
-				if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-
-					if (units.size() != 0)
-					{
-						if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							units.erase(it);
-							it = units.begin();
-							if (units.size() != 0)
-							{
-								if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() >= 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-					if (units.size() >= 1)
-					{
-						if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							it++;
-							units.erase(it);
-							it = units.begin();
-							if (units.size() >= 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() >= 2)
-							{
-								if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-			}
-		}
-		else // if there are wizards in both armies
-		{
-			if (units.size() >= 2)
-			{
-				if (units[1].getId() == 2)
-				{
-					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-				}
-			}
-			outcomingMagic = units[0].GetDamage();
-			if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
-			{
-				a.units.erase(a.it);
-				a.it = a.units.begin();
-
-				if (a.units.size() != 0)
-				{
-					if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
-					{
-						a.units.erase(a.it);
-						a.it = a.units.begin();
-						if (a.units.size() != 0)
-						{
-							if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-					else
-					{
-						a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
-						if (a.units.size() >= 1)
-						{
-							if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.it++;
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
-				if (a.units.size() >= 1)
-				{
-					if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
-					{
-						a.it++;
-						a.units.erase(a.it);
-						a.it = a.units.begin();
-						if (a.units.size() >= 1)
-						{
-							if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.it++;
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-					else
-					{
-						a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
-						if (a.units.size() >= 2)
-						{
-							if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
-							{
-								a.it++;
-								a.it++;
-								a.units.erase(a.it);
-								a.it = a.units.begin();
-							}
-							else
-							{
-								a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
-							}
-						}
-					}
-				}
-			}
-			outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-			if (units.size() >= 2)
-			{
-				if (units[1].getId() == 2)
-				{
-					outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-				}
-			}
-			if (outcomingDamage < 0)
-			{
-				outcomingDamage = 0;
-			}
-			if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-			{
-				a.units.erase(a.it);
-				a.it = a.units.begin();
-			}
-			else
-			{
-				a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-			}
-			if (a.units.size() != 0)
-			{
-				if (a.units.size() >= 2)
-				{
-					if (a.units[1].getId() == 2)
-					{
-						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-					}
-				}
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-				}
-				incomingMagic = a.units[0].GetDamage();
-				if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-
-					if (units.size() != 0)
-					{
-						if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							units.erase(it);
-							it = units.begin();
-							if (units.size() != 0)
-							{
-								if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() >= 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-					if (units.size() >= 1)
-					{
-						if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							it++;
-							units.erase(it);
-							it = units.begin();
-							if (units.size() >= 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() >= 2)
-							{
-								if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-			}
-			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-		}
+		this->fight(a,check);
+		check = !check;
 		sleep_for(seconds(1));
 	} while ((units.size() != 0) && (a.units.size() != 0));
 	if (a.units.size() == 0)
@@ -656,725 +159,35 @@ bool Army::armyAutoAttack(Army& a)
 		return false;
 	}
 }
-void Army::setIsPlayer(bool val)
-{
-	this->isPlayer = val;
-}
-bool Army::getIsPlayer()
-{
-	return isPlayer;
-}
-bool Army::getIsBotArmy()
-{
-	return isBotArmy;
-}
-void Army::setIsBotArmy(bool value)
-{
-	this->isBotArmy = value;
-}
+
 bool Army::battlePVE(Army& a)
 {
-	double outcomingDamage = 0;
-	double outcomingMagic = 0;
-	double incomingMagic = 0;
-	double incomingDamage = 0;
 	int thisArmy = units.size();
 	int otherArmy = a.units.size();
 	char action;
+	bool check = true;
 	int index1 = 0;
 	int index2 = 0;
 	system("CLS");
-	this->printArmies(a);
+	this->printArmiesFight(a, 0, 0, 0, 0);
 	do
 	{
 		cout << "press A to attack, press S to swap";
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
-			if (units[0].getId() != 4 && a.units[0].getId() != 4)// if there are no wizards 
-			{
-				outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-				if (units.size() >= 2)
-				{
-					if (units[1].getId() == 2)
-					{
-						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-					}
-				}
-				if (outcomingDamage < 0)
-				{
-					outcomingDamage = 0;
-				}
-				if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-
-				}
-				if (a.units.size() != 0)
-				{
-					incomingDamage = a.units[0].GetDamage() - units[0].GetDefense();
-					if (a.units.size() >= 2)
-					{
-						if (a.units[1].getId() == 2)
-						{
-							incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-						}
-					}
-					if (incomingDamage < 0)
-					{
-						incomingDamage = 0;
-					}
-					if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-					}
-				}
-				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-			}
-			else if (units[0].getId() == 4 && a.units[0].getId() != 4) // if wizard is in the left army
-			{
-				if (units.size() >= 2)
-				{
-					if (units[1].getId() == 2)
-					{
-						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-					}
-				}
-				outcomingMagic = units[0].GetDamage();
-				if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-
-					if (a.units.size() != 0)
-					{
-						if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
-						{
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-							if (a.units.size() != 0)
-							{
-								if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
-							if (a.units.size() >= 1)
-							{
-								if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.it++;
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
-					if (a.units.size() >= 1)
-					{
-						if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
-						{
-							a.it++;
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-							if (a.units.size() >= 1)
-							{
-								if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.it++;
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
-							if (a.units.size() >= 2)
-							{
-								if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.it++;
-									a.it++;
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-			}
-			else if (units[0].getId() != 4 && units[0].getId() == 4) // wizard in right army
-			{
-				outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-				if (units.size() >= 2)
-				{
-					if (units[1].getId() == 2)
-					{
-						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-					}
-				}
-				if (outcomingDamage < 0)
-				{
-					outcomingDamage = 0;
-				}
-				if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-				}
-				if (a.units.size() != 0)
-				{
-					if (a.units.size() >= 2)
-					{
-						if (a.units[1].getId() == 2)
-						{
-							incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-						}
-					}
-					if (incomingDamage < 0)
-					{
-						incomingDamage = 0;
-					}
-					if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-					}
-					incomingMagic = a.units[0].GetDamage();
-					if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-
-						if (units.size() != 0)
-						{
-							if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-							{
-								units.erase(it);
-								it = units.begin();
-								if (units.size() != 0)
-								{
-									if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-							else
-							{
-								units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-								if (units.size() >= 1)
-								{
-									if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-						if (units.size() >= 1)
-						{
-							if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-							{
-								it++;
-								units.erase(it);
-								it = units.begin();
-								if (units.size() >= 1)
-								{
-									if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-							else
-							{
-								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-								if (units.size() >= 2)
-								{
-									if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-						}
-					}
-					this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-				}
-			}
-			else // if there are wizards in both armies
-			{
-				if (units.size() >= 2)
-				{
-					if (units[1].getId() == 2)
-					{
-						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-					}
-				}
-				outcomingMagic = units[0].GetDamage();
-				if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-
-					if (a.units.size() != 0)
-					{
-						if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
-						{
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-							if (a.units.size() != 0)
-							{
-								if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
-							if (a.units.size() >= 1)
-							{
-								if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.it++;
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
-					if (a.units.size() >= 1)
-					{
-						if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
-						{
-							a.it++;
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-							if (a.units.size() >= 1)
-							{
-								if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.it++;
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
-							if (a.units.size() >= 2)
-							{
-								if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
-								{
-									a.it++;
-									a.it++;
-									a.units.erase(a.it);
-									a.it = a.units.begin();
-								}
-								else
-								{
-									a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-				if (units.size() >= 2)
-				{
-					if (units[1].getId() == 2)
-					{
-						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-					}
-				}
-				if (outcomingDamage < 0)
-				{
-					outcomingDamage = 0;
-				}
-				if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-				}
-				if (a.units.size() != 0)
-				{
-					if (a.units.size() >= 2)
-					{
-						if (a.units[1].getId() == 2)
-						{
-							incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-						}
-					}
-					if (incomingDamage < 0)
-					{
-						incomingDamage = 0;
-					}
-					if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-					}
-					incomingMagic = a.units[0].GetDamage();
-					if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-
-						if (units.size() != 0)
-						{
-							if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-							{
-								units.erase(it);
-								it = units.begin();
-								if (units.size() != 0)
-								{
-									if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-							else
-							{
-								units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-								if (units.size() >= 1)
-								{
-									if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-						if (units.size() >= 1)
-						{
-							if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-							{
-								it++;
-								units.erase(it);
-								it = units.begin();
-								if (units.size() >= 1)
-								{
-									if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-							else
-							{
-								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-								if (units.size() >= 2)
-								{
-									if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-						}
-					}
-				}
-				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-			}
+			this->fight(a,check);
+			check = !check;
+			sleep_for(seconds(1));
+			this->fight(a, check);
+			check = !check;
+			sleep_for(seconds(1));
 		}
 		if (action == 'S' || action == 's')
 		{
 			this->swapUnits_1(index1, index2, a);
 			swap(units[index1], units[index2]);
-
-			if (a.units[0].getId() != 4)
-			{
-				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-				if (a.units.size() >= 2)
-				{
-					if (a.units[1].getId() == 2)
-					{
-						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-					}
-				}
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-				}
-				system("CLS");
-				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-			}
-			else // wizard in right army
-			{
-				outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-				if (units.size() >= 2)
-				{
-					if (units[1].getId() == 2)
-					{
-						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-					}
-				}
-				if (outcomingDamage < 0)
-				{
-					outcomingDamage = 0;
-				}
-				if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-				}
-				if (a.units.size() != 0)
-				{
-					if (a.units.size() >= 2)
-					{
-						if (a.units[1].getId() == 2)
-						{
-							incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-						}
-					}
-					if (incomingDamage < 0)
-					{
-						incomingDamage = 0;
-					}
-					if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-					}
-					incomingMagic = a.units[0].GetDamage();
-					if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-					{
-						units.erase(it);
-						it = units.begin();
-
-						if (units.size() != 0)
-						{
-							if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-							{
-								units.erase(it);
-								it = units.begin();
-								if (units.size() != 0)
-								{
-									if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-							else
-							{
-								units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-								if (units.size() >= 1)
-								{
-									if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-						if (units.size() >= 1)
-						{
-							if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-							{
-								it++;
-								units.erase(it);
-								it = units.begin();
-								if (units.size() >= 1)
-								{
-									if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-							else
-							{
-								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-								if (units.size() >= 2)
-								{
-									if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-									{
-										it++;
-										it++;
-										units.erase(it);
-										it = units.begin();
-									}
-									else
-									{
-										units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-									}
-								}
-							}
-						}
-					}
-					this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-				}
-			}
+			this->fight(a, false);
 		}
 	} while (units.size() != 0 && a.units.size() != 0);
 	if (a.units.size() == 0)
@@ -1400,275 +213,531 @@ bool Army::battlePVE(Army& a)
 		return false;
 	}
 }
-//bool Army::battlePVP(Army& a)
-//{
-//	int incomingMagic = 0;
-//	int outcomingMagic = 0;
-//	double outcomingDamage = 0;
-//	double incomingDamage = 0;
-//	int thisArmy = units.size();
-//	int otherArmy = a.units.size();
-//	char action;
-//	int index1 = 0;
-//	int index2 = 0;
-//	system("CLS");
-//	this->printArmies(a);
-//	do
-//	{
-//		cout << "press A to attack, press S to swap";
-//		action = _getch();
-//		if (action == 'A' || action == 'a')
-//		{
-//			if (units[0].getId() != 4)
-//			{
-//				outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-//				if (units.size() >= 2)
-//				{
-//					if (units[1].getId() == 2)
-//					{
-//						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-//					}
-//				}
-//				if (outcomingDamage < 0)
-//				{
-//					outcomingDamage = 0;
-//				}
-//				if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-//				{
-//					a.units.erase(a.it);
-//					a.it = a.units.begin();
-//				}
-//				else
-//				{
-//					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-//
-//				}
-//				if (a.units.size() != otherArmy)
-//				{
-//					incomingDamage = a.units[0].GetDamage() - units[0].GetDefense();
-//					if (incomingDamage < 0)
-//					{
-//						incomingDamage = 0;
-//					}
-//					if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-//					{
-//						units.erase(it);
-//						it = units.begin();
-//					}
-//					else
-//					{
-//						units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
-//					}
-//				}
-//				system("CLS");
-//				this->printArmiesFight(a, incomingDamage, outcomingDamage);
-//			}
-//			else
-//			{
-//				if (units.size() >= 2)
-//				{
-//					if (units[1].getId() == 2)
-//					{
-//						outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-//					}
-//				}
-//				outcomingMagic = units[0].GetDamage();
-//				if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
-//				{
-//					a.units.erase(a.it);
-//					a.it = a.units.begin();
-//
-//					if (a.units.size() != 0)
-//					{
-//						if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
-//						{
-//							a.units.erase(a.it);
-//							a.it = a.units.begin();
-//							if (a.units.size() != 0)
-//							{
-//								if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
-//								{
-//									a.units.erase(a.it);
-//									a.it = a.units.begin();
-//								}
-//								else
-//								{
-//									a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
-//								}
-//							}
-//						}
-//						else
-//						{
-//							a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
-//							if (a.units.size() >= 1)
-//							{
-//								if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-//								{
-//									a.it++;
-//									a.units.erase(a.it);
-//									a.it = a.units.begin();
-//								}
-//								else
-//								{
-//									a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-//								}
-//							}
-//						}
-//					}
-//				}
-//				else
-//				{
-//					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
-//					if (a.units.size() >= 1)
-//					{
-//						if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
-//						{
-//							a.it++;
-//							a.units.erase(a.it);
-//							a.it = a.units.begin();
-//							if (a.units.size() >= 1)
-//							{
-//								if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-//								{
-//									a.it++;
-//									a.units.erase(a.it);
-//									a.it = a.units.begin();
-//								}
-//								else
-//								{
-//									a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-//								}
-//							}
-//						}
-//						else
-//						{
-//							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
-//							if (a.units.size() >= 2)
-//							{
-//								if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
-//								{
-//									a.it++;
-//									a.it++;
-//									a.units.erase(a.it);
-//									a.it = a.units.begin();
-//								}
-//								else
-//								{
-//									a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
-//								}
-//							}
-//						}
-//					}
-//				}
-//				this->printArmyWizardLeft(a, outcomingMagic, incomingDamage, outcomingDamage);
-//			}
-//		}
-//		else
-//		{
-//			this->swapUnits_1(index1, index2, a);
-//			swap(units[index1], units[index2]);
-//			system("CLS");
-//			this->printArmies(a);
-//		}
-//		if (units.size() != 0 && a.units.size() != 0)
-//		{
-//			cout << "\npress A to attack, press S to swap";
-//			action = _getch();
-//			if (action == 'A' || action == 'a')
-//			{
-//				incomingDamage = a.units[0].GetDamage() - units[0].GetDefense();
-//				if (a.units.size() >= 2)
-//				{
-//					if (a.units[1].getId() == 2)
-//					{
-//						incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
-//					}
-//				}
-//				if (incomingDamage < 0)
-//				{
-//					incomingDamage = 0;
-//				}
-//				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-//				{
-//					units.erase(it);
-//					it = units.begin();
-//				}
-//				else
-//				{
-//					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-//				}
-//				if (units.size() != 0)
-//				{
-//					outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-//					if (outcomingDamage < 0)
-//					{
-//						outcomingDamage = 0;
-//					}
-//					if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
-//					{
-//						a.units.erase(a.it);
-//						a.it = a.units.begin();
-//					}
-//					else
-//					{
-//						a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-//					}
-//					system("CLS");
-//					this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
-//				}
-//			}
-//			else
-//			{
-//				a.swapUnits_2(index1, index2, *this, numberOfUnits - thisArmy, a.numberOfUnits - otherArmy);
-//				swap(a.units[index1], a.units[index2]);
-//				system("CLS");
-//				this->printArmies(a, thisArmy, otherArmy);
-//			}
-//		}
-//	} while (numberOfUnits != thisArmy && a.numberOfUnits != otherArmy);
-//	if (otherArmy == a.numberOfUnits)
-//	{
-//		delete[] a.units;
-//		Unit* copy = new Unit[5];
-//		CalcLevelAndCapacity(otherArmy);
-//		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
-//		{
-//			copy[i] = units[i + thisArmy];
-//		}
-//		delete[] units;
-//		units = copy;
-//		numberOfUnits -= thisArmy;
-//		dec_energy = 0;
-//		for (size_t i = 0; i < numberOfUnits; i++)
-//		{
-//			dec_energy += units[i].GetDecEnergy();
-//		}
-//		cout << endl << symb << "  won" << endl;
-//		this->printArmy();
-//		return true;
-//	}
-//	if (thisArmy == numberOfUnits)
-//	{
-//		delete[] units;
-//		Unit* copy = new Unit[5];
-//		CalcLevelAndCapacity(thisArmy);
-//		for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
-//		{
-//			copy[i] = a.units[i + otherArmy];
-//		}
-//		delete[] a.units;
-//		a.units = copy;
-//		a.numberOfUnits -= otherArmy;
-//		a.dec_energy = 0;
-//		for (size_t i = 0; i < a.numberOfUnits; i++)
-//		{
-//			a.dec_energy += a.units[i].GetDecEnergy();
-//		}
-//		cout << endl << a.symb << "  won" << endl;
-//		a.printArmy();
-//		return false;
-//	}
-//}
+
+bool Army::battlePVP(Army& a)
+{
+	bool turn = true;
+	int thisArmy = units.size();
+	int otherArmy = a.units.size();
+	char action;
+	int index1 = 0;
+	int index2 = 0;
+	system("CLS");
+	this->printArmiesFight(a,0,0,0,0);
+	do
+	{
+		system("CLS");
+		cout << "press A to attack, press S to swap";
+		action = _getch();
+		if (action == 'A' || action == 'a')
+		{
+			this->fight(a, turn);
+			sleep_for(seconds(1));
+		}
+		if (action == 'S' || action == 's')
+		{
+			if (turn == true)
+			{
+				this->swapUnits_1(index1, index2, a);
+				swap(units[index1], units[index2]);
+			}
+			else
+			{
+				this->swapUnits_2(index1, index2, *this);
+				swap(a.units[index1], a.units[index2]);
+			}
+		}
+		turn = !turn;
+	} while (units.size() != 0 && a.units.size() != 0);
+	if (a.units.size() == 0)
+	{
+		this->CalcLevelAndCapacity(otherArmy);
+		dec_energy = 0;
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			dec_energy += units[i].GetDecEnergy();
+		}
+		cout << "you won" << endl;
+		return true;
+	}
+	if (units.size() == 0)
+	{
+		a.CalcLevelAndCapacity(thisArmy);
+		a.dec_energy = 0;
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			a.dec_energy += a.units[i].GetDecEnergy();
+		}
+		cout << "you lost" << endl;
+		return false;
+	}
+}
+
+void Army::fight(Army& a, bool check)
+{
+	int outcomingDamage = 0;
+	int outcomingMagic = 0;
+	int incomingMagic = 0;
+	int incomingDamage = 0;
+	if (check == true)
+	{
+		if (units.size() >= 2)
+		{
+			if (units[1].getId() == 2)
+			{
+				outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
+			}
+		}
+	}
+	if (check == false)
+	{
+		if (a.units.size() >= 2)
+		{
+			if (a.units[1].getId() == 2)
+			{
+				incomingDamage += a.units[1].GetDamage() - units[0].GetDefense();
+			}
+		}
+	}
+	if (units[0].getId() != 4 && a.units[0].getId() != 4)// if there are no wizards 
+	{
+		outcomingDamage += units[0].GetDamage() - a.units[0].GetDefense();
+		if (outcomingDamage < 0)
+		{
+			outcomingDamage = 0;
+		}
+		if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
+		{
+			a.units.erase(a.it);
+			a.it = a.units.begin();
+		}
+		else
+		{
+			a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
+		}
+		if (a.units.size() != 0)
+		{
+			incomingDamage += a.units[0].GetDamage() - units[0].GetDefense();
+			if (incomingDamage < 0)
+			{
+				incomingDamage = 0;
+			}
+			if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
+			{
+				units.erase(it);
+				it = units.begin();
+			}
+			else
+			{
+				units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
+			}
+		}
+		this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
+	}
+	else if (units[0].getId() == 4 && a.units[0].getId() != 4) // if wizard is in the left army
+	{
+		outcomingMagic = units[0].GetDamage();
+		if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
+		{
+			a.units.erase(a.it);
+			a.it = a.units.begin();
+
+			if (a.units.size() != 0)
+			{
+				if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
+				{
+					a.units.erase(a.it);
+					a.it = a.units.begin();
+					if (a.units.size() != 0)
+					{
+						if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+				else
+				{
+					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
+					if (a.units.size() >= 1)
+					{
+						if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.it++;
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
+			if (a.units.size() >= 1)
+			{
+				if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
+				{
+					a.it++;
+					a.units.erase(a.it);
+					a.it = a.units.begin();
+					if (a.units.size() >= 1)
+					{
+						if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.it++;
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+				else
+				{
+					a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
+					if (a.units.size() >= 2)
+					{
+						if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.it++;
+							a.it++;
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+			}
+		}
+		if (a.units.size() != 0)
+		{
+			incomingDamage += a.units[0].GetDamage() - units[0].GetDefense();
+			if (incomingDamage < 0)
+			{
+				incomingDamage = 0;
+			}
+			if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
+			{
+				units.erase(it);
+				it = units.begin();
+			}
+			else
+			{
+				units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
+			}
+		}
+		this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
+	}
+	else if (units[0].getId() != 4 && units[0].getId() == 4) // wizard in right army
+	{
+		outcomingDamage += units[0].GetDamage() - a.units[0].GetDefense();
+		if (outcomingDamage < 0)
+		{
+			outcomingDamage = 0;
+		}
+		if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
+		{
+			a.units.erase(a.it);
+			a.it = a.units.begin();
+		}
+		else
+		{
+			a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
+		}
+		if (a.units.size() != 0)
+		{
+			incomingMagic = a.units[0].GetDamage();
+			if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
+			{
+				units.erase(it);
+				it = units.begin();
+
+				if (units.size() != 0)
+				{
+					if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
+					{
+						units.erase(it);
+						it = units.begin();
+						if (units.size() != 0)
+						{
+							if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+					else
+					{
+						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
+						if (units.size() >= 1)
+						{
+							if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								it++;
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
+				if (units.size() >= 1)
+				{
+					if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
+					{
+						it++;
+						units.erase(it);
+						it = units.begin();
+						if (units.size() >= 1)
+						{
+							if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								it++;
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+					else
+					{
+						units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
+						if (units.size() >= 2)
+						{
+							if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								it++;
+								it++;
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+				}
+			}
+			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
+		}
+	}
+	else // if there are wizards in both armies
+	{
+		incomingMagic = a.units[0].GetDamage();
+		outcomingMagic = units[0].GetDamage();
+		if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
+		{
+			a.units.erase(a.it);
+			a.it = a.units.begin();
+
+			if (a.units.size() != 0)
+			{
+				if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
+				{
+					a.units.erase(a.it);
+					a.it = a.units.begin();
+					if (a.units.size() != 0)
+					{
+						if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+				else
+				{
+					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
+					if (a.units.size() >= 1)
+					{
+						if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.it++;
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
+			if (a.units.size() >= 1)
+			{
+				if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
+				{
+					a.it++;
+					a.units.erase(a.it);
+					a.it = a.units.begin();
+					if (a.units.size() >= 1)
+					{
+						if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.it++;
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+				else
+				{
+					a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
+					if (a.units.size() >= 2)
+					{
+						if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
+						{
+							a.it++;
+							a.it++;
+							a.units.erase(a.it);
+							a.it = a.units.begin();
+						}
+						else
+						{
+							a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
+						}
+					}
+				}
+			}
+		}
+		if (a.units.size() != 0)
+		{
+			if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
+			{
+				units.erase(it);
+				it = units.begin();
+
+				if (units.size() != 0)
+				{
+					if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
+					{
+						units.erase(it);
+						it = units.begin();
+						if (units.size() != 0)
+						{
+							if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+					else
+					{
+						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
+						if (units.size() >= 1)
+						{
+							if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								it++;
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
+				if (units.size() >= 1)
+				{
+					if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
+					{
+						it++;
+						units.erase(it);
+						it = units.begin();
+						if (units.size() >= 1)
+						{
+							if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								it++;
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+					else
+					{
+						units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
+						if (units.size() >= 2)
+						{
+							if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
+							{
+								it++;
+								it++;
+								units.erase(it);
+								it = units.begin();
+							}
+							else
+							{
+								units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
+							}
+						}
+					}
+				}
+			}
+		}
+		this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
+	}
+}
+
+
 
 void Army::printArmy()
 {
@@ -1683,40 +752,43 @@ void Army::printArmy()
 void Army::printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
-	if (units[0].getId() != 4 && a.units[0].getId() != 4)
+	if (incomingDamage == 0 && outcomingDamage == 0)
 	{
-		for (size_t i = 2; i < units.size(); i++)
+		if (units[0].getId() != 4 && a.units[0].getId() != 4)
 		{
-			cout << " ";
+			for (size_t i = 2; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
 		}
-		cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
-	}
-	else if (units[0].getId() != 4 && a.units[0].getId() == 4)
-	{
-		for (size_t i = 4; i < units.size(); i++)
+		else if (units[0].getId() != 4 && a.units[0].getId() == 4)
 		{
-			cout << " ";
+			for (size_t i = 4; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << '-' << incomingDamage + incomingMagic << "  "
+				<< "-" << outcomingDamage << endl;
 		}
-		cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << '-' << incomingDamage + incomingMagic << "  " 
-			<< "-" << outcomingDamage << endl;
-	}
-	else if (units[0].getId() == 4 && a.units[0].getId() != 4)
-	{
-		for (size_t i = 4; i < units.size(); i++)
+		else if (units[0].getId() == 4 && a.units[0].getId() != 4)
 		{
-			cout << " ";
+			for (size_t i = 4; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic << "-"
+				<< outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
 		}
-		cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic << "-" 
-			<< outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
-	}
-	else if (units[0].getId() == 4 && a.units[0].getId() == 4)
-	{
-		for (size_t i = 4; i < units.size(); i++)
+		else if (units[0].getId() == 4 && a.units[0].getId() == 4)
 		{
-			cout << " ";
+			for (size_t i = 4; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << "-" << incomingMagic + incomingDamage << "  "
+				<< "-" << outcomingDamage + outcomingMagic << "-" << outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
 		}
-		cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << "-" << incomingMagic + incomingDamage << "  "
-			<< "-" << outcomingDamage + outcomingMagic << "-" << outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
 	}
 	for (size_t i = 0; i < units.size(); i++)
 	{
@@ -1726,21 +798,6 @@ void Army::printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int 
 	for (size_t i = 0; i < a.units.size(); i++)
 	{
 		cout << a.units[i];
-	}
-	cout << endl;
-}
-
-
-void Army::printArmies(Army& a)
-{
-	for (size_t i = 0; i < units.size(); i++)
-	{
-		cout << units[units.size() - i - 1];
-	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i + units.size()];
 	}
 	cout << endl;
 }

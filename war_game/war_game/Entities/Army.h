@@ -36,9 +36,9 @@ public:
 	Army(string name,vector<Unit> list, char symb, bool isPlayer);
 	void inputTheArmy();
 	void printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage);
-	void printArmies(Army& a);
 	void printArmy();
 	int getNumberOfUnits();
+	void fight(Army& a,bool check);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
