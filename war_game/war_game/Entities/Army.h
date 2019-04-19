@@ -36,7 +36,7 @@ public:
 	Army(string name,vector<Unit> list, char symb, bool isPlayer);
 
 	void inputTheArmy();
-	void printArmiesFight(Army& a, int& incomingMagic, int& outcomingMagic, int& incomingDamage, int& outcomingDamage);
+	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
 	void printArmy();
 
 	void fight(Army& a,bool check);

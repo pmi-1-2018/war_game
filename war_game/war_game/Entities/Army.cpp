@@ -125,8 +125,6 @@ bool Army::armyAutoAttack(Army& a)
 {
 	int thisArmy = units.size();
 	int otherArmy = a.units.size();
-	it = units.begin();
-	a.it = a.units.begin();
 	bool check = true;
 	system("CLS");
 	int var = 0;
@@ -246,7 +244,7 @@ bool Army::battlePVP(Army& a)
 			}
 			else
 			{
-				this->swapUnits_2(index1, index2, *this);
+				a.swapUnits_2(index1, index2, *this);
 				swap(a.units[index1], a.units[index2]);
 			}
 		}
@@ -278,6 +276,8 @@ bool Army::battlePVP(Army& a)
 
 void Army::fight(Army& a, bool check)
 {
+	it = units.begin();
+	a.it = a.units.begin();
 	int outcomingDamage = 0;
 	int outcomingMagic = 0;
 	int incomingMagic = 0;
@@ -752,10 +752,10 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army& a, int& incomingMagic, int& outcomingMagic, int& incomingDamage, int& outcomingDamage)
+void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic)
 {
 	system("CLS");
-	if (incomingDamage != 0 && incomingMagic != 0)
+	if (incomingDamage != 0 || incomingMagic != 0)
 	{
 		if (units[0].getId() != 4 && a.units[0].getId() != 4)
 		{
