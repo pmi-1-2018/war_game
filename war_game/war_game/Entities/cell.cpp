@@ -10,6 +10,19 @@ Cell::Cell() :
 	y(0),
 	barrack(nullptr)
 {}
+
+Cell::Cell(const Cell& other)
+{
+	this->passCost = other.passCost;
+	this->isPassable = other.isPassable;
+	this->barrack = other.barrack;
+	this->isBarrack = other.isBarrack;
+	this->army = other.army;
+	this->playersCount = other.playersCount;
+	this->x = other.x;
+	this->y = other.y;
+}
+
 Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
 //	isPlayer(false),
@@ -30,8 +43,8 @@ void Cell::setCell(char symb, int x, int y)
 	srand(time(NULL));
 	int n = rand() % 4 + 1;
 	int quantity;
-	this->y = x;
-	this->x = y;
+	this->y = y;
+	this->x = x;
 	this->barrack = nullptr;
 	this->isPassable = true;
 	switch (symb)
