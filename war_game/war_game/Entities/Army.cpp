@@ -108,8 +108,8 @@ bool Army::armyAutoAttack(Army& a)
 	it = units.begin();
 	a.it = a.units.begin();
 	int outcomingDamage;
-	double outcomingMagic = 0;
-	double incomingMagic = 0;
+	int outcomingMagic = 0;
+	int incomingMagic = 0;
 	int incomingDamage;
 	system("CLS");
 	this->printArmies(a);
@@ -163,7 +163,7 @@ bool Army::armyAutoAttack(Army& a)
 					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
 				}
 			}
-			this->printArmiesFight(a, incomingDamage, outcomingDamage);
+			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 		}
 		else if(units[0].getId() == 4 && a.units[0].getId() != 4) // if wizard is in the left army
 		{
@@ -262,7 +262,7 @@ bool Army::armyAutoAttack(Army& a)
 					}
 				}
 			}
-			this->printArmyWizardLeft(a, outcomingMagic, incomingDamage, outcomingDamage);
+			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 		}
 		else if (units[0].getId() != 4 && units[0].getId() == 4) // wizard in right army
 		{
@@ -397,7 +397,7 @@ bool Army::armyAutoAttack(Army& a)
 						}
 					}
 				}
-				this->printArmyWizardRight(a, incomingMagic, incomingDamage, outcomingDamage);
+				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 			}
 		}
 		else // if there are wizards in both armies
@@ -629,7 +629,7 @@ bool Army::armyAutoAttack(Army& a)
 					}
 				}
 			}
-			this->printArmyWizardBoth(a, incomingMagic, outcomingMagic, incomingDamage, outcomingDamage);
+			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 		}
 		sleep_for(seconds(1));
 	} while ((units.size() != 0) && (a.units.size() != 0));
@@ -739,7 +739,7 @@ bool Army::battlePVE(Army& a)
 						units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
 					}
 				}
-				this->printArmiesFight(a, incomingDamage, outcomingDamage);
+				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 			}
 			else if (units[0].getId() == 4 && a.units[0].getId() != 4) // if wizard is in the left army
 			{
@@ -838,7 +838,7 @@ bool Army::battlePVE(Army& a)
 						}
 					}
 				}
-				this->printArmyWizardLeft(a, outcomingMagic, incomingDamage, outcomingDamage);
+				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 			}
 			else if (units[0].getId() != 4 && units[0].getId() == 4) // wizard in right army
 			{
@@ -973,7 +973,7 @@ bool Army::battlePVE(Army& a)
 							}
 						}
 					}
-					this->printArmyWizardRight(a, incomingMagic, incomingDamage, outcomingDamage);
+					this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 				}
 			}
 			else // if there are wizards in both armies
@@ -1205,7 +1205,7 @@ bool Army::battlePVE(Army& a)
 						}
 					}
 				}
-				this->printArmyWizardBoth(a, incomingMagic, outcomingMagic, incomingDamage, outcomingDamage);
+				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 			}
 		}
 		if (action == 'S' || action == 's')
@@ -1237,7 +1237,7 @@ bool Army::battlePVE(Army& a)
 					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
 				}
 				system("CLS");
-				this->printArmiesFight(a, incomingDamage, outcomingDamage);
+				this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 			}
 			else // wizard in right army
 			{
@@ -1372,7 +1372,7 @@ bool Army::battlePVE(Army& a)
 							}
 						}
 					}
-					this->printArmyWizardRight(a, incomingMagic, incomingDamage, outcomingDamage);
+					this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
 				}
 			}
 		}
@@ -1680,14 +1680,44 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army& a, int incomingDamage, int outcomingDamage)
+void Army::printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage)
 {
 	system("CLS");
-	for (size_t i = 2; i < units.size(); i++)
+	if (units[0].getId() != 4 && a.units[0].getId() != 4)
 	{
-		cout << " ";
+		for (size_t i = 2; i < units.size(); i++)
+		{
+			cout << " ";
+		}
+		cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
 	}
-	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
+	else if (units[0].getId() != 4 && a.units[0].getId() == 4)
+	{
+		for (size_t i = 4; i < units.size(); i++)
+		{
+			cout << " ";
+		}
+		cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << '-' << incomingDamage + incomingMagic << "  " 
+			<< "-" << outcomingDamage << endl;
+	}
+	else if (units[0].getId() == 4 && a.units[0].getId() != 4)
+	{
+		for (size_t i = 4; i < units.size(); i++)
+		{
+			cout << " ";
+		}
+		cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic << "-" 
+			<< outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
+	}
+	else if (units[0].getId() == 4 && a.units[0].getId() == 4)
+	{
+		for (size_t i = 4; i < units.size(); i++)
+		{
+			cout << " ";
+		}
+		cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << "-" << incomingMagic + incomingDamage << "  "
+			<< "-" << outcomingDamage + outcomingMagic << "-" << outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
+	}
 	for (size_t i = 0; i < units.size(); i++)
 	{
 		cout << units[units.size() - i - 1];
@@ -1700,68 +1730,6 @@ void Army::printArmiesFight(Army& a, int incomingDamage, int outcomingDamage)
 	cout << endl;
 }
 
-void Army::printArmyWizardLeft(Army& a, int outcomingMagic, int incomingDamage, int outcomingDamage)
-{
-	system("CLS");
-	for (size_t i = 4; i < units.size(); i++)
-	{
-		cout << " ";
-	}
-	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic << "-" << outcomingMagic / 2 << "-" << outcomingMagic / 4 << endl;
-	for (size_t i = 0; i < units.size(); i++)
-	{
-		cout << units[units.size() - i - 1] << " ";
-	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i] << " ";
-	}
-	cout << endl;
-}
-
-
-void Army::printArmyWizardBoth(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage)
-{
-	system("CLS");
-	for (size_t i = 4; i < units.size(); i++)
-	{
-		cout << " ";
-	}
-	cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << "-" << incomingMagic + incomingDamage << "  " 
-		<< "-" << outcomingDamage + outcomingMagic << "-" << outcomingMagic /2 << "-" << outcomingMagic /4 << endl;
-	for (size_t i = 0; i < units.size(); i++)
-	{
-		cout << units[units.size() - i - 1] << " ";
-	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i] << " ";
-	}
-	cout << endl;
-}
-
-
-void Army::printArmyWizardRight(Army& a, int incomingMagic, int incomingDamage, int outcomingDamage)
-{
-	system("CLS");
-	for (size_t i = 4; i < units.size(); i++)
-	{
-		cout << " ";
-	}
-	cout << "-" << incomingMagic / 4 << '-' << incomingMagic / 2 << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
-	for (size_t i = 0; i < units.size(); i++)
-	{
-		cout << units[units.size() - i - 1] << " ";
-	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i] << " ";
-	}
-	cout << endl;
-}
 
 void Army::printArmies(Army& a)
 {
@@ -2507,4 +2475,7 @@ int Army::GetCapacity()
 {
 	return capacity;
 }
-
+int Army::getNumberOfUnits()
+{
+	return units.size();
+}

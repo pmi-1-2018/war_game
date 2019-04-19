@@ -35,12 +35,10 @@ public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer);
 	void inputTheArmy();
-	void printArmiesFight(Army& a, int incomingDamage, int outcomingDamage);
+	void printArmiesFight(Army& a, int incomingMagic, int outcomingMagic, int incomingDamage, int outcomingDamage);
 	void printArmies(Army& a);
 	void printArmy();
-	void printArmyWizardLeft(Army& a, int outcomingMagic, int incomingDamage, int outcomingDamage);
-	void printArmyWizardRight(Army& a,int incomingMagic, int incomingDamage, int outcomingDamage);
-	void printArmyWizardBoth(Army& a,int incomingMagic,int outcomingMagic, int incomingDamage, int outcomingDamage);
+	int getNumberOfUnits();
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
