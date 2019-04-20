@@ -323,64 +323,31 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 	Army* army_1 = nullptr;
 	if (newCell != nullptr && newCell->IsPassable() == true)
 	{
-		bool removePrev = false;
-		for (int i = 0; i < height; i++)
-		{
-			for (int j = 0; j < width; j++)
-			{
-				if (map[i][j].IsPlayer() == true && map[i][j].GetArmySign() == symb)
-				{
-					army_1 = map[i][j].GetArmy();
-					map[i][j].SetPlayer(nullptr);
-					removePrev = true;
-					break;
-				}
-			}
-			if (removePrev)
-			{
-				break;
-			}
-		}
+		army_1 = prevCell->getArmyPtr();
+		prevCell->SetPlayer(nullptr);
 		if ((map[newCell->GetY()][newCell->GetX()].getIsPlayer() == true || map[newCell->GetY()][newCell->GetX()].getIsBotArmy() == true) && map[newCell->GetY()][newCell->GetX()].GetArmySign() != NULL)
 		{
-			/*int playersCount;
-			Army* army_2 = this->map[newCell->GetY()][newCell->GetX()].GetArmy(playersCount);
-			Army* players = new Army[2];
-			players[0] = *army_1;
-			players[1] = *army_2;
-			this->map[newCell->GetY()][newCell->GetX()].SetBattleField(players, 2);*/
 			map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 			return 2;
-		}
-		else if (map[newCell->GetY()][newCell->GetX()].IsBarrack() == true)
-		{
-			int cellWeight = newCell->getPassCost();
-			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
-			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
-			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
-			prevCell = nullptr;
-			return 4;
-		}
-		else if (map[newCell->GetY()][newCell->GetX()].getGoldMinePtr() != nullptr)
-		{
-			int cellWeight = newCell->getPassCost();
-			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
-			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
-			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
-			prevCell = nullptr;
-			return 5;
 		}
 		else
 		{
 			int cellWeight = newCell->getPassCost();
 			bool noPoints = army_1->SetCurrEnergy(-cellWeight);
-			map[prevCell->GetY()][prevCell->GetX()].SetArmy(nullptr);
 			map[newCell->GetY()][newCell->GetX()].SetPlayer(army_1);
 			if (noPoints == true)
 			{
 				map[newCell->GetY()][newCell->GetX()].SetPlayer(nullptr);
 				map[prevCell->GetY()][prevCell->GetX()].SetPlayer(army_1);
 				return 3;
+			}
+			if (map[newCell->GetY()][newCell->GetX()].IsBarrack() == true)
+			{
+				return 4;
+			}
+			if (map[newCell->GetY()][newCell->GetX()].getGoldMinePtr() != nullptr)
+			{
+				return 5;
 			}
 			return 1;
 		}

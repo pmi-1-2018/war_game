@@ -40,8 +40,8 @@ Cell::Cell(int passCost, int x, int y) :
 	this->y = y;
 
 }
-
-void Cell::setCell(char symb, int x, int y)
+// x - column, y - row
+void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y : height
 {
 	srand(time(NULL));
 	int n = rand() % 4 + 1;
