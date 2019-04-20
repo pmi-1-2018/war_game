@@ -43,6 +43,8 @@ public:
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
+	void heal();
+	void buff();
 
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
@@ -56,7 +58,8 @@ public:
 
 	void swapUnits_2(int & index1, int & index2, Army& army1);
 	void swapUnits_1(int & index1, int & index2, Army& army2);
-	void swapUnits();
+	void swapUnits(int& index1, int& index2);
+	void ArmySwap(int& index1, int& index2);
 
 	char GetSymb();
 	int GetId();

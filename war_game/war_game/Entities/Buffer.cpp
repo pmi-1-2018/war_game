@@ -14,6 +14,6 @@ void Buffer::BuffDefense(Unit& other_unit)
 {
 	if (other_unit.GetDefense() <= 30)
 	{
-		other_unit.SetDefense(other_unit.GetDefense() + 10);
+		other_unit.SetDefense(other_unit.GetDefense() + 5);
 	}	
 }

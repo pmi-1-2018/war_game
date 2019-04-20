@@ -15,6 +15,6 @@ public:
 		id = 5;
 		symb = 'B';
 	}
-	void BuffDamage(Unit& other_unit) override;
-	void BuffDefense(Unit& other_unit) override;
+	static void BuffDamage(Unit& other_unit);
+	static void BuffDefense(Unit& other_unit);
 };

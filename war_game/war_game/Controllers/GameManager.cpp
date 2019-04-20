@@ -357,7 +357,10 @@ void GameManager::Start()
 				}
 				if (n == 2)
 				{
-					army->swapUnits();
+					int index1 = 0;
+					int index2 = 0;
+					army->swapUnits(index1,index2);
+					army->ArmySwap(index1, index2);
 				}
 			}
 			system("CLS");

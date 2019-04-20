@@ -28,7 +28,7 @@ Cell::Cell(int passCost, int x, int y) :
 void Cell::setCell(char symb, int x, int y)
 {
 	srand(time(NULL));
-	int n = 4;//= rand() % 4 + 1;
+	int n = rand() % 6 + 1;
 	this->y = x;
 	this->x = y;
 	this->barrack = nullptr;
@@ -71,6 +71,14 @@ void Cell::setCell(char symb, int x, int y)
 		else if (n == 4)
 		{
 			this->barrack = new BarrackWizard();
+		}
+		else if (n == 5)
+		{
+			this->barrack = new BarrackBuffer();
+		}
+		else if (n == 6)
+		{
+			this->barrack = new BarrackHealer();
 		}
 		break;
 	case 'A':

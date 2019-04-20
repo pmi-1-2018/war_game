@@ -122,6 +122,10 @@ bool Army::armyAutoAttack(Army& a)
 			check = !check;
 			sleep_for(seconds(2));
 		}
+		this->buff();
+		a.buff();
+		this->heal();
+		a.heal();
 	} while ((units.size() != 0) && (a.units.size() != 0));
 	if (a.units.size() == 0)
 	{
@@ -164,12 +168,20 @@ bool Army::battlePVE(Army& a)
 				check = !check;
 				sleep_for(seconds(2));
 			}
+			this->buff();
+			a.buff();
+			this->heal();
+			a.heal();
 		}
 		if (action == 'S' || action == 's')
 		{
 			this->swapUnits_1(index1, index2, a);
 			swap(units[index1], units[index2]);
 			a.fight(*this, false);
+			this->buff();
+			a.buff();
+			this->heal();
+			a.heal();
 		}
 	} while (units.size() != 0 && a.units.size() != 0);
 	if (a.units.size() == 0)
@@ -216,10 +228,14 @@ bool Army::battlePVP(Army& a)
 			if (turn == true)
 			{
 				this->fight(a, turn);
+				this->buff();
+				this->heal();
 			}
 			else
 			{
 				a.fight(*this, turn);
+				a.buff();
+				a.heal();
 			}
 			sleep_for(seconds(3));
 		}
@@ -229,11 +245,15 @@ bool Army::battlePVP(Army& a)
 			{
 				this->swapUnits_1(index1, index2, a);
 				swap(units[index1], units[index2]);
+				this->buff();
+				this->heal();
 			}
 			else
 			{
 				a.swapUnits_2(index1, index2, *this);
 				swap(a.units[index1], a.units[index2]);
+				a.buff();
+				a.heal();
 			}
 		}
 		turn = !turn;
@@ -632,7 +652,52 @@ void Army::fight(Army& a, bool check)
 	}
 }
 
+void Army::heal()
+{
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		if (units[i].getId() == 6)
+		{
+			if (i == 0)
+			{
+				units[i].Heal(units[i + 1]);
+			}
+			if (i == units.size() - 1)
+			{
+				units[i].Heal(units[i - 1]);
+			}
+			if (i != 0 && i != units.size() - 1)
+			{
+				units[i].Heal(units[i + 1]);
+				units[i].Heal(units[i - 1]);
+			}
+		}
+	}
+}
 
+void Army::buff()
+{
+	bool check = false;
+	int index1, index2;
+	int bufferIndex;
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		if (units[i].getId() == 5)
+		{
+			bufferIndex = i;
+			check = true;
+			break;
+		}
+	}
+	if (check == false)
+	{
+		return;
+	}
+	system("cls");
+	this->swapUnits(index1,index2);
+	units[bufferIndex].BuffDamage(units[index1]);
+	units[bufferIndex].BuffDefense(units[index2]);
+}
 
 void Army::printArmy()
 {
@@ -1196,7 +1261,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1)
 		}
 	} while (isSelected == false);
 }
-void Army::swapUnits()
+void Army::swapUnits(int& index1,int& index2)
 {
 	if (units.size() < 2)
 	{
@@ -1204,8 +1269,6 @@ void Army::swapUnits()
 		return;
 	}
 	system("cls");
-	int index1 = 0;
-	int index2 = 0;
 
 	for (int i = 0; i < units.size(); i++)
 	{
@@ -1372,6 +1435,10 @@ void Army::swapUnits()
 		}
 		}
 	} while (isSelected == false);
+}
+
+void Army::ArmySwap(int& index1, int& index2)
+{
 	swap(units[index1], units[index2]);
 }
 

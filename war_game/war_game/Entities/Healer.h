@@ -4,6 +4,7 @@
 
 class Healer : public Unit
 {
+public:
 	Healer()
 	{
 		damage = 5;
@@ -14,6 +15,5 @@ class Healer : public Unit
 		id = 6;
 		symb = 'H';
 	}
-
-	void Heal(Unit& other_unit);
+	void Heal(Unit& other_unit) override;
 };
