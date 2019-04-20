@@ -262,7 +262,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 	}
 
 
-	int maxBarracksQuantity = this->height * this->width / 100;
+	int maxBarracksQuantity = this->height * this->width / 50;
 	for (int i = 0; i < maxBarracksQuantity; i++)
 	{
 		int x = rand() % width;

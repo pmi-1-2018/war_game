@@ -274,7 +274,7 @@ void GameManager::Start()
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
 		// response = 3 - out of points - switching the turn
-		//response = 4 = stepped on a barrack
+		// response = 4 = stepped on a barrack
 		if (hitTheWall == true)
 		{
 			continue;
@@ -337,7 +337,7 @@ void GameManager::Start()
 				cout << "Enter what you want to do: " << endl;
 				cout << "1 - take units" << endl;
 				cout << "2 - swap units" << endl;
-				cout << "0 - exit" << endl;
+				cout << "3 - exit" << endl;
 				cin >> n;
 				if (n == 1)
 				{
@@ -351,7 +351,7 @@ void GameManager::Start()
 						number--;
 					}
 				}
-				if (n == 0)
+				if (n == 3)
 				{
 					check = false;
 				}
