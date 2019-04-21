@@ -18,11 +18,22 @@ public:
 	int invPosX;
 	int invPosY;
 	bool isActive;
+	bool isSelected;
+	Artefact() 
+	{
+		this->isSelected = false;
+		this->symb = '-';
+		isActive = false;
+	}
+
 	Artefact(char symb, int invPosX, int invPosY, bool isActive) 
 		:symb(symb), 
 		invPosX(invPosX), 
 		invPosY(invPosY),
-		isActive(isActive){}
+		isActive(isActive)
+	{
+		this->isSelected = false;
+	}
 };
 
 static int counter = 0;
@@ -77,8 +88,8 @@ public:
 	void swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2);
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
-	void PrintInventory(int& selectedX, int& selectedY);
-	void SwapArtefact(Artefact& artefact);
+	void PrintInventory(int& selectedX, int& selectedY, bool selectedFirst, int& artIndex);
+	void SwapArtefact(int& artIndex1, int& artIndex2);
 	void InventoryMode();
 	~Army()
 	{

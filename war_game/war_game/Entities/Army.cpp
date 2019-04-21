@@ -79,53 +79,85 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
-void Army::PrintInventory(int& selectedX, int& selectedY)
+void Army::PrintInventory(int& selectedX, int& selectedY, bool selectedFirst, int& artIndex)
 {
-	
-	
 	SetConsoleTextAttribute(this->HSTDOUT, 240);
 	cout << "|";
-	for (int j = 0; j <= this->inventoryHeight; j++)
+	for (int j = 0; j < this->inventoryHeight; j++)
 	{
-		cout << "-";
+		cout << "*";
 	}
 	cout << "|" << endl;
-	for (int i = -1; i < this->inventoryWidth; i++)
+	for (int i = 0; i < this->inventoryWidth; i++)
 	{
 		for (int j = -1; j < this->inventoryHeight; j++)
 		{
-			if ( j < 0 || (j + 1) == this->inventoryHeight)
+			if (j < 0)
 			{
 				cout << "|";
+				continue;
 			}
 			else {
+				if (i == selectedY && j == selectedX)
+				{
+					if (selectedFirst == false)
+					{
+						// 64 - red
+						SetConsoleTextAttribute(this->HSTDOUT, 64);
+					}
+					else {
+						// 160 - green
+						SetConsoleTextAttribute(this->HSTDOUT, 160);
+					}
+				}
+				else
+				{
+					SetConsoleTextAttribute(this->HSTDOUT, 240);
+				}
+				bool artIsPrinted = false;
 				for (int s = 0; s < this->artefacts.size(); s++)
 				{
 					if (this->artefacts.at(s).invPosX == j && this->artefacts.at(s).invPosY == i)
 					{
+						if(selectedFirst == true && this->artefacts.at(s).invPosX == selectedX && this->artefacts.at(s).invPosY == selectedY)
+						{
+							artIndex = s;
+							this->artefacts.at(s).isSelected = true;
+						}
+						
+						if (this->artefacts.at(s).isSelected == true && s == artIndex && selectedFirst == true)
+						{
+							SetConsoleTextAttribute(this->HSTDOUT, 64);
+						}
 						cout << this->artefacts.at(s).symb;
-					}
-					else
-					{
-						cout << "_";
+						artIsPrinted = true;
 					}
 				}
-
+				if (artIsPrinted == false)
+				{
+					cout << "-";
+				}
 			}
 		}
-		cout << endl;
+		SetConsoleTextAttribute(this->HSTDOUT, 240);
+		cout << "|" << endl;
 	}
 	cout << "|";
-	for (int j = 0; j <= this->inventoryHeight; j++)
+	for (int j = 0; j < this->inventoryHeight; j++)
 	{
-		cout << "-";
+		cout << "*";
 	}
 	cout << "|" << endl;
 	SetConsoleTextAttribute(this->HSTDOUT, 15);
 }
-void Army::SwapArtefact(Artefact& artefact)
+void Army::SwapArtefact(int& artIndex1, int& artIndex2)
 {
 	system("cls");
+	cout << "swapping" << endl;
+	/*Artefact tempArt = art1;
+	art1 = art2;
+	art2 = tempArt;
+	art1.isSelected = art2.isSelected = false;*/
 	// here we will set a new position for an artefact
 }
 void Army::InventoryMode()
@@ -133,7 +165,9 @@ void Army::InventoryMode()
 	system("cls");
 	int selectedX, selectedY;
 	selectedX = selectedY = 0;
-	PrintInventory(selectedX, selectedY);
+	bool firstIsSelected = false;
+	int artIndex1, artIndex2;
+	PrintInventory(selectedX, selectedY, firstIsSelected, artIndex1);
 	while (true)
 	{
 		char key = _getch();
@@ -144,7 +178,7 @@ void Army::InventoryMode()
 		}
 		if (asciiValue == 97) // pressed a
 		{
-			if (selectedX != 0) 
+			if (selectedX != 0)
 			{
 				selectedX -= 1;
 			}
@@ -158,7 +192,7 @@ void Army::InventoryMode()
 		}
 		else if (asciiValue == 119) // pressed w
 		{
-			if (selectedY != 0) 
+			if (selectedY != 0)
 			{
 				selectedY -= 1;
 			}
@@ -170,9 +204,27 @@ void Army::InventoryMode()
 				selectedY += 1;
 			}
 		}
+		else if (asciiValue == 13)
+		{
+			if (firstIsSelected == false)
+			{
+				firstIsSelected = true;
+			}
+			else
+			{
+				SwapArtefact(artIndex1, artIndex2);
+				system("pause");
+			}
+		}
 		system("cls");
-		cout << "Done sth" << endl;
-		PrintInventory(selectedX, selectedY);
+		if (firstIsSelected == false) 
+		{
+			PrintInventory(selectedX, selectedY, firstIsSelected, artIndex1);
+		}
+		else
+		{
+			PrintInventory(selectedX, selectedY, firstIsSelected, artIndex2);
+		}
 	}
 }
 //
