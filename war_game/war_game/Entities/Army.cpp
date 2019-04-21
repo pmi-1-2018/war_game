@@ -37,7 +37,8 @@ Army::Army(string name, Unit*list, int num, char symb, bool isPlayer, int money)
 	}
 	this->isPlayer = isPlayer;
 	this->isBotArmy = isPlayer == true ? false : true;
-
+	this->artefacts.push_back(Artefact('Q', 1, 0, false));
+	this->artefacts.push_back(Artefact('K', 2, 2, false));
 }
 bool Army::SetCurrEnergy(const int & value)
 {
@@ -78,6 +79,102 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
+void Army::PrintInventory(int& selectedX, int& selectedY)
+{
+	
+	
+	SetConsoleTextAttribute(this->HSTDOUT, 240);
+	cout << "|";
+	for (int j = 0; j <= this->inventoryHeight; j++)
+	{
+		cout << "-";
+	}
+	cout << "|" << endl;
+	for (int i = -1; i < this->inventoryWidth; i++)
+	{
+		for (int j = -1; j < this->inventoryHeight; j++)
+		{
+			if ( j < 0 || (j + 1) == this->inventoryHeight)
+			{
+				cout << "|";
+			}
+			else {
+				for (int s = 0; s < this->artefacts.size(); s++)
+				{
+					if (this->artefacts.at(s).invPosX == j && this->artefacts.at(s).invPosY == i)
+					{
+						cout << this->artefacts.at(s).symb;
+					}
+					else
+					{
+						cout << "_";
+					}
+				}
+
+			}
+		}
+		cout << endl;
+	}
+	cout << "|";
+	for (int j = 0; j <= this->inventoryHeight; j++)
+	{
+		cout << "-";
+	}
+	cout << "|" << endl;
+	SetConsoleTextAttribute(this->HSTDOUT, 15);
+}
+void Army::SwapArtefact(Artefact& artefact)
+{
+	system("cls");
+	// here we will set a new position for an artefact
+}
+void Army::InventoryMode()
+{
+	system("cls");
+	int selectedX, selectedY;
+	selectedX = selectedY = 0;
+	PrintInventory(selectedX, selectedY);
+	while (true)
+	{
+		char key = _getch();
+		int asciiValue = key;
+		if (asciiValue == 105 || asciiValue == 27)
+		{
+			break;
+		}
+		if (asciiValue == 97) // pressed a
+		{
+			if (selectedX != 0) 
+			{
+				selectedX -= 1;
+			}
+		}
+		else if (asciiValue == 100) // pressed d
+		{
+			if (selectedX != this->inventoryWidth - 1)
+			{
+				selectedX += 1;
+			}
+		}
+		else if (asciiValue == 119) // pressed w
+		{
+			if (selectedY != 0) 
+			{
+				selectedY -= 1;
+			}
+		}
+		else if (asciiValue == 115) // pressed s
+		{
+			if (selectedY != this->inventoryHeight - 1)
+			{
+				selectedY += 1;
+			}
+		}
+		system("cls");
+		cout << "Done sth" << endl;
+		PrintInventory(selectedX, selectedY);
+	}
+}
 //
 //Army::Army(const Army &army)
 //{

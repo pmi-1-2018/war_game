@@ -1,13 +1,29 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 #include <typeinfo>
+#include "Windows.h"
 #include "Unit.h"
 #include "../Entities/Swordsman.h"
 #include "../Entities/Tank.h"
 #include "Archer.h"
 
 using namespace std;
+
+class Artefact 
+{
+public:
+	char symb;
+	int invPosX;
+	int invPosY;
+	bool isActive;
+	Artefact(char symb, int invPosX, int invPosY, bool isActive) 
+		:symb(symb), 
+		invPosX(invPosX), 
+		invPosY(invPosY),
+		isActive(isActive){}
+};
 
 static int counter = 0;
 class Army
@@ -25,6 +41,11 @@ private:
 	bool isBotArmy = false;
 	int wallet;
 	int income = 0;
+	int stashSize = 2;
+	int inventoryWidth = 3;
+	int inventoryHeight = 3;
+	vector<Artefact> artefacts;
+	const HANDLE HSTDOUT = GetStdHandle(STD_OUTPUT_HANDLE);
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb, bool isPlayer, int money);
@@ -56,6 +77,9 @@ public:
 	void swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2);
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
+	void PrintInventory(int& selectedX, int& selectedY);
+	void SwapArtefact(Artefact& artefact);
+	void InventoryMode();
 	~Army()
 	{
 		if (this->units != nullptr) 

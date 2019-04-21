@@ -179,7 +179,7 @@ void GameManager::Start()
 		int asciiValue;
 		key = _getch();
 		asciiValue = key;
-		if (asciiValue == 97)
+		if (asciiValue == 97) // pressed a
 		{
 			if (turn == 'F') {
 				if (x_1 != 0) {
@@ -201,7 +201,7 @@ void GameManager::Start()
 				}
 			}
 		}
-		else if (asciiValue == 100)
+		else if (asciiValue == 100) // pressed d
 		{
 			if (turn == 'F') {
 				if (x_1 != mapWidth - 1) {
@@ -223,7 +223,7 @@ void GameManager::Start()
 				}
 			}
 		}
-		else if (asciiValue == 119)
+		else if (asciiValue == 119) // pressed w
 		{
 			if (turn == 'F') {
 				if (y_1 != 0) {
@@ -245,7 +245,7 @@ void GameManager::Start()
 				}
 			}
 		}
-		else if (asciiValue == 115)
+		else if (asciiValue == 115) // pressed s
 		{
 			if (turn == 'F') {
 				if (y_1 != mapHeight - 1) {
@@ -267,7 +267,7 @@ void GameManager::Start()
 				}
 			}
 		}
-		else if (asciiValue == 27)
+		else if (asciiValue == 27)// pressed escape
 		{
 			break;
 		}
@@ -275,6 +275,13 @@ void GameManager::Start()
 		int& new_x = turn == 'F' ? x_1 : x_2;
 		int& new_y = turn == 'F' ? y_1 : y_2;
 		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
+		if (asciiValue == 105) // pressed i (inventory)
+		{
+			currentCell->GetArmy()->InventoryMode();
+			system("cls");
+			Draw(this->turn, prev_x, prev_y);
+			continue;
+		}
 		Cell* newCell = this->map->GetCell(new_x, new_y);
 		int response = MoveChar(symb, currentCell, newCell);
 		// response = 0 - hit the obstacle
