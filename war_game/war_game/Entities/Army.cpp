@@ -227,15 +227,15 @@ bool Army::battlePVP(Army& a)
 		{
 			if (turn == true)
 			{
-				this->fight(a, turn);
 				this->buff();
 				this->heal();
+				this->fight(a, turn);
 			}
 			else
 			{
-				a.fight(*this, turn);
 				a.buff();
 				a.heal();
+				a.fight(*this, turn);
 			}
 			sleep_for(seconds(3));
 		}
@@ -654,22 +654,23 @@ void Army::fight(Army& a, bool check)
 
 void Army::heal()
 {
+	Healer h;
 	for (size_t i = 0; i < units.size(); i++)
 	{
 		if (units[i].getId() == 6)
 		{
 			if (i == 0)
 			{
-				units[i].Heal(units[i + 1]);
+				h.Heal(units[i + 1]);
 			}
 			if (i == units.size() - 1)
 			{
-				units[i].Heal(units[i - 1]);
+				h.Heal(units[i - 1]);
 			}
 			if (i != 0 && i != units.size() - 1)
 			{
-				units[i].Heal(units[i + 1]);
-				units[i].Heal(units[i - 1]);
+				h.Heal(units[i + 1]);
+				h.Heal(units[i - 1]);
 			}
 		}
 	}
@@ -679,12 +680,11 @@ void Army::buff()
 {
 	bool check = false;
 	int index1, index2;
-	int bufferIndex;
+	Buffer b;
 	for (size_t i = 0; i < units.size(); i++)
 	{
 		if (units[i].getId() == 5)
 		{
-			bufferIndex = i;
 			check = true;
 			break;
 		}
@@ -695,8 +695,8 @@ void Army::buff()
 	}
 	system("cls");
 	this->swapUnits(index1,index2);
-	units[bufferIndex].BuffDamage(units[index1]);
-	units[bufferIndex].BuffDefense(units[index2]);
+	b.BuffDamage(units[index1]);
+	b.BuffDefense(units[index2]);
 }
 
 void Army::printArmy()
@@ -714,7 +714,7 @@ void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, 
 	system("CLS");
 	if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
 	{
-		if (units[0].getId() != 4 && a.units[0].getId() != 4)
+		if (outcomingMagic == 0 && incomingMagic == 0)
 		{
 			for (size_t i = 0; i < units.size(); i++)
 			{
@@ -722,7 +722,7 @@ void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, 
 			}
 			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
 		}
-		else if (units[0].getId() != 4 && a.units[0].getId() == 4)
+		else if (incomingMagic != 0 && outcomingMagic == 0)
 		{
 			for (size_t i = 4; i < units.size(); i++)
 			{
@@ -738,7 +738,7 @@ void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, 
 			}
 			cout << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
 		}
-		else if (units[0].getId() == 4 && a.units[0].getId() != 4)
+		else if (outcomingMagic == 0 && incomingMagic != 0)
 		{
 			for (size_t i = 4; i < units.size(); i++)
 			{
@@ -756,7 +756,7 @@ void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, 
 			cout << endl;
 
 		}
-		else if (units[0].getId() == 4 && a.units[0].getId() == 4)
+		else if (outcomingMagic != 0 && incomingMagic != 0)
 		{
 			for (size_t i = 4; i < units.size(); i++)
 			{
@@ -1263,6 +1263,8 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1)
 }
 void Army::swapUnits(int& index1,int& index2)
 {
+	index1 = 0;
+	index2 = 0;
 	if (units.size() < 2)
 	{
 		cout << "You have no enough units to swap\n";
