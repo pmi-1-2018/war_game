@@ -5,7 +5,8 @@ GoldMine::GoldMine() :
 	maxLvl(5),
 	income(50),
 	updateCost(200),
-	owner('N')
+	owner('N'),
+	pointerToOwner(nullptr)
 {}
 
 int GoldMine::getIncome()
@@ -21,6 +22,16 @@ int GoldMine::getLvl()
 int GoldMine::getOwner()
 {
 	return this->owner;
+}
+
+Army* GoldMine::getPointerToOwner()
+{
+	return this->pointerToOwner;
+}
+
+void GoldMine::setPointerToOwner(Army* player)
+{
+	this->pointerToOwner = player;
 }
 
 void GoldMine::increaseLvl(int& vallet)

@@ -24,6 +24,7 @@ private:
 	bool isPlayer = false;
 	bool isBotArmy = false;
 	int wallet;
+	int income = 0;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb, bool isPlayer, int money);
@@ -37,7 +38,11 @@ public:
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
 	bool getIsBotArmy();
+	int getWallet();
+	int getIncome();
 	void setIsBotArmy(bool value);
+	void increaseIncome(int value);
+	void addMoneyToWallet(int value);
 	Army& operator= (const Army& army);
 	int getNumber();
 	Unit* getWarriors();

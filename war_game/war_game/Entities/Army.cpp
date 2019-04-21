@@ -53,6 +53,25 @@ bool Army::SetCurrEnergy(const int & value)
 	}
 }
 
+void Army::increaseIncome(int value)
+{
+	this->income += value;
+}
+
+void Army::addMoneyToWallet(int value)
+{
+	this->wallet += value;
+}
+
+int Army::getIncome()
+{
+	return this->income;
+}
+
+int Army::getWallet()
+{
+	return this->wallet;
+}
 
 int Army::GetCurrEnergy()
 {

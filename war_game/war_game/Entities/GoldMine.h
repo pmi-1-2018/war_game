@@ -9,12 +9,15 @@ private:
 	int income;
 	int maxLvl;
 	int updateCost;
+	Army *pointerToOwner;
 public:
 	GoldMine();
 	void increaseLvl(int& vallet);
 	int getIncome();
 	int getOwner();
 	int getLvl();
+	Army* getPointerToOwner();
+	void setPointerToOwner(Army* player);
 	void giveGold(int& vallet);
 	void setOwner(char newOwnerSymb);
 };
