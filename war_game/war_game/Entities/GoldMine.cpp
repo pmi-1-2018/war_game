@@ -19,7 +19,7 @@ int GoldMine::getLvl()
 	return this->level;
 }
 
-int GoldMine::getOwner()
+char GoldMine::getOwner()
 {
 	return this->owner;
 }

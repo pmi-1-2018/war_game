@@ -31,13 +31,13 @@ void GameManager::Draw(const char& turn, int x, int y)const
 }
 void GameManager::SwitchTurn()
 {
-	if (this->turn == 'l')
+	if (this->turn == 'F')
 	{
-		this->turn = 'r';
+		this->turn = 'S';
 	}
 	else
 	{
-		this->turn = 'l';
+		this->turn = 'F';
 	}
 	this->numberOfTurn++;
 }
@@ -172,8 +172,8 @@ void GameManager::Start()
 
 	while (true)
 	{
-		int prev_x = turn == 'l' ? x_1 : x_2;
-		int prev_y = turn == 'l' ? y_1 : y_2;
+		int prev_x = turn == 'F' ? x_1 : x_2;
+		int prev_y = turn == 'F' ? y_1 : y_2;
 		bool hitTheWall = false;
 		char key;
 		int asciiValue;
@@ -181,7 +181,7 @@ void GameManager::Start()
 		asciiValue = key;
 		if (asciiValue == 97)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (x_1 != 0) {
 					x_1 -= 1;
 				}
@@ -203,7 +203,7 @@ void GameManager::Start()
 		}
 		else if (asciiValue == 100)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (x_1 != mapWidth - 1) {
 					x_1 += 1;
 				}
@@ -225,7 +225,7 @@ void GameManager::Start()
 		}
 		else if (asciiValue == 119)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (y_1 != 0) {
 					y_1 -= 1;
 				}
@@ -247,7 +247,7 @@ void GameManager::Start()
 		}
 		else if (asciiValue == 115)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (y_1 != mapHeight - 1) {
 					y_1 += 1;
 				}
@@ -271,9 +271,9 @@ void GameManager::Start()
 		{
 			break;
 		}
-		char symb = turn == 'l' ? 'F' : 'S';
-		int& new_x = turn == 'l' ? x_1 : x_2;
-		int& new_y = turn == 'l' ? y_1 : y_2;
+		char symb = turn == 'F' ? 'F' : 'S';
+		int& new_x = turn == 'F' ? x_1 : x_2;
+		int& new_y = turn == 'F' ? y_1 : y_2;
 		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
 		Cell* newCell = this->map->GetCell(new_x, new_y);
 		int response = MoveChar(symb, currentCell, newCell);

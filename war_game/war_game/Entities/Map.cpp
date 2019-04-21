@@ -385,9 +385,10 @@ void Map::resetPlayers(char& turn)
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);
 
 	SetBackground("I");
-	turn = 'l';
+	turn = 'F';
 	cout << "Turn: " << turn << endl;
 	cout << "Points left: " << player_1->GetCurrEnergy() << endl;
+	cout << "Money: " << player_1->getWallet() << " rupees." << endl;
 	SetBackground("D");
 }
 
@@ -442,8 +443,17 @@ void Map::mapDraw(Map &m, int x, int y)
 			}
 			if (m.map[i][j].getGoldMinePtr() != nullptr)
 			{
+				if (m.map[i][j].getGoldMinePtr()->getOwner() != 'N')
+				{
+					m.SetBackground(to_string(m.map[i][j].getGoldMinePtr()->getPointerToOwner()->GetId()));
+					cout << 'G';
+				}
+				else 
+				{
+					m.SetBackground("D");
+					cout << 'G';
+				}
 				m.SetBackground("D");
-				cout << 'G';
 				continue;
 			}
 			if (m.map[i][j].getIsBotArmy() == true)

@@ -14,7 +14,7 @@ public:
 	GoldMine();
 	void increaseLvl(int& vallet);
 	int getIncome();
-	int getOwner();
+	char getOwner();
 	int getLvl();
 	Army* getPointerToOwner();
 	void setPointerToOwner(Army* player);
