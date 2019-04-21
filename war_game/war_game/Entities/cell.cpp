@@ -8,7 +8,8 @@ Cell::Cell() :
 	isPassable(true),
 	x(0),
 	y(0),
-	barrack(nullptr)
+	barrack(nullptr),
+	goldMine(nullptr)
 {}
 
 Cell::Cell(const Cell& other)
@@ -18,6 +19,7 @@ Cell::Cell(const Cell& other)
 	this->barrack = other.barrack;
 	this->isBarrack = other.isBarrack;
 	this->army = other.army;
+	this->goldMine = other.goldMine;
 	this->playersCount = other.playersCount;
 	this->x = other.x;
 	this->y = other.y;
@@ -27,7 +29,8 @@ Cell::Cell(int passCost, int x, int y) :
 	passCost(passCost),
 //	isPlayer(false),
 	isPassable(true),
-	barrack(nullptr)
+	barrack(nullptr),
+	goldMine(nullptr)
 {
 	if (this->passCost == 0)
 	{
@@ -37,16 +40,17 @@ Cell::Cell(int passCost, int x, int y) :
 	this->y = y;
 
 }
-
-void Cell::setCell(char symb, int x, int y)
+// x - column, y - row
+void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y : height
 {
 	srand(time(NULL));
 	int n = rand() % 4 + 1;
+	int quantity;
 	this->y = y;
 	this->x = x;
 	this->barrack = nullptr;
+	this->goldMine = nullptr;
 	this->isPassable = true;
-	Unit* units;
 	switch (symb)
 	{
 	case '#':
@@ -65,8 +69,6 @@ void Cell::setCell(char symb, int x, int y)
 	case 'B':
 		passCost = 1;
 		this->isBarrack = true;
-		this->isPassable = true;
-		
 		if (n == 1)
 		{
 			this->barrack = new BarrackArcher();
@@ -86,16 +88,44 @@ void Cell::setCell(char symb, int x, int y)
 		break;
 	case 'A':
 		passCost = 1;
-		units = new Swordsman[1];
-		//this->isBotArmy = true;
-		this->army = new Army("Bot", units , 1, 'A', false);
-		this->isPassable = true;
+		quantity = rand() % 3 + 1;
+		if (n == 1)
+		{
+			this->army = new Army("botsArchers", new Archer[quantity], quantity, 'A', false, 50);
+		}
+		else if (n == 2)
+		{
+			this->army = new Army("BotsSwordsmans", new Swordsman[quantity], quantity, 'A', false, 50);
+		}
+		else if (n == 3)
+		{
+			this->army = new Army("BotsTanks", new Tank[quantity], quantity, 'A', false, 50);
+		}
+		else if (n == 4)
+		{
+			this->army = new Army("BotsWizards", new Wizard[quantity], quantity, 'A', false, 50);
+		}
+		break;
+	case 'G':
+		passCost = 1;
+		this->goldMine = new GoldMine();
 		break;
 	default:
 		passCost = 1;
 		break;
 	}
 }
+
+GoldMine* Cell::getGoldMinePtr()
+{
+	return goldMine;
+}
+
+bool Cell::isPossibleGenerate() 
+{
+	return this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
+}
+
 Barrack* Cell::getBarrackPtr()
 {
 	return barrack;

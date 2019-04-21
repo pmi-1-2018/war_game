@@ -31,13 +31,13 @@ void GameManager::Draw(const char& turn, int x, int y)const
 }
 void GameManager::SwitchTurn()
 {
-	if (this->turn == 'l')
+	if (this->turn == 'F')
 	{
-		this->turn = 'r';
+		this->turn = 'S';
 	}
 	else
 	{
-		this->turn = 'l';
+		this->turn = 'F';
 	}
 	this->numberOfTurn++;
 }
@@ -142,6 +142,13 @@ void GameManager::SetMusic(const string & filename)
 	}
 }
 
+void GameManager::outputInfoOverMap(Army* army)
+{
+	this->map->SetBackground("I");
+	cout << "Turn: " << this->turn << endl;
+	cout << "Points left: " << army->GetCurrEnergy() << endl;
+	cout << "Money: " << army->getWallet() << " rupees." << endl;
+}
 
 void GameManager::Start()
 {
@@ -165,8 +172,8 @@ void GameManager::Start()
 
 	while (true)
 	{
-		int prev_x = turn == 'l' ? x_1 : x_2;
-		int prev_y = turn == 'l' ? y_1 : y_2;
+		int prev_x = turn == 'F' ? x_1 : x_2;
+		int prev_y = turn == 'F' ? y_1 : y_2;
 		bool hitTheWall = false;
 		char key;
 		int asciiValue;
@@ -174,7 +181,7 @@ void GameManager::Start()
 		asciiValue = key;
 		if (asciiValue == 97)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (x_1 != 0) {
 					x_1 -= 1;
 				}
@@ -196,7 +203,7 @@ void GameManager::Start()
 		}
 		else if (asciiValue == 100)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (x_1 != mapWidth - 1) {
 					x_1 += 1;
 				}
@@ -218,7 +225,7 @@ void GameManager::Start()
 		}
 		else if (asciiValue == 119)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (y_1 != 0) {
 					y_1 -= 1;
 				}
@@ -240,7 +247,7 @@ void GameManager::Start()
 		}
 		else if (asciiValue == 115)
 		{
-			if (turn == 'l') {
+			if (turn == 'F') {
 				if (y_1 != mapHeight - 1) {
 					y_1 += 1;
 				}
@@ -264,9 +271,9 @@ void GameManager::Start()
 		{
 			break;
 		}
-		char symb = turn == 'l' ? 'F' : 'S';
-		int& new_x = turn == 'l' ? x_1 : x_2;
-		int& new_y = turn == 'l' ? y_1 : y_2;
+		char symb = turn == 'F' ? 'F' : 'S';
+		int& new_x = turn == 'F' ? x_1 : x_2;
+		int& new_y = turn == 'F' ? y_1 : y_2;
 		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
 		Cell* newCell = this->map->GetCell(new_x, new_y);
 		int response = MoveChar(symb, currentCell, newCell);
@@ -274,7 +281,8 @@ void GameManager::Start()
 		// response = 1 - moved successfully
 		// response = 2 - hit the player, begining of the battle
 		// response = 3 - out of points - switching the turn
-		//response = 4 = stepped on a barrack
+		// response = 4 - stepped on a barrack
+		// response = 5 - stepped on a Gold Mine
 		if (hitTheWall == true)
 		{
 			continue;
@@ -310,9 +318,7 @@ void GameManager::Start()
 			newCell->setIsBotArmy(false);
 			SetMusic("battle");
 			army->SetCurrEnergy(-army->GetCurrEnergy());
-			this->map->SetBackground("I");
-			cout << "Turn: " << this->turn << endl;
-			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			outputInfoOverMap(army);
 			Draw(this->turn, new_x, new_y);
 			continue;
 		}
@@ -345,10 +351,35 @@ void GameManager::Start()
 				break;
 			}
 			system("CLS");
-			cout << "Turn: " << this->turn << endl;
-			cout << "Points left: " << army->GetCurrEnergy() << endl;
-			army = nullptr;
+			outputInfoOverMap(army);
 			Draw(this->turn, new_x, new_y);
+			continue;
+		}
+		if (response == 5)
+		{
+			Army *army = newCell->GetArmy();
+			GoldMine *goldMine = newCell->getGoldMinePtr();
+			if (goldMine->getOwner() == 'N')
+			{
+				goldMine->setOwner(this->turn);
+				goldMine->setPointerToOwner(army);
+				army->increaseIncome(goldMine->getIncome());
+			}
+			else if (goldMine->getOwner() == this->turn)
+			{
+
+			}
+			else
+			{
+				goldMine->getPointerToOwner()->increaseIncome(-(goldMine->getIncome()));
+				goldMine->setOwner(this->turn);
+				goldMine->setPointerToOwner(army);
+				army->increaseIncome(goldMine->getIncome());
+			}
+			system("CLS");
+			outputInfoOverMap(army);
+			Draw(this->turn, new_x, new_y);
+			continue;
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
@@ -368,14 +399,13 @@ void GameManager::Start()
 				{
 					army = this->map->GetCell(x_1, y_1)->GetArmy();
 				}
+				army->addMoneyToWallet(army->getIncome());
 			}
 			else
 			{
 				army = newCell->GetArmy();
 			}
-			this->map->SetBackground("I");
-			cout << "Turn: " << this->turn << endl;
-			cout << "Points left: " << army->GetCurrEnergy() << endl;
+			outputInfoOverMap(army);
 			this->map->SetBackground("D");
 			army = nullptr;
 			if (response == 3)

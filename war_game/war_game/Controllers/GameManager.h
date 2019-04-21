@@ -38,6 +38,7 @@ public:
 	int MoveChar(char symb, Cell* prevCell, Cell* newCell);
 	void SetMusic(const string& filename);
 	void outputTurnSwitch(int response);
+	void outputInfoOverMap(Army *army);
 	~GameManager();
 };
 

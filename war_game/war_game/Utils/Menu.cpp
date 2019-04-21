@@ -95,10 +95,10 @@ void Menu::GenerateMap()
 {
 	system("CLS");
 	cout << "###Generating The Map###" << endl << endl;
-	cout << "Enter the height of the map: ";
+	cout << "Enter the height of the map(min 2): ";
 	int height;
 	cin >> height;
-	cout << "Enter the width of the map: ";
+	cout << "Enter the width of the map(min 2): ";
 	int width;
 	cin >> width;
 	gm->GenerateMap(height, width);
