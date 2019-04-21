@@ -113,6 +113,10 @@ bool Army::armyAutoAttack(Army& a)
 	this->printArmiesFight(a, var, var, var, var);
 	do
 	{
+		this->buff();
+		a.buff();
+		this->heal();
+		a.heal();
 		this->fight(a,check);
 		check = !check;
 		sleep_for(seconds(2));
@@ -122,10 +126,6 @@ bool Army::armyAutoAttack(Army& a)
 			check = !check;
 			sleep_for(seconds(2));
 		}
-		this->buff();
-		a.buff();
-		this->heal();
-		a.heal();
 	} while ((units.size() != 0) && (a.units.size() != 0));
 	if (a.units.size() == 0)
 	{
@@ -159,6 +159,10 @@ bool Army::battlePVE(Army& a)
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
+			this->buff();
+			a.buff();
+			this->heal();
+			a.heal();
 			this->fight(a,check);
 			check = !check;
 			sleep_for(seconds(2));
@@ -168,20 +172,16 @@ bool Army::battlePVE(Army& a)
 				check = !check;
 				sleep_for(seconds(2));
 			}
-			this->buff();
-			a.buff();
-			this->heal();
-			a.heal();
 		}
 		if (action == 'S' || action == 's')
 		{
 			this->swapUnits_1(index1, index2, a);
 			swap(units[index1], units[index2]);
-			a.fight(*this, false);
 			this->buff();
 			a.buff();
 			this->heal();
 			a.heal();
+			a.fight(*this, false);
 		}
 	} while (units.size() != 0 && a.units.size() != 0);
 	if (a.units.size() == 0)
