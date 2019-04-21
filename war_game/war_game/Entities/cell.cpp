@@ -27,8 +27,7 @@ Cell::Cell(int passCost, int x, int y) :
 
 void Cell::setCell(char symb, int x, int y)
 {
-	srand(time(NULL));
-	int n = 5;//rand() % 6 + 1;
+	int n = rand() % 6 + 1;
 	this->y = x;
 	this->x = y;
 	this->barrack = nullptr;

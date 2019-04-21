@@ -123,7 +123,6 @@ void Map::readMapFromFile(string fileName)
 
 void Map::generateRandomMap(string fileName, int height, int width)
 {
-	srand(time(NULL));
 	if (this->height != 0 || this->width != 0)
 	{
 		this->~Map();
