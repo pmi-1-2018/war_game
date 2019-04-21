@@ -128,11 +128,12 @@
     <ClCompile Include="Controllers\GameManager.cpp" />
     <ClCompile Include="Entities\Army.cpp" />
     <ClCompile Include="Entities\Barrack.cpp" />
+    <ClCompile Include="Entities\Buffer.cpp" />
     <ClCompile Include="Entities\cell.cpp" />
     <ClCompile Include="Entities\GoldMine.cpp" />
+    <ClCompile Include="Entities\Healer.cpp" />
     <ClCompile Include="Entities\Map.cpp" />
     <ClCompile Include="Entities\Unit.cpp" />
-    <ClCompile Include="Entities\Buffer.cpp" />
     <ClCompile Include="Entities\Wizard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\Menu.cpp" />
@@ -146,13 +147,14 @@
     <ClInclude Include="Entities\BarrackSwordsman.h" />
     <ClInclude Include="Entities\BarrackTank.h" />
     <ClInclude Include="Entities\BarrackWizard.h" />
+    <ClInclude Include="Entities\Buffer.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\GoldMine.h" />
+    <ClInclude Include="Entities\Healer.h" />
     <ClInclude Include="Entities\Map.h" />
     <ClInclude Include="Entities\Swordsman.h" />
     <ClInclude Include="Entities\Tank.h" />
     <ClInclude Include="Entities\Unit.h" />
-    <ClInclude Include="Entities\Buffer.h" />
     <ClInclude Include="Entities\Wizard.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>
