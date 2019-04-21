@@ -43,8 +43,7 @@ Cell::Cell(int passCost, int x, int y) :
 // x - column, y - row
 void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y : height
 {
-	srand(time(NULL));
-	int n = rand() % 4 + 1;
+	int n = rand() % 6 + 1;
 	int quantity;
 	this->y = y;
 	this->x = x;
@@ -85,25 +84,41 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 		{
 			this->barrack = new BarrackWizard();
 		}
+		else if (n == 5)
+		{
+			this->barrack = new BarrackBuffer();
+		}
+		else if (n == 6)
+		{
+			this->barrack = new BarrackHealer();
+		}
 		break;
 	case 'A':
 		passCost = 1;
 		quantity = rand() % 3 + 1;
 		if (n == 1)
 		{
-			this->army = new Army("botsArchers", new Archer[quantity], quantity, 'A', false, 50);
+			Archer a;
+			vector<Unit> v(quantity, a);
+			this->army = new Army("botsArchers", v, 'A', false, 50);
 		}
 		else if (n == 2)
 		{
-			this->army = new Army("BotsSwordsmans", new Swordsman[quantity], quantity, 'A', false, 50);
+			Swordsman s;
+			vector<Unit> v(quantity, s);
+			this->army = new Army("BotsSwordsmans", v, 'A', false, 50);
 		}
 		else if (n == 3)
 		{
-			this->army = new Army("BotsTanks", new Tank[quantity], quantity, 'A', false, 50);
+			Tank t;
+			vector<Unit> v(quantity, t);
+			this->army = new Army("BotsTanks", v, 'A', false, 50);
 		}
 		else if (n == 4)
 		{
-			this->army = new Army("BotsWizards", new Wizard[quantity], quantity, 'A', false, 50);
+			Wizard w;
+			vector<Unit> v(quantity, w);
+			this->army = new Army("BotsWizards", v, 'A', false, 50);
 		}
 		break;
 	case 'G':

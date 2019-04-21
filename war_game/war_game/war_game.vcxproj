@@ -144,6 +144,8 @@
     <ClInclude Include="Entities\Army.h" />
     <ClInclude Include="Entities\Barrack.h" />
     <ClInclude Include="Entities\BarrackArcher.h" />
+    <ClInclude Include="Entities\BarrackBuffer.h" />
+    <ClInclude Include="Entities\BarrackHealer.h" />
     <ClInclude Include="Entities\BarrackSwordsman.h" />
     <ClInclude Include="Entities\BarrackTank.h" />
     <ClInclude Include="Entities\BarrackWizard.h" />

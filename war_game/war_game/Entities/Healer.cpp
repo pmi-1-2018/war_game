@@ -4,7 +4,7 @@ void Healer::Heal(Unit& other_unit)
 {
 	if (other_unit.GetHealthPoints() < other_unit.GetMaxHP())
 	{
-		other_unit.SetHealthPoints(other_unit.GetHealthPoints() + 5);
+		other_unit.SetHealthPoints(other_unit.GetHealthPoints() + 30);
 		if (other_unit.GetHealthPoints() > other_unit.GetMaxHP())
 		{
 			other_unit.SetHealthPoints(other_unit.GetMaxHP());

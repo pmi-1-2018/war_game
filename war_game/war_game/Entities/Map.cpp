@@ -123,7 +123,6 @@ void Map::readMapFromFile(string fileName)
 
 void Map::generateRandomMap(string fileName, int height, int width)
 {
-	srand(time(NULL));
 	if (this->height != 0 || this->width != 0)
 	{
 		this->~Map();
@@ -378,9 +377,12 @@ void Map::resetPlayers(char& turn)
 		}
 	}
 	// setting the default position of the players.
-	Swordsman units[2];
-	Army* player_1 = new Army("Aliance", units, 2, 'F', true, 100);
-	Army* player_2 = new Army("Horde", units, 2, 'S', true, 100);
+	Swordsman unit;
+	vector<Unit> units;
+	units.push_back(unit);
+	units.push_back(unit);
+	Army* player_1 = new Army("Aliance", units, 'F', true, 100);
+	Army* player_2 = new Army("Horde", units, 'S', true, 100);
 	// cin>>player_1,player_2
 	map[0][1].SetPlayer(player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);

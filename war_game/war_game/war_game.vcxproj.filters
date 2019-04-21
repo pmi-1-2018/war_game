@@ -96,6 +96,12 @@
     <ClInclude Include="Entities\Healer.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\BarrackBuffer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\BarrackHealer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.gitignore" />

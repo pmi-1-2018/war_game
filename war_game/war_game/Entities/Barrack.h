@@ -1,8 +1,10 @@
 #pragma once
-#include "../Entities/Swordsman.h"
-#include "../Entities/Tank.h"
-#include "../Entities/Wizard.h"
-#include "../Entities/Archer.h"
+#include "Swordsman.h"
+#include "Tank.h"
+#include "Wizard.h"
+#include "Archer.h"
+#include "Buffer.h"
+#include "Healer.h"
 
 class Barrack
 {

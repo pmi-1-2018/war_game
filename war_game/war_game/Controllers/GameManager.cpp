@@ -343,7 +343,7 @@ void GameManager::Start()
 				cout << "Enter what you want to do: " << endl;
 				cout << "1 - take units" << endl;
 				cout << "2 - swap units" << endl;
-				cout << "0 - exit" << endl;
+				cout << "3 - exit" << endl;
 				cin >> n;
 				if (n == 1)
 				{
@@ -357,13 +357,16 @@ void GameManager::Start()
 						number--;
 					}
 				}
-				if (n == 0)
+				if (n == 3)
 				{
 					check = false;
 				}
 				if (n == 2)
 				{
-					army->swapUnits();
+					int index1;
+					int index2;
+					army->swapUnits(index1,index2);
+					army->ArmySwap(index1, index2);
 				}
 			}
 			system("CLS");

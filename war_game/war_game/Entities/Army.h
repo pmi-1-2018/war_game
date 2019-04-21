@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <iterator>
 #include <string>
 #include <typeinfo>
 #include "Unit.h"
@@ -17,8 +19,8 @@ class Army
 {
 private:
 	string nameOfArmy;
-	Unit *units = nullptr;
-	int numberOfUnits;
+	vector<Unit> units;
+	vector<Unit>::iterator it;
 	char symb;
 	int id;
 	static const int START_ENERGY = 11;
@@ -33,17 +35,19 @@ private:
 	int capacity;
 public:
 	Army();
-	Army(string name, Unit*list, int num, char symb, bool isPlayer, int money);
+	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
+
 	void inputTheArmy();
-	void printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage);
-	void printArmies(Army& a, int thisArmy, int otherArmy);
+	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
 	void printArmy();
-	void printArmyWizardLeft(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
-	void printArmyWizardRight(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
-	void printArmyWizardBoth(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
+
+	void fight(Army& a,bool check);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
+	void heal();
+	void buff();
+
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
 	bool getIsBotArmy();
@@ -52,32 +56,26 @@ public:
 	void setIsBotArmy(bool value);
 	void increaseIncome(int value);
 	void addMoneyToWallet(int value);
+
+
 	Army& operator= (const Army& army);
-	int getNumber();
-	Unit* getWarriors();
-	bool isDead(Unit unit);
+	vector<Unit> getUnits();
+	void CalcLevelAndCapacity(int countOfDead);
+	void addUnit(Unit unit);
+
+	void swapUnits_2(int & index1, int & index2, Army& army1);
+	void swapUnits_1(int & index1, int & index2, Army& army2);
+	void swapUnits(int& index1, int& index2);
+	void ArmySwap(int& index1, int& index2);
+
 	char GetSymb();
 	int GetId();
-	int getNumberOfUnits();
-	void armyMove(Unit*list, int number);
-	void addUnit(Unit unit);
-	void swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_army1, int alive_count_army2);
-	void swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2);
-	void swapUnits();
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
-	~Army()
-	{
-		if (this->units != nullptr) 
-		{
-			delete[] this->units;
-		}
-	}
 	int GetLevel();
 	int GetExp();
 	void SetLevel(int a);
-	void CalcLevelAndCapacity(int countOfDead);
 	void SetCapacity(int a);
 	int GetCapacity();
-	bool CheckCapacity();
+	int getNumberOfUnits();
 };
