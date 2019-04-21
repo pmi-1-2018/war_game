@@ -6,6 +6,9 @@
 #include <thread>
 #include "Army.h"
 
+using namespace std::this_thread;
+using namespace std::chrono;
+
 
 Army::Army() :nameOfArmy("default"), numberOfUnits(5), units(new Unit[5]), wallet(0) {}
 Army::Army(string name, Unit*list, int num, char symb, bool isPlayer, int money)
@@ -15,6 +18,9 @@ Army::Army(string name, Unit*list, int num, char symb, bool isPlayer, int money)
 	this->numberOfUnits = num;
 	this->units = new Unit[num];
 	this->dec_energy = 0;
+	this->capacity = 3;
+	this->level = 0;
+	this->experience = 0;
 	for (int i = 0; i < this->numberOfUnits; i++)
 	{
 		units[i] = list[i];
@@ -118,9 +124,9 @@ void Army::inputTheArmy() {
 
 bool Army::armyAutoAttack(Army& a)
 {
-	using namespace std::this_thread;
-	using namespace std::chrono;
 	int outcomingDamage;
+	double outcomingMagic = 0;
+	double incomingMagic = 0;
 	int incomingDamage;
 	int thisArmy{ 0 };
 	int otherArmy{ 0 };
@@ -128,57 +134,76 @@ bool Army::armyAutoAttack(Army& a)
 	this->printArmies(a, thisArmy, otherArmy);
 	do
 	{
-		outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-		if (numberOfUnits - thisArmy >= 2)
+		if (units[thisArmy].getId() != 4 && a.units[otherArmy].getId() != 4)// if there are no wizards 
 		{
-			if (units[thisArmy + 1].getId() == 2)
+			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+			if (numberOfUnits - thisArmy >= 2)
 			{
-				outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
-			}
-		}
-		if (outcomingDamage < 0)
-		{
-			outcomingDamage = 0;
-		}
-		if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
-		{
-			otherArmy++;
-
-		}
-		else
-		{
-			a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-		}
-		if (otherArmy != a.numberOfUnits)
-		{
-			incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-			if (a.numberOfUnits - otherArmy >= 2)
-			{
-				if (a.units[otherArmy + 1].getId() == 2)
+				if (units[thisArmy + 1].getId() == 2)
 				{
-					incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 				}
 			}
-			if (incomingDamage < 0)
+			if (outcomingDamage < 0)
 			{
-				incomingDamage = 0;
+				outcomingDamage = 0;
 			}
-			if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
 			{
-				thisArmy++;
+				otherArmy++;
+
 			}
 			else
 			{
-				units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+
+			}
+			if (otherArmy != a.numberOfUnits)
+			{
+				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+				if (a.numberOfUnits - otherArmy >= 2)
+				{
+					if (a.units[otherArmy + 1].getId() == 2)
+					{
+						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+					}
+				}
+				if (incomingDamage < 0)
+				{
+					incomingDamage = 0;
+				}
+				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+				{
+					thisArmy++;
+				}
+				else
+				{
+					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+				}
+			}
+			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
+		}
+		else if(units[thisArmy].getId() == 4 && a.units[otherArmy].getId() != 4) // if wizard is in the left army
+		{
+			if (numberOfUnits - thisArmy >= 2)
+			{
+				if (units[thisArmy + 1].getId() == 2)
+				{
+					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+				}
+			}
+			outcomingMagic = units[thisArmy].GetDamage();
+			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
+			{
+				thisArmy++;
 			}
 		}
-
-		this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
 		sleep_for(seconds(1));
 	} while ((thisArmy != numberOfUnits) && (otherArmy != a.numberOfUnits));
 	if (otherArmy == a.numberOfUnits)
 	{
 		delete[] a.units;
+		CalcLevelAndCapacity(otherArmy);
 		Unit* copy = new Unit[5];
 		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 		{
@@ -229,6 +254,8 @@ void Army::setIsBotArmy(bool value)
 bool Army::battlePVE(Army& a)
 {
 	double outcomingDamage = 0;
+	double outcomingMagic = 0;
+	double incomingMagic = 0;
 	double incomingDamage = 0;
 	int thisArmy = 0;
 	int otherArmy = 0;
@@ -243,48 +270,73 @@ bool Army::battlePVE(Army& a)
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
-			outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
-			if (numberOfUnits - thisArmy >= 2)
+			if (units[thisArmy].getId() != 4 && a.units[otherArmy].getId() != 4)
 			{
-				if (units[thisArmy + 1].getId() == 2)
+				outcomingDamage = units[thisArmy].GetDamage() - a.units[otherArmy].GetDefense();
+				if (numberOfUnits - thisArmy >= 2)
 				{
-					outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
-				}
-			}
-			if (outcomingDamage < 0)
-			{
-				outcomingDamage = 0;
-			}
-			if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
-			{
-				otherArmy++;
-
-			}
-			else
-			{
-				a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
-			}
-			if (a.numberOfUnits != otherArmy)
-			{
-				incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
-				if (a.numberOfUnits - otherArmy >= 2)
-				{
-					if (a.units[otherArmy + 1].getId() == 2)
+					if (units[thisArmy + 1].getId() == 2)
 					{
-						incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+						outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
 					}
 				}
-				if (incomingDamage < 0)
+				if (outcomingDamage < 0)
 				{
-					incomingDamage = 0;
+					outcomingDamage = 0;
 				}
-				if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+				if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
 				{
-					thisArmy++;
+					otherArmy++;
 				}
 				else
 				{
-					units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+					a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
+				}
+				if (a.numberOfUnits != otherArmy)
+				{
+					incomingDamage = a.units[otherArmy].GetDamage() - units[thisArmy].GetDefense();
+					if (a.numberOfUnits - otherArmy >= 2)
+					{
+						if (a.units[otherArmy + 1].getId() == 2)
+						{
+							incomingDamage += a.units[otherArmy + 1].GetDamage() - units[thisArmy].GetDefense();
+						}
+					}
+					if (incomingDamage < 0)
+					{
+						incomingDamage = 0;
+					}
+					if ((units[thisArmy].GetHealthPoints() - incomingDamage) <= 0)
+					{
+						thisArmy++;
+					}
+					else
+					{
+						units[thisArmy].SetHealthPoints(units[thisArmy].GetHealthPoints() - incomingDamage);
+					}
+				}
+			}
+			else if(units[thisArmy].getId() == 4 && a.units[otherArmy].getId() != 4)
+			{
+				outcomingDamage = units[thisArmy].GetDamage();
+				if (numberOfUnits - thisArmy >= 2)
+				{
+					if (units[thisArmy + 1].getId() == 2)
+					{
+						outcomingDamage += units[thisArmy + 1].GetDamage() - a.units[otherArmy].GetDefense();
+					}
+				}
+				if (outcomingDamage < 0)
+				{
+					outcomingDamage = 0;
+				}
+				if ((a.units[otherArmy].GetHealthPoints() - outcomingDamage) <= 0)
+				{
+					otherArmy++;
+				}
+				else
+				{
+					a.units[otherArmy].SetHealthPoints(a.units[otherArmy].GetHealthPoints() - outcomingDamage);
 				}
 			}
 			this->printArmiesFight(a, thisArmy, otherArmy, incomingDamage, outcomingDamage);
@@ -324,6 +376,7 @@ bool Army::battlePVE(Army& a)
 	{
 		delete[] a.units;
 		Unit* copy = new Unit[5];
+		CalcLevelAndCapacity(otherArmy);
 		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 		{
 			copy[i] = units[i + thisArmy];
@@ -477,6 +530,7 @@ bool Army::battlePVP(Army& a)
 	{
 		delete[] a.units;
 		Unit* copy = new Unit[5];
+		CalcLevelAndCapacity(otherArmy);
 		for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
 		{
 			copy[i] = units[i + thisArmy];
@@ -497,6 +551,7 @@ bool Army::battlePVP(Army& a)
 	{
 		delete[] units;
 		Unit* copy = new Unit[5];
+		CalcLevelAndCapacity(thisArmy);
 		for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
 		{
 			copy[i] = a.units[i + otherArmy];
@@ -541,6 +596,68 @@ void Army::printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDa
 	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
 	{
 		cout << a.units[i + otherArmy];
+	}
+	cout << endl;
+}
+
+void Army::printArmyWizardLeft(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+{
+	system("CLS");
+	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << " ";
+	}
+	cout << "-" << incomingDamage/4 << '-' << incomingDamage/2 << '-' << incomingDamage << "  " << "-" << outcomingDamage << endl;
+	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << units[numberOfUnits - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	{
+		cout << a.units[i + otherArmy] << " ";
+	}
+	cout << endl;
+}
+
+
+void Army::printArmyWizardBoth(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+{
+	system("CLS");
+	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << " ";
+	}
+	cout << "-" << incomingDamage / 4 << '-' << incomingDamage / 2 << "-" <<  incomingDamage << "  " << "-" << outcomingDamage << "-" << outcomingDamage/2 << "-" << outcomingDamage/4 << endl;
+	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << units[numberOfUnits - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	{
+		cout << a.units[i + otherArmy] << " ";
+	}
+	cout << endl;
+}
+
+
+void Army::printArmyWizardRight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage)
+{
+	system("CLS");
+	for (size_t i = 4; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << " ";
+	}
+	cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << "-" << outcomingDamage / 2 << "-" << outcomingDamage / 4 << endl;
+	for (size_t i = 0; i < numberOfUnits - thisArmy; i++)
+	{
+		cout << units[numberOfUnits - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.numberOfUnits - otherArmy; i++)
+	{
+		cout << a.units[i + otherArmy] << " ";
 	}
 	cout << endl;
 }
@@ -655,6 +772,8 @@ void printSpace(int count)
 	}
 }
 
+
+
 void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2)
 {
 	if (alive_count_army1 < 2)
@@ -673,7 +792,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 		cout << units[i];
 	}
 	printSpace(4);
-	for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+	for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 	{
 		cout << army2.getWarriors()[i];
 	}
@@ -706,7 +825,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					cout << units[i];
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -732,7 +851,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					cout << units[i];
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -757,7 +876,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 		if (i == index1 + numberOfUnits - alive_count_army1)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-			cout << units[i];
+			cout << units[i].getSymb();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		else
@@ -767,7 +886,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 
 	}
 	printSpace(4);
-	for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+	for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 	{
 		cout << army2.getWarriors()[i];
 	}
@@ -806,7 +925,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					if (i == index1 + numberOfUnits - alive_count_army1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -816,7 +935,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -842,7 +961,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 					if (i == index1 + numberOfUnits - alive_count_army1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -852,7 +971,7 @@ void Army::swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_
 
 				}
 				printSpace(4);
-				for (int i = numberOfUnits - alive_count_army2; i < numberOfUnits; i++)
+				for (int i = army2.numberOfUnits - alive_count_army2; i < army2.numberOfUnits; i++)
 				{
 					cout << army2.getWarriors()[i];
 				}
@@ -885,7 +1004,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	index1 = 0;
 	index2 = 0;
 
-	for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+	for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 	{
 		cout << army1.getWarriors()[i];
 	}
@@ -919,7 +1038,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index1--;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -945,7 +1064,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index1++;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -970,7 +1089,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 
 
 	system("cls");
-	for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+	for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 	{
 		cout << army1.getWarriors()[i];
 	}
@@ -980,7 +1099,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 		if (k == index1)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-			cout << units[i];
+			cout << units[i].getSymb();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		else
@@ -1018,7 +1137,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index2--;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -1028,7 +1147,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 					if (k == index1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -1053,7 +1172,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 			{
 				index2++;
 				system("cls");
-				for (int i = numberOfUnits - 1; i >= numberOfUnits - alive_count_army1; i--)
+				for (int i = army1.numberOfUnits - 1; i >= army1.numberOfUnits - alive_count_army1; i--)
 				{
 					cout << army1.getWarriors()[i];
 				}
@@ -1063,7 +1182,7 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 					if (k == index1)
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-						cout << units[i];
+						cout << units[i].getSymb();
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 					}
 					else
@@ -1084,4 +1203,235 @@ void Army::swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_
 	} while (isSelected == false);
 	index1 += numberOfUnits - alive_count_army2;
 	index2 += numberOfUnits - alive_count_army2;
+
 }
+
+
+void Army::swapUnits()
+{
+	if (numberOfUnits < 2)
+	{
+		cout << "You have no enough units to swap\n";
+		return;
+	}
+	system("cls");
+	int index1 = 0;
+	int index2 = 0;
+
+	for (int i = 0; i < numberOfUnits; i++)
+	{
+		cout << units[i];
+	}
+	cout << endl;
+	cout << '^';
+	cout << "\nFirst unit index: " << index1;
+	cout << "\nSecond unit index: ";
+	cout << "\nPress Enter to select the first unit to swap.";
+
+
+	bool isSelected = false;
+	do
+	{
+		isSelected = false;
+		switch (_getch())
+		{
+		case 13:
+		{
+			isSelected = true;
+			break;
+		}
+		case 75:
+		{
+			if (index1 != 0)
+			{
+				index1--;
+				system("cls");
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << units[i];
+				}
+				cout << endl;
+				printSpace(index1);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: ";
+				cout << "\nPress Enter to select the first unit to swap.";
+			}
+
+
+			break;
+		}
+		case 77:
+		{
+			if (index1 != numberOfUnits - 1)
+			{
+				index1++;
+				system("cls");
+				for (int i = 0; i < numberOfUnits; i++)
+				{
+					cout << units[i];
+				}
+				cout << endl;
+				printSpace(index1);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: ";
+				cout << "\nPress Enter to select the first unit to swap.";
+			}
+			break;
+		}
+		}
+
+	} while (isSelected == false);
+
+
+
+	system("cls");
+	for (int i = 0, k = 0; i < numberOfUnits; i++, k++)
+	{
+		if (k == index1)
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+			cout << units[i].getSymb();
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		}
+		else
+		{
+			cout << units[i];
+		}
+	}
+	cout << endl;
+	cout << '^';
+	cout << "\nFirst unit index: " << index1;
+	cout << "\nSecond unit index: " << index2;
+	cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+
+	do
+	{
+		isSelected = false;
+		switch (_getch())
+		{
+		case 13:
+		{
+			if (index2 == index1)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 207);
+				cout << "\nYou can`t select two equal indexes.";
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+				break;
+			}
+			isSelected = true;
+			break;
+		}
+		case 75:
+		{
+			if (index2 != 0)
+			{
+				index2--;
+				system("cls");
+				for (int i = 0, k = 0; i < numberOfUnits; i++, k++)
+				{
+					if (k == index1)
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+						cout << units[i].getSymb();
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+					}
+					else
+					{
+						cout << units[i];
+					}
+				}
+				cout << endl;
+				printSpace(index2);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: " << index2;
+				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+			}
+
+
+			break;
+		}
+		case 77:
+		{
+			if (index2 != numberOfUnits - 1)
+			{
+				index2++;
+				system("cls");
+				for (int i = 0, k = 0; i < numberOfUnits; i++, k++)
+				{
+					if (k == index1)
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
+						cout << units[i].getSymb();
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+					}
+					else
+					{
+						cout << units[i];
+					}
+				}
+				cout << endl;
+				printSpace(index2);
+				cout << '^';
+				cout << "\nFirst unit index: " << index1;
+				cout << "\nSecond unit index: " << index2;
+				cout << "\nPress Enter to select the second unit to swap(the green one is selected).";
+			}
+			break;
+		}
+		}
+	} while (isSelected == false);
+	swap(units[index1], units[2]);
+
+}
+int Army::GetLevel()
+{
+	return level;
+}
+int Army::GetExp() {
+	return experience;
+}
+void Army::SetLevel(int a)
+{
+	level += a;
+}
+
+void Army::CalcLevelAndCapacity(int countOfDead)
+{
+	while (countOfDead)
+	{
+		experience++;
+		if (experience == 3)
+		{
+			SetLevel(1);
+			SetCapacity(1);
+			experience = 0;
+		}
+		countOfDead--;
+	}
+}
+void Army::SetCapacity(int a)
+{
+	capacity += a;
+}
+
+bool Army::CheckCapacity()
+{
+	if (numberOfUnits < capacity)
+	{
+		cout << "You can add " << capacity - numberOfUnits << " units" << endl;
+		return true;
+	}
+	if (numberOfUnits == capacity)
+	{
+		cout << "You cann't add units" << endl;
+		return false;
+	}
+}
+int Army::GetCapacity()
+{
+	return capacity;
+}
+

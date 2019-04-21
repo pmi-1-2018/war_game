@@ -13,5 +13,9 @@ public:
 		Archer unit;
 		return unit;
 	}
+	string TellType()
+	{
+		return "barrack of archers";
+	}
 
 };

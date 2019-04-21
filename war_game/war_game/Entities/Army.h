@@ -3,9 +3,12 @@
 #include <string>
 #include <typeinfo>
 #include "Unit.h"
-#include "../Entities/Swordsman.h"
-#include "../Entities/Tank.h"
+#include "Swordsman.h"
+#include "Tank.h"
 #include "Archer.h"
+#include "Buffer.h"
+#include "Healer.h"
+#include "Wizard.h"
 
 using namespace std;
 
@@ -25,6 +28,9 @@ private:
 	bool isBotArmy = false;
 	int wallet;
 	int income = 0;
+	int level;
+	int experience;
+	int capacity;
 public:
 	Army();
 	Army(string name, Unit*list, int num, char symb, bool isPlayer, int money);
@@ -32,6 +38,9 @@ public:
 	void printArmiesFight(Army& a, int thisArmy, int otherArmy, int incomingDamage, int outcomingDamage);
 	void printArmies(Army& a, int thisArmy, int otherArmy);
 	void printArmy();
+	void printArmyWizardLeft(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
+	void printArmyWizardRight(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
+	void printArmyWizardBoth(Army& a,int thisArmy,int otherArmy, int incomingDamage, int outcomingDamage);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
@@ -54,6 +63,7 @@ public:
 	void addUnit(Unit unit);
 	void swapUnits_2(int & index1, int & index2, Army& army1, int alive_count_army1, int alive_count_army2);
 	void swapUnits_1(int & index1, int & index2, Army& army2, int alive_count_army1, int alive_count_army2);
+	void swapUnits();
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
 	~Army()
@@ -63,4 +73,11 @@ public:
 			delete[] this->units;
 		}
 	}
+	int GetLevel();
+	int GetExp();
+	void SetLevel(int a);
+	void CalcLevelAndCapacity(int countOfDead);
+	void SetCapacity(int a);
+	int GetCapacity();
+	bool CheckCapacity();
 };

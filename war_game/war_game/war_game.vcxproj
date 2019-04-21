@@ -132,6 +132,7 @@
     <ClCompile Include="Entities\GoldMine.cpp" />
     <ClCompile Include="Entities\Map.cpp" />
     <ClCompile Include="Entities\Unit.cpp" />
+    <ClCompile Include="Entities\Buffer.cpp" />
     <ClCompile Include="Entities\Wizard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\Menu.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Entities\Swordsman.h" />
     <ClInclude Include="Entities\Tank.h" />
     <ClInclude Include="Entities\Unit.h" />
+    <ClInclude Include="Entities\Buffer.h" />
     <ClInclude Include="Entities\Wizard.h" />
     <ClInclude Include="Utils\Menu.h" />
   </ItemGroup>

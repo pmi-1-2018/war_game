@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <time.h>
 
 Map::Map() :
 	width(0),
@@ -281,7 +282,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		}
 		map[y][x].setCell('B', x, y);
 	}
-	int maxBotArmiesQuantity = this->height * this->width / 50;
+	int maxBotArmiesQuantity = this->height * this->width / 50 + 1;
 	for (int i = 0; i < maxBotArmiesQuantity; i++)
 	{
 		int x = rand() % width;

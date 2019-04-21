@@ -329,26 +329,42 @@ void GameManager::Start()
 			{
 				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfUnits(
 					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits() + 5);
+				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfTurn(
+					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() + 7);
 			}
-			Army* army = nullptr;
-			army = newCell->GetArmy();
+			Army* army = newCell->GetArmy();			
 			int n;
-			cout << "Enter what you want to do: " << endl;
-			cin >> n;
-			if(n == 1)
+			Barrack *barrack = this->map->GetCell(new_x, new_y)->getBarrackPtr();
+			bool check = true;
+			while (check)
 			{
-				cout << "How many units you want to take? " << endl;
-				int number;
-				cin >> number;
-				if (number > 0 && number <= this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits())
+				system("CLS");
+				cout << "Welcome to the " << barrack->TellType() << endl;
+				cout << "Enter what you want to do: " << endl;
+				cout << "1 - take units" << endl;
+				cout << "2 - swap units" << endl;
+				cout << "0 - exit" << endl;
+				cin >> n;
+				if (n == 1)
 				{
-					for (int i = 0; i < number; i++)
+					cout << "How many units you want to take? " << endl;
+					int number;
+					cin >> number;
+					while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0)
 					{
-						army->addUnit(this->map->GetCell(new_x, new_y)->getBarrackPtr()->giveUnit());
+						army->addUnit(barrack->giveUnit());
+						barrack->SetNumberOfUnits(barrack->GetNumberOfUnits() - 1);
+						number--;
 					}
 				}
-				else
-				break;
+				if (n == 0)
+				{
+					check = false;
+				}
+				if (n == 2)
+				{
+					army->swapUnits();
+				}
 			}
 			system("CLS");
 			outputInfoOverMap(army);

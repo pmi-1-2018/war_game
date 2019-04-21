@@ -19,9 +19,6 @@
     <ClCompile Include="Entities\Unit.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Wizard.cpp">
-      <Filter>Resource Files\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Controllers\GameManager.cpp">
       <Filter>Resource Files\Controllers</Filter>
     </ClCompile>
@@ -31,7 +28,17 @@
     <ClCompile Include="Entities\Army.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Entities\GoldMine.cpp">
+=======
+    <ClCompile Include="Entities\Buffer.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Wizard.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Healer.cpp">
+>>>>>>> onvag
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,9 +73,6 @@
     <ClInclude Include="Controllers\GameManager.h">
       <Filter>Resource Files\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Wizard.h">
-      <Filter>Resource Files\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Entities\BarrackWizard.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
@@ -82,12 +86,23 @@
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ClInclude Include="Controllers\GameManager.h">
       <Filter>Resource Files\Controllers</Filter>
 =======
     <ClInclude Include="Entities\GoldMine.h">
       <Filter>Resource Files\Entities</Filter>
 >>>>>>> 343b4feda13d7aadc8e0c306c1af7d87ec6a11b8
+=======
+    <ClInclude Include="Entities\Buffer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Wizard.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Healer.h">
+      <Filter>Resource Files\Entities</Filter>
+>>>>>>> onvag
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

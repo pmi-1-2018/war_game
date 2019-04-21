@@ -38,6 +38,9 @@ public:
 	void SetArmy(Army* army);
 	Army* GetArmy()const;
 	bool IsPassable();
+	bool isPassableGenerate() {
+		return this->army == nullptr && this->barrack == nullptr && this->isPassable;
+	}
 	void setPassCost(int value);
 	void setIsBotArmy(bool value);
 	int GetX()const;
