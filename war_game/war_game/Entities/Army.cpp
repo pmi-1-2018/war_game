@@ -37,8 +37,11 @@ Army::Army(string name, Unit*list, int num, char symb, bool isPlayer, int money)
 	}
 	this->isPlayer = isPlayer;
 	this->isBotArmy = isPlayer == true ? false : true;
-	this->artefacts.push_back(Artefact('Q', 1, 0, false));
-	this->artefacts.push_back(Artefact('K', 2, 2, false));
+	this->inventory = new Inventory(3, 3);
+	Artefact* a1 = new Artefact('Q', false);
+	Artefact* a2 = new Artefact('K', false);
+	this->inventory->AddArtefact(1, 0, a1);
+	this->inventory->AddArtefact(2, 2, a2);
 }
 bool Army::SetCurrEnergy(const int & value)
 {
@@ -79,106 +82,17 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
-void Army::PrintInventory(int& selectedX, int& selectedY, bool selectedFirst, int& artIndex)
-{
-	SetConsoleTextAttribute(this->HSTDOUT, 240);
-	cout << "|";
-	for (int j = 0; j < this->inventoryHeight; j++)
-	{
-		cout << "*";
-	}
-	cout << "|" << endl;
-	bool savedArtIndex = false;
-	for (int i = 0; i < this->inventoryWidth; i++)
-	{
-		for (int j = -1; j < this->inventoryHeight; j++)
-		{
-			if (j < 0)
-			{
-				cout << "|";
-				continue;
-			}
-			else {
-				if (i == selectedY && j == selectedX)
-				{
-					if (selectedFirst == false)
-					{
-						// 64 - red
-						SetConsoleTextAttribute(this->HSTDOUT, 64);
-					}
-					else {
-						// 160 - green
-						SetConsoleTextAttribute(this->HSTDOUT, 160);
-					}
-				}
-				else
-				{
-					SetConsoleTextAttribute(this->HSTDOUT, 240);
-				}
-				bool artIsPrinted = false;
-				for (int s = 0; s < this->artefacts.size(); s++)
-				{
-					if (this->artefacts.at(s).invPosX == j && this->artefacts.at(s).invPosY == i)
-					{
-						if (this->artefacts.at(s).isSelected == true && artIndex == s)
-						{
-							SetConsoleTextAttribute(this->HSTDOUT, 64);
-						}
-						if (savedArtIndex == false && artIndex >= 0 && this->artefacts.at(s).isSelected == false)
-						{
-							artIndex = s;
-							savedArtIndex = true;
-							this->artefacts.at(s).isSelected = true;
-						}
-						
-						cout << this->artefacts.at(s).symb;
-						artIsPrinted = true;
-						break;
-					}
-				}
-				if (artIsPrinted == false)
-				{
-					cout << "-";
-				}
-			}
-		}
-		SetConsoleTextAttribute(this->HSTDOUT, 240);
-		cout << "|" << endl;
-	}
-	cout << "|";
-	for (int j = 0; j < this->inventoryHeight; j++)
-	{
-		cout << "*";
-	}
-	cout << "|" << endl;
-	SetConsoleTextAttribute(this->HSTDOUT, 15);
-}
-void Army::SwapArtefact(int& artIndex1, int& artIndex2)
-{
-	system("cls");
-	cout << "swapping" << endl;
-	Artefact tempArt = this->artefacts.at(artIndex1);
-	this->artefacts.at(artIndex1).invPosX = this->artefacts.at(artIndex2).invPosX;
-	this->artefacts.at(artIndex1).invPosY = this->artefacts.at(artIndex2).invPosY;
-	this->artefacts.at(artIndex1).isSelected = false;
-	this->artefacts.at(artIndex2).invPosX = tempArt.invPosX;
-	this->artefacts.at(artIndex2).invPosY = tempArt.invPosY;
-	this->artefacts.at(artIndex2).isSelected = false;
-	// here we will set a new position for an artefact
-}
 void Army::InventoryMode()
 {
 	system("cls");
 	int selectedX, selectedY;
 	selectedX = selectedY = 0;
-	bool firstIsSelected = false;
-	int selectArtIndex1, selectArtIndex2;
-	selectArtIndex1 = selectArtIndex2 = -1;
-	PrintInventory(selectedX, selectedY, firstIsSelected, selectArtIndex1);
+	this->inventory->PrintInventory(selectedX, selectedY, false);
 	while (true)
 	{
 		char key = _getch();
 		int asciiValue = key;
+		bool selectPressed = false;
 		if (asciiValue == 105 || asciiValue == 27)
 		{
 			break;
@@ -192,7 +106,7 @@ void Army::InventoryMode()
 		}
 		else if (asciiValue == 100) // pressed d
 		{
-			if (selectedX != this->inventoryWidth - 1)
+			if (selectedX != this->inventory->inventoryWidth - 1)
 			{
 				selectedX += 1;
 			}
@@ -206,29 +120,17 @@ void Army::InventoryMode()
 		}
 		else if (asciiValue == 115) // pressed s
 		{
-			if (selectedY != this->inventoryHeight - 1)
+			if (selectedY != this->inventory->inventoryHeight - 1)
 			{
 				selectedY += 1;
 			}
 		}
 		else if (asciiValue == 13)
 		{
-			if (firstIsSelected == false)
-			{
-				selectArtIndex1++;
-				firstIsSelected = true;
-			}
-			else
-			{
-				selectArtIndex2++;
-				firstIsSelected = false;
-				PrintInventory(selectedX, selectedY, firstIsSelected, selectArtIndex2);
-				SwapArtefact(selectArtIndex1, selectArtIndex2);
-				system("pause");
-			}
+			selectPressed = true;
 		}
 		system("cls");
-		PrintInventory(selectedX, selectedY, firstIsSelected, selectArtIndex1);
+		this->inventory->PrintInventory(selectedX, selectedY, selectPressed);
 	}
 }
 //
