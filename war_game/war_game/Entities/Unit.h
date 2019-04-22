@@ -7,6 +7,7 @@ using namespace std;
 class Unit
 {
 protected:
+	int cost = 0;
 	int damage = 0;
 	int defense = 0;
 	int healthPoints = 0;
@@ -28,6 +29,7 @@ public:
 	int getId();
 	char getSymb();
 	void setSymb(char symb);
+	int getCost();
 
 	void attack(Unit& unit);
 	int DamageTaken();

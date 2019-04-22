@@ -18,4 +18,9 @@ public:
 	{
 		return "barrack of tanks";
 	}
+	int getCost()
+	{
+		Tank unit;
+		return unit.getCost();
+	}
 };

@@ -15,6 +15,11 @@ int Barrack::GetNumberOfTurn()
 	return numberOfTurn;
 }
 
+int Barrack::getCost()
+{
+	return 0;
+}
+
 void Barrack::SetNumberOfTurn(int number)
 {
 	this->numberOfTurn = number;

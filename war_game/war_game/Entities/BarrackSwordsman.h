@@ -17,4 +17,9 @@ public:
 	{
 		return "barrack of swordsmen";
 	}
+	int getCost()
+	{
+		Swordsman unit;
+		return unit.getCost();
+	}
 };

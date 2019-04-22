@@ -17,5 +17,10 @@ public:
 	{
 		return "barrack of archers";
 	}
+	int getCost()
+	{
+		Archer unit;
+		return unit.getCost();
+	}
 
 };

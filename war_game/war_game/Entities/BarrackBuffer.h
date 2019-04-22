@@ -17,5 +17,10 @@ public:
 	{
 		return "barrack of buffers";
 	}
+	int getCost()
+	{
+		Buffer unit;
+		return unit.getCost();
+	}
 
 };

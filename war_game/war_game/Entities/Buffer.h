@@ -7,6 +7,7 @@ class Buffer : public Unit
 public:
 	Buffer()
 	{
+		cost = 100;
 		damage = 7;
 		healthPoints = 40;
 		defense = 1;

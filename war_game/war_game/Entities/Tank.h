@@ -7,6 +7,7 @@ class Tank : public Unit
 public:
 	Tank()
 	{
+		cost = 100;
 		damage = 15;
 		healthPoints = 90;
 		defense = 7;

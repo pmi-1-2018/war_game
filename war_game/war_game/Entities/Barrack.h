@@ -17,6 +17,7 @@ public:
 	virtual int GetNumberOfTurn();
 	virtual void SetNumberOfTurn(int number);
 	virtual Unit giveUnit();
+	virtual int getCost();
 	virtual string TellType();
 };
 

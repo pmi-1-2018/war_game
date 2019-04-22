@@ -17,4 +17,9 @@ public:
 	{
 		return "barrack of wizards";
 	}
+	int getCost()
+	{
+		Wizard unit;
+		return unit.getCost();
+	}
 };

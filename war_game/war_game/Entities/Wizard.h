@@ -8,6 +8,7 @@ class Wizard : public Unit
 public:
 	Wizard()
 	{
+		cost = 100;
 		damage = 32;
 		defense = 1;
 		healthPoints = 50;

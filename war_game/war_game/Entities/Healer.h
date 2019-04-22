@@ -7,6 +7,7 @@ class Healer : public Unit
 public:
 	Healer()
 	{
+		cost = 100;
 		damage = 5;
 		healthPoints = 30;
 		defense = 1;

@@ -167,8 +167,7 @@ bool Army::battlePVE(Army& a)
 	int otherArmy = a.units.size();
 	char action;
 	bool check = true;
-	int index1 = 0;
-	int index2 = 0;
+	vector<int> indexes(2, 0);
 	system("CLS");
 	int var = 0;
 	this->printArmiesFight(a, var, var, var, var);
@@ -194,8 +193,8 @@ bool Army::battlePVE(Army& a)
 		}
 		if (action == 'S' || action == 's')
 		{
-			this->swapUnits_1(index1, index2, a);
-			swap(units[index1], units[index2]);
+			this->selectUnits(false, indexes);
+			swap(units[indexes[0]], units[indexes[1]]);
 			this->buff();
 			a.buff();
 			this->heal();
@@ -224,9 +223,8 @@ bool Army::battlePVP(Army& a)
 	int thisArmy = units.size();
 	int otherArmy = a.units.size();
 	char action;
-	int index1 = 0;
-	int index2 = 0;
 	int var = 0;
+	vector<int> indexes(2, 0);
 	system("CLS");
 	this->printArmiesFight(a, var, var, var, var);
 	do
@@ -262,15 +260,15 @@ bool Army::battlePVP(Army& a)
 		{
 			if (turn == true)
 			{
-				this->swapUnits_1(index1, index2, a);
-				swap(units[index1], units[index2]);
+				this->selectUnits(false, indexes);
+				swap(units[indexes[0]], units[indexes[1]]);
 				this->buff();
 				this->heal();
 			}
 			else
 			{
-				a.swapUnits_2(index1, index2, *this);
-				swap(a.units[index1], a.units[index2]);
+				a.selectUnits(false, indexes);
+				swap(a.units[indexes[0]], a.units[indexes[1]]);
 				a.buff();
 				a.heal();
 			}
@@ -698,7 +696,7 @@ void Army::heal()
 void Army::buff()
 {
 	bool check = false;
-	int index1, index2;
+	vector<int> indexes(2, 0);
 	Buffer b;
 	for (size_t i = 0; i < units.size(); i++)
 	{
@@ -713,9 +711,9 @@ void Army::buff()
 		return;
 	}
 	system("cls");
-	this->swapUnits(index1,index2);
-	b.BuffDamage(units[index1]);
-	b.BuffDefense(units[index2]);
+	this->selectUnits(true,indexes);
+	b.BuffDamage(units[indexes[0]]);
+	b.BuffDefense(units[indexes[1]]);
 }
 
 void Army::printArmy()

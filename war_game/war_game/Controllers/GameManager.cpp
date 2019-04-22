@@ -350,11 +350,12 @@ void GameManager::Start()
 					cout << "How many units you want to take? " << endl;
 					int number;
 					cin >> number;
-					while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0)
+					while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0 && army->getWallet() >= barrack->getCost())
 					{
 						army->addUnit(barrack->giveUnit());
 						barrack->SetNumberOfUnits(barrack->GetNumberOfUnits() - 1);
 						number--;
+						army->addMoneyToWallet(-(barrack->getCost()));
 					}
 				}
 				if (n == 3)
@@ -363,10 +364,9 @@ void GameManager::Start()
 				}
 				if (n == 2)
 				{
-					int index1;
-					int index2;
-					army->swapUnits(index1,index2);
-					army->ArmySwap(index1, index2);
+					vector<int> indexes(2, 0);
+					army->selectUnits(false,indexes);
+					army->ArmySwap(indexes[0], indexes[1]);
 				}
 			}
 			system("CLS");

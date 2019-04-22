@@ -17,5 +17,10 @@ public:
 	{
 		return "barrack of healers";
 	}
+	int getCost()
+	{
+		Healer unit;
+		return unit.getCost();
+	}
 
 };

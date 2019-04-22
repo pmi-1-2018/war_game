@@ -14,6 +14,11 @@ int Unit::GetDefense()
 	return defense;
 }
 
+int Unit::getCost()
+{
+	return cost;
+}
+
 int Unit::GetDamage()
 {
 	return damage;

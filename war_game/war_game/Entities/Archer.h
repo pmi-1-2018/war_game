@@ -8,6 +8,7 @@ class Archer : public Unit
 public:
 	Archer()
 	{
+		cost = 100;
 		damage = 20;
 		defense = 1;
 		healthPoints = 50;

@@ -8,6 +8,7 @@ class Swordsman : public Unit
 public:
 	Swordsman()
 	{
+		cost = 100;
 		damage = 25;
 		defense = 1;
 		healthPoints = 60;
