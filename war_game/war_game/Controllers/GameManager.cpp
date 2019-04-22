@@ -414,6 +414,14 @@ void GameManager::Start()
 		//	outputInfoOverMap(army);
 		//	Draw(this->turn, new_x, new_y);
 		//	continue;
+			system("CLS");
+			Army* army = nullptr;
+			army = newCell->GetArmy();
+			outputInfoOverMap(army);
+			this->map->SetBackground("D");
+			army = nullptr;
+			newCell->setArtifactPtr(nullptr);
+			Draw(this->turn, new_x, new_y);
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
