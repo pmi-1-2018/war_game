@@ -42,6 +42,7 @@ public:
 	void SetArmy(Army* army);
 	Army* GetArmy()const;
 	Artifact* getArifactPtr();
+	void setArtifactPtr(Artifact* artif);
 	bool IsPassable();
 	bool isPassableGenerate() {
 		return this->army == nullptr && this->barrack == nullptr && this->isPassable;

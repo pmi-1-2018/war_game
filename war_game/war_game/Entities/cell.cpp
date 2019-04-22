@@ -256,6 +256,10 @@ Artifact * Cell::getArifactPtr()
 {
 	return this->artifact;
 }
+void Cell::setArtifactPtr(Artifact * artif)
+{
+	this->artifact = artif;
+}
 Army* Cell::getArmyPtr()const
 {
 	return this->army;

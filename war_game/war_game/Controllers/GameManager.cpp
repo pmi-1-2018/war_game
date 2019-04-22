@@ -400,6 +400,21 @@ void GameManager::Start()
 			Draw(this->turn, new_x, new_y);
 			continue;
 		}
+		if (response == 6)
+		{
+		//	Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
+		//	//currentCell->setIsPlayer(false);
+		//	currentCell->SetArmy(nullptr);
+		//	currentCell->setArtifactPtr(nullptr);
+		//	newCell->SetArmy(army);
+		////	newCell->setIsPlayer(true);
+		////	newCell->setIsBotArmy(false);
+		//	SetMusic("battle");
+		////	army->SetCurrEnergy(-army->GetCurrEnergy());
+		//	outputInfoOverMap(army);
+		//	Draw(this->turn, new_x, new_y);
+		//	continue;
+		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
 			outputTurnSwitch(response);

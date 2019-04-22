@@ -361,6 +361,10 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			{
 				return 5;
 			}
+			if (map[newCell->GetY()][newCell->GetX()].getArifactPtr() != nullptr)
+			{
+				return 6;
+			}
 			return 1;
 		}
 	}
