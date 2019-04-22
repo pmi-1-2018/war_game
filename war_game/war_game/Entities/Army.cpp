@@ -88,6 +88,7 @@ void Army::PrintInventory(int& selectedX, int& selectedY, bool selectedFirst, in
 		cout << "*";
 	}
 	cout << "|" << endl;
+	bool savedArtIndex = false;
 	for (int i = 0; i < this->inventoryWidth; i++)
 	{
 		for (int j = -1; j < this->inventoryHeight; j++)
@@ -119,18 +120,20 @@ void Army::PrintInventory(int& selectedX, int& selectedY, bool selectedFirst, in
 				{
 					if (this->artefacts.at(s).invPosX == j && this->artefacts.at(s).invPosY == i)
 					{
-						if(selectedFirst == true && this->artefacts.at(s).invPosX == selectedX && this->artefacts.at(s).invPosY == selectedY)
-						{
-							artIndex = s;
-							this->artefacts.at(s).isSelected = true;
-						}
-						
-						if (this->artefacts.at(s).isSelected == true && s == artIndex && selectedFirst == true)
+						if (this->artefacts.at(s).isSelected == true && artIndex == s)
 						{
 							SetConsoleTextAttribute(this->HSTDOUT, 64);
 						}
+						if (savedArtIndex == false && artIndex >= 0 && this->artefacts.at(s).isSelected == false)
+						{
+							artIndex = s;
+							savedArtIndex = true;
+							this->artefacts.at(s).isSelected = true;
+						}
+						
 						cout << this->artefacts.at(s).symb;
 						artIsPrinted = true;
+						break;
 					}
 				}
 				if (artIsPrinted == false)
@@ -154,10 +157,13 @@ void Army::SwapArtefact(int& artIndex1, int& artIndex2)
 {
 	system("cls");
 	cout << "swapping" << endl;
-	/*Artefact tempArt = art1;
-	art1 = art2;
-	art2 = tempArt;
-	art1.isSelected = art2.isSelected = false;*/
+	Artefact tempArt = this->artefacts.at(artIndex1);
+	this->artefacts.at(artIndex1).invPosX = this->artefacts.at(artIndex2).invPosX;
+	this->artefacts.at(artIndex1).invPosY = this->artefacts.at(artIndex2).invPosY;
+	this->artefacts.at(artIndex1).isSelected = false;
+	this->artefacts.at(artIndex2).invPosX = tempArt.invPosX;
+	this->artefacts.at(artIndex2).invPosY = tempArt.invPosY;
+	this->artefacts.at(artIndex2).isSelected = false;
 	// here we will set a new position for an artefact
 }
 void Army::InventoryMode()
@@ -166,8 +172,9 @@ void Army::InventoryMode()
 	int selectedX, selectedY;
 	selectedX = selectedY = 0;
 	bool firstIsSelected = false;
-	int artIndex1, artIndex2;
-	PrintInventory(selectedX, selectedY, firstIsSelected, artIndex1);
+	int selectArtIndex1, selectArtIndex2;
+	selectArtIndex1 = selectArtIndex2 = -1;
+	PrintInventory(selectedX, selectedY, firstIsSelected, selectArtIndex1);
 	while (true)
 	{
 		char key = _getch();
@@ -208,23 +215,20 @@ void Army::InventoryMode()
 		{
 			if (firstIsSelected == false)
 			{
+				selectArtIndex1++;
 				firstIsSelected = true;
 			}
 			else
 			{
-				SwapArtefact(artIndex1, artIndex2);
+				selectArtIndex2++;
+				firstIsSelected = false;
+				PrintInventory(selectedX, selectedY, firstIsSelected, selectArtIndex2);
+				SwapArtefact(selectArtIndex1, selectArtIndex2);
 				system("pause");
 			}
 		}
 		system("cls");
-		if (firstIsSelected == false) 
-		{
-			PrintInventory(selectedX, selectedY, firstIsSelected, artIndex1);
-		}
-		else
-		{
-			PrintInventory(selectedX, selectedY, firstIsSelected, artIndex2);
-		}
+		PrintInventory(selectedX, selectedY, firstIsSelected, selectArtIndex1);
 	}
 }
 //
