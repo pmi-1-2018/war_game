@@ -63,9 +63,7 @@ public:
 	void CalcLevelAndCapacity(int countOfDead);
 	void addUnit(Unit unit);
 
-	void swapUnits_2(int & index1, int & index2, Army& army1);
-	void swapUnits_1(int & index1, int & index2, Army& army2);
-	void swapUnits(int& index1, int& index2);
+	void selectUnits(bool isWithRepeats, vector<int>& indexes);
 	void ArmySwap(int& index1, int& index2);
 
 	char GetSymb();
