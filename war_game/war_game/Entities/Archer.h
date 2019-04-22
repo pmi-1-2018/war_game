@@ -8,11 +8,11 @@ class Archer : public Unit
 public:
 	Archer()
 	{
-		cost = 100;
-		damage = 20;
-		defense = 1;
-		healthPoints = 50;
-		maxHP = 50;
+		cost = 110;
+		damage = 30;
+		defense = 5;
+		healthPoints = 110;
+		maxHP = 60;
 		dec_energy = -1;
 		id = 2;
 		symb = 'A';

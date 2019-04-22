@@ -7,11 +7,11 @@ class Healer : public Unit
 public:
 	Healer()
 	{
-		cost = 100;
-		damage = 5;
-		healthPoints = 30;
-		defense = 1;
-		maxHP = 30;
+		cost = 80;
+		damage = 10;
+		healthPoints = 60;
+		defense = 2;
+		maxHP = 60;
 		dec_energy = -1;
 		id = 6;
 		symb = 'H';

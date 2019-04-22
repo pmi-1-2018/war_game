@@ -7,11 +7,11 @@ class Buffer : public Unit
 public:
 	Buffer()
 	{
-		cost = 100;
-		damage = 7;
-		healthPoints = 40;
-		defense = 1;
-		maxHP = 40;
+		cost = 80;
+		damage = 12;
+		healthPoints = 80;
+		defense = 2;
+		maxHP = 80;
 		dec_energy = -1;
 		id = 5;
 		symb = 'B';

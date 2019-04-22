@@ -7,11 +7,11 @@ class Tank : public Unit
 public:
 	Tank()
 	{
-		cost = 100;
-		damage = 15;
-		healthPoints = 90;
-		defense = 7;
-		maxHP = 90;
+		cost = 140;
+		damage = 25;
+		healthPoints = 100;
+		defense = 8;
+		maxHP = 100;
 		dec_energy = -3;
 		id = 3;
 		symb = 'T';
