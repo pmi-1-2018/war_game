@@ -9,7 +9,8 @@ Cell::Cell() :
 	x(0),
 	y(0),
 	barrack(nullptr),
-	goldMine(nullptr)
+	goldMine(nullptr),
+	artifact(nullptr)
 {}
 
 Cell::Cell(const Cell& other)
@@ -21,6 +22,7 @@ Cell::Cell(const Cell& other)
 	this->army = other.army;
 	this->goldMine = other.goldMine;
 	this->playersCount = other.playersCount;
+	this->artifact = other.artifact;
 	this->x = other.x;
 	this->y = other.y;
 }
@@ -30,7 +32,8 @@ Cell::Cell(int passCost, int x, int y) :
 //	isPlayer(false),
 	isPassable(true),
 	barrack(nullptr),
-	goldMine(nullptr)
+	goldMine(nullptr),
+	artifact(nullptr)
 {
 	if (this->passCost == 0)
 	{
@@ -49,6 +52,7 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 	this->x = x;
 	this->barrack = nullptr;
 	this->goldMine = nullptr;
+	this->artifact = nullptr;
 	this->isPassable = true;
 	switch (symb)
 	{
@@ -125,6 +129,10 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 		passCost = 1;
 		this->goldMine = new GoldMine();
 		break;
+	case '?':
+		passCost = 1;
+		this->artifact = new Artifact();
+		break;
 	default:
 		passCost = 1;
 		break;
@@ -138,7 +146,7 @@ GoldMine* Cell::getGoldMinePtr()
 
 bool Cell::isPossibleGenerate() 
 {
-	return this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
+	return this->artifact == nullptr && this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
 }
 
 Barrack* Cell::getBarrackPtr()
@@ -243,6 +251,10 @@ void Cell::SetArmy(Army * army)
 Army * Cell::GetArmy()const
 {
 	return this->army;
+}
+Artifact * Cell::getArifactPtr()
+{
+	return this->artifact;
 }
 Army* Cell::getArmyPtr()const
 {

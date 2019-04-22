@@ -4,7 +4,7 @@ using namespace std;
 
 Artifact::Artifact():
 	type("default"),
-	addPoints(0){}
+	addPoints(1){}
 
 Artifact::Artifact(string ttype, size_t aaddPoints):
 	type(ttype),

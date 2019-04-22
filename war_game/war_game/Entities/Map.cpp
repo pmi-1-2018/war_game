@@ -257,6 +257,18 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			}
 		}
 	}
+	int maxArtifactsQuantity = this->height*this->width / 25;
+	for (size_t i = 0; i < maxArtifactsQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || !map[y][x].isPossibleGenerate())
+		{
+			i--;
+			continue;
+		}
+		map[y][x].setCell('?', x, y);
+	}
 	int maxGoldMinesQuantity = this->height * this->width / 50;
 	for (size_t i = 0; i < maxGoldMinesQuantity; i++)
 	{
@@ -465,6 +477,12 @@ void Map::mapDraw(Map &m, int x, int y)
 				cout << 'A';
 				continue;
 			}
+			if (m.map[i][j].getArifactPtr() != nullptr)
+			{
+				m.SetBackground("D");
+				cout << '?';
+				continue;
+			}
 			if (m.map[i][j].getPassCost() == 1)
 			{
 				m.SetBackground("D");
@@ -512,6 +530,11 @@ ostream& operator<<(ostream& sout, Map &m)
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
 				sout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getArifactPtr() != nullptr)
+			{
+				sout << '?';
 				continue;
 			}
 			if (m.map[i][j].getGoldMinePtr() != nullptr)

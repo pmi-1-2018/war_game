@@ -127,6 +127,7 @@
     <ClCompile Include="Controllers\Battle.cpp" />
     <ClCompile Include="Controllers\GameManager.cpp" />
     <ClCompile Include="Entities\Army.cpp" />
+    <ClCompile Include="Entities\Artifact.cpp" />
     <ClCompile Include="Entities\Barrack.cpp" />
     <ClCompile Include="Entities\Buffer.cpp" />
     <ClCompile Include="Entities\cell.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />
+    <ClInclude Include="Entities\Artifact.h" />
     <ClInclude Include="Entities\Barrack.h" />
     <ClInclude Include="Entities\BarrackArcher.h" />
     <ClInclude Include="Entities\BarrackBuffer.h" />
