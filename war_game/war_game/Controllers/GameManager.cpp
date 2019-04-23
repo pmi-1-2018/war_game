@@ -283,6 +283,7 @@ void GameManager::Start()
 		// response = 3 - out of points - switching the turn
 		// response = 4 - stepped on a barrack
 		// response = 5 - stepped on a Gold Mine
+		// response = 6 - stepped on a artifact
 		if (hitTheWall == true)
 		{
 			continue;
@@ -402,18 +403,6 @@ void GameManager::Start()
 		}
 		if (response == 6)
 		{
-		//	Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
-		//	//currentCell->setIsPlayer(false);
-		//	currentCell->SetArmy(nullptr);
-		//	currentCell->setArtifactPtr(nullptr);
-		//	newCell->SetArmy(army);
-		////	newCell->setIsPlayer(true);
-		////	newCell->setIsBotArmy(false);
-		//	SetMusic("battle");
-		////	army->SetCurrEnergy(-army->GetCurrEnergy());
-		//	outputInfoOverMap(army);
-		//	Draw(this->turn, new_x, new_y);
-		//	continue;
 			system("CLS");
 			Army* army = nullptr;
 			army = newCell->GetArmy();
