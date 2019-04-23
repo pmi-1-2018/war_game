@@ -99,21 +99,35 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
-void Army::inputTheArmy() {
+void Army::inputTheArmy(size_t size) {
 	char type;
 	Swordsman s;
 	Archer a;
-	for (int i = 0; i < this->units.size(); i++) {
+	Wizard w;
+	Tank t;
+	Buffer b;
+	Healer h;
+	for (size_t i = 0; i < size;i++) {//this->units.size(); i++) {
 		cout << "Enter the type of unit " << endl;
 		cin >> type;
 		switch (type) {
 		case 'S':
-			this->units[i] = s;
+			units.push_back(s);
 			break;
 		case 'A':
-			this->units[i] = a;
+			units.push_back(a);
 			break;
+		case 'W':
+			units.push_back(w);
+			break;
+		case 'T':
+			units.push_back(t);
+		case 'B':
+			units.push_back(b);
+		case 'H':
+			units.push_back(h);
 		default:
+			cout << "Enter valid value! " << endl;
 			break;
 		}
 	}
