@@ -73,17 +73,17 @@ void Menu::KeyHandler()
 		case 53:
 		{
 			validKey = true;
-			EndGame();
-			break;
-		}
-		case 54:
-		{
-			validKey = true;
 			Sandbox();
 			system("CLS");
 			PrintMenu();
 			this->gm->SetMusic("Menu");
 			continue;
+		}
+		case 54:
+		{
+			validKey = true;
+			EndGame();
+			break;
 		}
 		default:
 		{

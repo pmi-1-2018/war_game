@@ -9,7 +9,7 @@ class Menu
 {
 private:
 	const int OPT_COUNT = 6;
-	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Exit", "Sandbox" };
+	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Sandbox", "Exit" };
 	GameManager* gm;
 public:
 	Menu();

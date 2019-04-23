@@ -122,10 +122,13 @@ void Army::inputTheArmy(size_t size) {
 			break;
 		case 'T':
 			units.push_back(t);
+			break;
 		case 'B':
 			units.push_back(b);
+			break;
 		case 'H':
 			units.push_back(h);
+			break;
 		default:
 			cout << "Enter valid value! " << endl;
 			break;
@@ -690,20 +693,23 @@ void Army::heal()
 	Healer h;
 	for (size_t i = 0; i < units.size(); i++)
 	{
-		if (units[i].getId() == 6)
+		if (units.size() >= 2)
 		{
-			if (i == 0)
+			if (units[i].getId() == 6)
 			{
-				h.Heal(units[i + 1]);
-			}
-			if (i == units.size() - 1)
-			{
-				h.Heal(units[i - 1]);
-			}
-			if (i != 0 && i != units.size() - 1)
-			{
-				h.Heal(units[i + 1]);
-				h.Heal(units[i - 1]);
+				if (i == 0)
+				{
+					h.Heal(units[i + 1]);
+				}
+				if (i == units.size() - 1)
+				{
+					h.Heal(units[i - 1]);
+				}
+				if (i != 0 && i != units.size() - 1)
+				{
+					h.Heal(units[i + 1]);
+					h.Heal(units[i - 1]);
+				}
 			}
 		}
 	}

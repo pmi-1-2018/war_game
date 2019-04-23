@@ -156,6 +156,7 @@ void GameManager::SandboxStart()
 	Army a2;
 	int size1;
 	int size2;
+	int var = 0;
 	while (true)
 	{
 		cout << "Enter the size of the first army: " << endl;
@@ -164,14 +165,12 @@ void GameManager::SandboxStart()
 		cout << "Enter the size of the second army: " << endl;
 		cin >> size2;
 		a2.inputTheArmy(size2);
-		int var = 0;
 		a1.printArmiesFight(a1, var, var, var, var);
 		SetMusic("Attack");
 		a1.armyAutoAttack(a2);
 		system("pause");
 		break;
 	}
-
 }
 
 void GameManager::Start()
