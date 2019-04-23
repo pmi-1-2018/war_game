@@ -48,7 +48,6 @@ private:
 		int inventoryHeight;
 		Artefact*** artefacts;
 		bool itemIsFixed = false;
-		bool itemsSwapped = false;
 		ClipBoard storage;
 		const HANDLE HSTDOUT = GetStdHandle(STD_OUTPUT_HANDLE);
 		void AddArtefact(int posX, int posY, Artefact* element)
@@ -108,8 +107,10 @@ private:
 									art2->isSelected = false;
 								}
 								this->itemIsFixed = false;
-								this->itemsSwapped = true;
-
+								SetConsoleTextAttribute(this->HSTDOUT, 15);
+								system("cls");
+								PrintInventory(selectedX, selectedY, false);
+								return;
 							}
 							else
 							{
