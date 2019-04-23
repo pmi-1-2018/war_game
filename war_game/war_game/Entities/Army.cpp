@@ -865,7 +865,7 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 
 	for (int i = 0; i < units.size(); i++)
 	{
-		cout << units[i];
+		cout << units[i].getSymb();
 	}
 	cout << endl;
 	cout << '^';
@@ -902,7 +902,7 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 				system("cls");
 				for (int i = 0; i < units.size(); i++)
 				{
-					cout << units[i];
+					cout << units[i].getSymb();
 				}
 				cout << endl;
 				printSpace(indexes[0]);
@@ -931,7 +931,7 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 				system("cls");
 				for (int i = 0; i < units.size(); i++)
 				{
-					cout << units[i];
+					cout << units[i].getSymb();
 				}
 				cout << endl;
 				printSpace(indexes[0]);
@@ -965,12 +965,12 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 			if (k == indexes[0])
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-				cout << units[i];
+				cout << units[i].getSymb();
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			}
 			else
 			{
-				cout << units[i];
+				cout << units[i].getSymb();
 			}
 		}
 		cout << endl;
@@ -1007,12 +1007,12 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 						if (k == indexes[0])
 						{
 							SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-							cout << units[i];
+							cout << units[i].getSymb();
 							SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 						}
 						else
 						{
-							cout << units[i];
+							cout << units[i].getSymb();
 						}
 					}
 					cout << endl;
@@ -1037,12 +1037,12 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 						if (k == indexes[0])
 						{
 							SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-							cout << units[i];
+							cout << units[i].getSymb();
 							SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 						}
 						else
 						{
-							cout << units[i];
+							cout << units[i].getSymb();
 						}
 					}
 					cout << endl;
@@ -1065,24 +1065,24 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 			if (i == indexes[0] && indexes[0] == indexes[1])
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 23);
-				cout << units[i];
+				cout << units[i].getSymb();
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			}
 			else if (i == indexes[0])
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-				cout << units[i];
+				cout << units[i].getSymb();
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			}
 			else if (i == indexes[1])
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 103);
-				cout << units[i];
+				cout << units[i].getSymb();
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			}
 			else
 			{
-				cout << units[i];
+				cout << units[i].getSymb();
 			}
 		}
 		cout << endl;
@@ -1096,12 +1096,12 @@ void Army::selectUnits(bool isWithRepeats, vector<int>& indexes)
 			if (i == indexes[0])
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 39);
-				cout << units[i];
+				cout << units[i].getSymb();
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 			}
 			else
 			{
-				cout << units[i];
+				cout << units[i].getSymb();
 			}
 		}
 		cout << endl;
