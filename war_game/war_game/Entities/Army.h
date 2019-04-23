@@ -38,12 +38,19 @@ class Army
 private:
 	struct Inventory
 	{
+		struct ClipBoard
+		{
+			Artefact* item = nullptr;
+			int posX;
+			int posY;
+		};
 		int inventoryWidth;
 		int inventoryHeight;
 		Artefact*** artefacts;
-		void PrintInventory(int& selectedX, int& selectedY);
+		bool itemIsFixed = false;
+		bool itemsSwapped = false;
+		ClipBoard storage;
 		const HANDLE HSTDOUT = GetStdHandle(STD_OUTPUT_HANDLE);
-		
 		void AddArtefact(int posX, int posY, Artefact* element)
 		{
 			if (posX < this->inventoryWidth && posY < this->inventoryHeight)
@@ -66,8 +73,7 @@ private:
 				cout << "*";
 			}
 			cout << "|" << endl;
-			bool itemIsFixed = false;
-			bool itemsSwapped = false;
+			
 			for (int i = 0; i < this->inventoryWidth; i++)
 			{
 				cout << "|";
@@ -76,50 +82,63 @@ private:
 					if (selectedY == i && selectedX == j)
 					{
 						SetConsoleTextAttribute(this->HSTDOUT, 64);
-					}
-					if (this->artefacts[i][j] == nullptr)
-					{
-						cout << "-";
-						SetConsoleTextAttribute(this->HSTDOUT, 240);
-						continue;
-					}
-					if (selectPressed == true)
-					{
-						if (this->artefacts[i][j]->isSelected == true)
+						if (this->artefacts[i][j] == nullptr)
 						{
-							Artefact* art1 = this->artefacts[selectedY][selectedX];
-							Artefact* art2 = this->artefacts[i][j];
-							SwapArtefact(selectedX, selectedY, j, i);
-							SetConsoleTextAttribute(this->HSTDOUT, 240);
-							if (art1 != nullptr) 
-							{
-								art1->isSelected = false;
-							}
-							if (art2 != nullptr)
-							{
-								art2->isSelected = false;
-							}
-
+							cout << "-";
 						}
 						else
 						{
-							if (itemIsFixed == false)
+							cout << this->artefacts[i][j]->symb;
+						}
+						if (selectPressed == true)
+						{
+							if (this->itemIsFixed == true)
 							{
-								this->artefacts[i][j]->isSelected = true;
-								itemIsFixed = true;
+								Artefact* art1 = this->storage.item;
+								Artefact* art2 = this->artefacts[i][j];
+								SwapArtefact(this->storage.posX, this->storage.posY, selectedX, selectedY);
+								SetConsoleTextAttribute(this->HSTDOUT, 240);
+								if (art1 != nullptr)
+								{
+									art1->isSelected = false;
+									
+								}
+								if (art2 != nullptr)
+								{
+									art2->isSelected = false;
+								}
+								this->itemIsFixed = false;
+								this->itemsSwapped = true;
+
+							}
+							else
+							{
+								if (this->artefacts[i][j] != nullptr && this->artefacts[i][j]->isSelected == false)
+								{
+									this->storage.item = this->artefacts[i][j];
+									this->storage.posX = j;
+									this->storage.posY = i;
+									this->artefacts[i][j]->isSelected = true;
+									this->itemIsFixed = true;
+								}
 							}
 						}
 					}
-					if (this->artefacts[i][j] != nullptr)
+					else
 					{
-						if (this->artefacts[i][j]->isSelected == true)
+						
+						if (this->artefacts[i][j] == nullptr)
 						{
-							if (itemIsFixed == false)
+							cout << "-";
+						}
+						else
+						{
+							if (this->artefacts[i][j]->isSelected == true && this->itemIsFixed == true)
 							{
 								SetConsoleTextAttribute(this->HSTDOUT, 64);
 							}
+							cout << this->artefacts[i][j]->symb;
 						}
-						cout << this->artefacts[i][j]->symb;
 					}
 					SetConsoleTextAttribute(this->HSTDOUT, 240);
 				}
