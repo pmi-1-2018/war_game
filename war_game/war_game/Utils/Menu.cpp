@@ -76,6 +76,15 @@ void Menu::KeyHandler()
 			EndGame();
 			break;
 		}
+		case 54:
+		{
+			validKey = true;
+			Sandbox();
+			system("CLS");
+			PrintMenu();
+			this->gm->SetMusic("Menu");
+			continue;
+		}
 		default:
 		{
 			cout << "Incorrect key was pressed." << endl;
@@ -83,6 +92,11 @@ void Menu::KeyHandler()
 		}
 		}
 	}
+}
+
+void Menu::Sandbox() {
+	system("CLS");
+	gm->SandboxStart();
 }
 
 void Menu::StartGame()
