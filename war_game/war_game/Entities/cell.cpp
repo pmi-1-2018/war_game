@@ -48,6 +48,7 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 {
 	int n = rand() % 6 + 1;
 	int quantity;
+	size_t points;
 	this->y = y;
 	this->x = x;
 	this->barrack = nullptr;
@@ -131,7 +132,19 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 		break;
 	case '?':
 		passCost = 1;
-		this->artifact = new Artifact();
+		points = rand() % 3 + 1;
+		if (n == 1 || n == 2)
+		{
+			this->artifact = new Artifact('A', points);
+		}
+		else if (n == 3 || n == 4)
+		{
+			this->artifact = new Artifact('D', points);
+		}
+		else if (n == 5 || n == 6)
+		{
+			this->artifact = new Artifact('E', points);
+		}
 		break;
 	default:
 		passCost = 1;
@@ -186,6 +199,14 @@ Cell::~Cell()
 	if (this->barrack != nullptr)
 	{
 		delete barrack;
+	}
+	if (this->goldMine != nullptr)
+	{
+		delete goldMine;
+	}
+	if (this->artifact != nullptr)
+	{
+		delete artifact;
 	}
 }
 int Cell::getPassCost()
