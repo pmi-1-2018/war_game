@@ -404,6 +404,21 @@ void GameManager::Start()
 		if (response == 6)
 		{
 			system("CLS");
+			Artifact* artifact = newCell->getArifactPtr();
+			artifact->printArtifactInfo();
+			cout << "Do you want to take this artifact? ";
+			char answer = _getch();
+			if (answer == 'y' || answer == 'Y')
+			{
+				cout << "Yes" << endl;
+				system("pause");
+			}
+			else
+			{
+				cout << "No" << endl;
+				system("pause");
+			}
+			system("CLS");
 			Army* army = nullptr;
 			army = newCell->GetArmy();
 			outputInfoOverMap(army);
