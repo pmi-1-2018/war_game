@@ -301,11 +301,40 @@ bool Army::battlePVP(Army& a)
 	}
 }
 
+bool Army::hit(Unit& attacker, Unit& defender)
+{
+	defender.phisicalAttack(attacker.calculateDamage());
+	if (defender.GetHealthPoints() <= 0)
+	{
+		return true;
+	}
+	return false;
+}
+
 void Army::fight(Army& a, bool check)
 {
+
 	it = units.begin();
 	a.it = a.units.begin();
-	int outcomingDamage = 0;
+	if (units[0].getId() != 4)
+	{
+		if (hit(units[0], a.units[0]))
+		{
+			a.units.erase(a.it);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			a.units[i].magicAttack(units[0].calculateDamage()* 1.0 / (pow(2, i)));
+			if (i == 2)
+			{
+				break;
+			}
+		}
+	}
+	/*int outcomingDamage = 0;
 	int outcomingMagic = 0;
 	int incomingMagic = 0;
 	int incomingDamage = 0;
@@ -668,7 +697,7 @@ void Army::fight(Army& a, bool check)
 		{
 			a.printArmiesFight(*this, outcomingDamage, incomingDamage, outcomingMagic, incomingMagic);
 		}
-	}
+	}*/
 }
 
 void Army::heal()

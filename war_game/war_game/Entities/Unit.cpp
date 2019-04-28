@@ -100,4 +100,38 @@ int Unit::GetDecEnergy() const
 {
 	return this->dec_energy;
 }
+void Unit::buffAttack(int n)
+{
+	damageBuff += n;
+}
 
+void Unit::buffDefense(int n)
+{
+	defenseBuff += n;
+}
+
+int Unit::calculateDamage()
+{
+	return damage + damageBuff;
+}
+
+int Unit::calculateDefense()
+{
+	return defense + defenseBuff;
+}
+
+void Unit::resetBuffs()
+{
+	damageBuff = 0;
+	defenseBuff = 0;
+}
+
+void Unit::phisicalAttack(int damage)
+{
+	this->healthPoints = this->healthPoints - (damage - this->calculateDefense());
+}
+
+void Unit::magicAttack(int damage)
+{
+	healthPoints -= damage;
+}
