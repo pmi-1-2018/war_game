@@ -137,12 +137,14 @@
     <ClCompile Include="Entities\GoldMine.cpp" />
     <ClCompile Include="Entities\Healer.cpp" />
     <ClCompile Include="Entities\Map.cpp" />
+    <ClCompile Include="Entities\MenuScreen.cpp" />
     <ClCompile Include="Entities\Unit.cpp" />
     <ClCompile Include="Entities\Wizard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controllers\cScreen.h" />
     <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />
@@ -158,6 +160,7 @@
     <ClInclude Include="Entities\GoldMine.h" />
     <ClInclude Include="Entities\Healer.h" />
     <ClInclude Include="Entities\Map.h" />
+    <ClInclude Include="Entities\MenuScreen.h" />
     <ClInclude Include="Entities\Swordsman.h" />
     <ClInclude Include="Entities\Tank.h" />
     <ClInclude Include="Entities\Unit.h" />

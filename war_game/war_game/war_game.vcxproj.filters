@@ -40,6 +40,9 @@
     <ClCompile Include="Entities\Healer.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\MenuScreen.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h">
@@ -100,6 +103,12 @@
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\BarrackHealer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\cScreen.h">
+      <Filter>Resource Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\MenuScreen.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
