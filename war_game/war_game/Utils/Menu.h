@@ -11,12 +11,12 @@ class Menu
 private:
 	const int OPT_COUNT = 5;
 	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Exit" };
-	sf::Text *menuOptions = new sf::Text[OPT_COUNT];
+	//sf::Text *menuOptions = new sf::Text[OPT_COUNT];
 	GameManager* gm;
-	sf::Font font;
-	int selectedOptionIndex = 0;
+	//sf::Font font;
+	//int selectedOptionIndex = 0;
 public:
-	Menu(int width, int height);
+	Menu(/*int width, int height*/);
 	void PrintMenu()const;
 	void MenuHint()const;
 	void KeyHandler();
@@ -25,24 +25,19 @@ public:
 	bool EditMap();
 	void ShowLog();
 	void EndGame();
-	void scrollDown();
-	void scrollUp();
-	void Draw(sf::RenderWindow& window)
-	{
-		for (int i = 0; i < OPT_COUNT; i++)
-		{
-			window.draw(menuOptions[i]);
-		}
-	}
-	bool EditMapREMAKE()
+	//void scrollDown();
+	//void scrollUp();
+	//int getSelectedOptionIndex();
+	//void Draw(sf::RenderWindow& window);
+	/*bool EditMapREMAKE()
 	{
 		if (this->gm->MapIsGenerated() == false)
 		{
 			sf::Text warning("The map is not generated. Would you like to generate it automatically? - y/n", font, 25);
 			
 		}
-	}
-	void keyHandlerREMAKE(sf::Event& event)
+	}*/
+	/*void keyHandlerREMAKE(sf::Event& event)
 	{
 		bool checker;
 		bool validKey = false;
@@ -85,7 +80,7 @@ public:
 			MenuHint();
 			break;
 		}
-	}
+	}*/
 	~Menu();
 };
 

@@ -5,7 +5,11 @@
 #include <ctime>
 #include "Entities/Army.h"
 #include "Utils/Menu.h"
+#include <vector>
+#include "Controllers/cScreen.h"
+#include "Entities/MenuScreen.h"
 
+#define ZAEBIS 0
 //int main() 
 //{
 //	unsigned int time_ui = static_cast<unsigned int>(time(NULL));
@@ -25,55 +29,77 @@ int main()
 	unsigned int time_ui = static_cast<unsigned int>(time(NULL));
 	srand(time_ui);
 	
+	std::vector<cScreen*> Screens;
+	int screen = 0;
+
 	ContextSettings settings;
 	settings.antialiasingLevel = 8;
 	RenderWindow window(VideoMode(975, 480), "microChelik", Style::Default , settings);
 	window.setVerticalSyncEnabled(true);
 	
-	Menu menu(window.getSize().x, window.getSize().y);
-	menu.PrintMenu();
+	MenuScreen menuScreen;
+	Screens.push_back(&menuScreen);
 	
-	Font font;
-	font.loadFromFile("Utils/arial.ttf");
-
-	Texture backgroundTexture;
-	backgroundTexture.loadFromFile("Utils/backgroundImage.png"); 
-	
-	Music backgroundMusic;
-	backgroundMusic.openFromFile("Utils/Rampart.wav");
-	backgroundMusic.setLoop(true);
-	backgroundMusic.play();
-
-	Sprite backgroundSprite;
-	backgroundSprite.setTexture(backgroundTexture); 
-	backgroundSprite.setScale(sf::Vector2f(1.25f, 1.f)); 
-	while (window.isOpen())
+	while (screen >= 0)
 	{
-		Event event;
-		while (window.pollEvent(event))
+		if (screen != 0)
 		{
-			switch (event.type)
-			{
-			case Event::KeyPressed:
-				switch (event.key.code)
-				{
-				case Keyboard::Up:
-					menu.scrollUp();
-					break;
-				case Keyboard::Down:
-					menu.scrollDown();
-					break;
-				}
-				break;
-			case Event::Closed:
-				window.close();
-				break;
-			}
+			std::cout << screen << std::endl;
+			screen = 0;
+			continue;
 		}
-		window.clear();
-		window.draw(backgroundSprite);
-		menu.Draw(window);
-		window.display();
+		screen = Screens[screen]->Run(window);
 	}
-	return 0;
+	
+	/*Menu menu(window.getSize().x, window.getSize().y);
+	menu.PrintMenu();*/
+	
+	
+
+	//
+	//while (window.isOpen())
+	//{
+	//	Event event;
+	//	while (window.pollEvent(event))
+	//	{
+	//		switch (event.type)
+	//		{
+	//		case Event::KeyPressed:
+	//			switch (event.key.code)
+	//			{
+	//			case Keyboard::Up:
+	//				menu.scrollUp();
+	//				break;
+	//			case Keyboard::Down:
+	//				menu.scrollDown();
+	//				break;
+	//			case Keyboard::Return:
+	//				switch (menu.getSelectedOptionIndex())
+	//				{
+	//				case 0:
+	//					break;
+	//				case 1:
+	//					break;
+	//				case 2:
+	//					//menu.EditMapREMAKE();
+	//					break;
+	//				case 3:
+	//					break;
+	//				case 4:
+	//					break;
+	//				}
+	//				break;
+	//			}
+	//			break;
+	//		case Event::Closed:
+	//			window.close();
+	//			break;
+	//		}
+	//	}
+	//	window.clear();
+	//	window.draw(backgroundSprite);
+	//	menu.Draw(window);
+	//	window.display();
+	//}
+	return ZAEBIS;
 }
