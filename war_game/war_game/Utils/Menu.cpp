@@ -1,8 +1,42 @@
 #include "Menu.h"
 
-Menu::Menu()
+Menu::Menu(int width, int height)
 {
 	gm = new GameManager();
+	font.loadFromFile("Utils/arial.ttf");
+	menuOptions[0].setString("Generate map");
+	menuOptions[1].setString("Start Game");
+	menuOptions[2].setString("Edit Map");
+	menuOptions[3].setString("Show battle history");
+	menuOptions[4].setString("Exit");
+	for (int i = 0; i < OPT_COUNT; i++)
+	{
+		menuOptions[i].setFont(font);
+		menuOptions[i].setFillColor(sf::Color::Black);
+		menuOptions[i].setCharacterSize(25);
+		menuOptions[i].setPosition(sf::Vector2f((width / 2.f - 15 * 6), (height / (OPT_COUNT * 2.f)) * (2 + i)));
+	}
+	menuOptions[selectedOptionIndex].setFillColor(sf::Color::Yellow);
+}
+
+void Menu::scrollDown()
+{
+	if (selectedOptionIndex + 1 < OPT_COUNT)
+	{
+		menuOptions[selectedOptionIndex].setFillColor(sf::Color::Black);
+		selectedOptionIndex++;
+		menuOptions[selectedOptionIndex].setFillColor(sf::Color::Yellow);
+	}
+}
+
+void Menu::scrollUp()
+{
+	if (selectedOptionIndex - 1 >= 0)
+	{
+		menuOptions[selectedOptionIndex].setFillColor(sf::Color::Black);
+		selectedOptionIndex--;
+		menuOptions[selectedOptionIndex].setFillColor(sf::Color::Yellow);
+	}
 }
 
 void Menu::PrintMenu()const
