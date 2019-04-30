@@ -15,7 +15,11 @@ int EditMapScreen::Run(sf::RenderWindow &App, GameManager &gm)
 	if (gm.MapIsGenerated() == false)
 	{
 		GenMapScreen tempGenMapScreen;
-		tempGenMapScreen.Run(App, gm);
+		int val = tempGenMapScreen.Run(App, gm);
+		if (val == -1)
+		{
+			return -1;
+		}
 	}
 
 	bool running = true;
@@ -37,13 +41,6 @@ int EditMapScreen::Run(sf::RenderWindow &App, GameManager &gm)
 	output.setFillColor(sf::Color::Black);
 	output.setPosition(sf::Vector2f(App.getSize().x / 2.f - (15 * 8), App.getSize().y / 10.f * 4));
 	
-	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
-
-	sf::Sprite backgroundSprite;
-	backgroundSprite.setTexture(backgroundTexture);
-	backgroundSprite.setScale(sf::Vector2f(1.25f, 1.f));
-
 	std::string mapPath = gm.GetMapPath();
 	std::string request = "notepad " + mapPath;
 
@@ -96,7 +93,7 @@ int EditMapScreen::Run(sf::RenderWindow &App, GameManager &gm)
 			}
 		}
 		App.clear();
-		App.draw(backgroundSprite);
+		App.draw(gm.getBackgroundSprite());
 		App.draw(output);
 		for (int i = 0; i < 2; i++)
 		{

@@ -20,13 +20,6 @@ int GenMapScreen::Run(sf::RenderWindow& App, GameManager &gm)
 		output[i].setFillColor(sf::Color::Black);
 		output[i].setPosition(sf::Vector2f(App.getSize().x / 2.f - 16 * 15, App.getSize().y / 10.f * (4 + i)));
 	}
-	
-	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
-
-	sf::Sprite backgroundSprite;
-	backgroundSprite.setTexture(backgroundTexture);
-	backgroundSprite.setScale(sf::Vector2f(1.25f, 1.f));
 
 	int index = 0;
 	std::string userInput = "";
@@ -122,7 +115,7 @@ int GenMapScreen::Run(sf::RenderWindow& App, GameManager &gm)
 			}
 		}
 		App.clear();
-		App.draw(backgroundSprite);
+		App.draw(gm.getBackgroundSprite());
 		if (index == 0)
 		{
 			App.draw(output[index]);

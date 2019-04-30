@@ -13,13 +13,6 @@ int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 {
 	bool running = true;
 
-	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
-
-	sf::Sprite backgroundSprite;
-	backgroundSprite.setTexture(backgroundTexture);
-	backgroundSprite.setScale(sf::Vector2f(1.25f, 1.f));
-
 	for (int i = 0; i < OPT_COUNT; i++)
 	{
 		menuOptions[i].setFont(gm.getFont());
@@ -83,7 +76,7 @@ int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 			}
 		}
 		App.clear();
-		App.draw(backgroundSprite);
+		App.draw(gm.getBackgroundSprite());
 		for (int i = 0; i < OPT_COUNT; i++)
 		{
 			App.draw(menuOptions[i]);
