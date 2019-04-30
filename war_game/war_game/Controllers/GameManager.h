@@ -23,6 +23,8 @@ private:
 	bool gameStarted = false;
 	int numberOfTurn = 1;
 	sf::Font font;
+	sf::Texture backgroundTexture;
+	sf::Sprite backgroundSprite;
 public:
 	GameManager();
 	void GenerateMap(int height, int width);
@@ -42,6 +44,7 @@ public:
 	void outputTurnSwitch(int response);
 	void outputInfoOverMap(Army *army);
 	sf::Font& getFont();
+	sf::Sprite& getBackgroundSprite();
 	~GameManager();
 };
 

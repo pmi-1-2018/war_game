@@ -4,10 +4,17 @@
 GameManager::GameManager()
 {
 	font.loadFromFile("Utils/arial.ttf");
+	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
+	backgroundSprite.setTexture(backgroundTexture);
+	backgroundSprite.setScale(sf::Vector2f(1.25f, 1.f));
 }
 sf::Font& GameManager::getFont()
 {
 	return this->font;
+}
+sf::Sprite& GameManager::getBackgroundSprite()
+{
+	return this->backgroundSprite;
 }
 void GameManager::GenerateMap(int height, int width)
 {
