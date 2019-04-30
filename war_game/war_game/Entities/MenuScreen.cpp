@@ -12,9 +12,6 @@ MenuScreen::MenuScreen()
 int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 {
 	bool running = true;
-	
-	sf::Font font;
-	font.loadFromFile("Utils/arial.ttf");
 
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
@@ -25,7 +22,7 @@ int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 
 	for (int i = 0; i < OPT_COUNT; i++)
 	{
-		menuOptions[i].setFont(font);
+		menuOptions[i].setFont(gm.getFont());
 		menuOptions[i].setFillColor(sf::Color::Black);
 		menuOptions[i].setCharacterSize(25);
 		menuOptions[i].setPosition(sf::Vector2f((App.getSize().x / 2.f - 15 * 6), (App.getSize().y / (OPT_COUNT * 2.f)) * (2 + i)));
@@ -95,4 +92,9 @@ int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 	}
 
 	return (-1);
+}
+
+MenuScreen::~MenuScreen()
+{
+	delete[] menuOptions;
 }

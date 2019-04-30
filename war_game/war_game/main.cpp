@@ -42,10 +42,13 @@ int main()
 	
 	GenMapScreen genMapScreen;
 	MenuScreen menuScreen;
-	
+	EditMapScreen editMapScreen;
+
 	Screens.push_back(&menuScreen);
 	Screens.push_back(&genMapScreen);
-
+	Screens.push_back(&editMapScreen);
+	Screens.push_back(&editMapScreen);
+	
 	while (screen >= 0)
 	{
 		/*if (screen != 0)

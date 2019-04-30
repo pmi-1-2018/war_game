@@ -11,5 +11,6 @@ private:
 public:
 	MenuScreen();
 	virtual int Run(sf::RenderWindow &App, GameManager &gm);
+	~MenuScreen();
 };
 

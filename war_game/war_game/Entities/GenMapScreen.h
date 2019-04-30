@@ -9,10 +9,9 @@ private:
 	sf::Text *output;
 	int userHeight;
 	int userWidth;
-	/*sf::Text *yes_no;
-	int selectedOptionIndex;*/
 public:
 	GenMapScreen();
 	virtual int Run(sf::RenderWindow &App, GameManager &gm);
+	~GenMapScreen();
 };
 

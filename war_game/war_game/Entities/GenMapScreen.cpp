@@ -7,27 +7,15 @@ GenMapScreen::GenMapScreen()
 	output = new sf::Text[2];
 	output[0].setString("Enter the height of the map(min 2) : " + userHeight);
 	output[1].setString("Enter the width of the map(min 2) : " + userWidth);
-	/*selectedOptionIndex = 0;
-	yes_no = new sf::Text[2];
-	yes_no[0].setString("Yes");
-	yes_no[1].setString("No");*/
 }
 
 int GenMapScreen::Run(sf::RenderWindow& App, GameManager &gm)
 {
-	bool runnig = true;
-	
-	sf::Font font;
-	font.loadFromFile("Utils/arial.ttf");
+	bool running = true;
 
-	/*for (int i = 0; i < 2; i++)
-	{
-		yes_no[i].setFont(font);
-		yes_no[i].setCharacterSize(25);
-	}*/
 	for (int i = 0; i < 2; i++)
 	{
-		output[i].setFont(font);
+		output[i].setFont(gm.getFont());
 		output[i].setCharacterSize(25);
 		output[i].setFillColor(sf::Color::Black);
 		output[i].setPosition(sf::Vector2f(App.getSize().x / 2.f - 16 * 15, App.getSize().y / 10.f * (4 + i)));
@@ -45,7 +33,7 @@ int GenMapScreen::Run(sf::RenderWindow& App, GameManager &gm)
 	
 	
 	
-	while (runnig)
+	while (running)
 	{
 		sf::Event event;
 		output[0].setString("Enter the height of the map(min 2) : " + to_string(userHeight));
@@ -120,7 +108,6 @@ int GenMapScreen::Run(sf::RenderWindow& App, GameManager &gm)
 				{
 					if (47 < event.text.unicode && event.text.unicode < 58)
 					{
-						std::cout << (char)event.text.unicode;
 						userInput += static_cast<char>(event.text.unicode);
 						if (index == 0)
 						{
@@ -148,4 +135,9 @@ int GenMapScreen::Run(sf::RenderWindow& App, GameManager &gm)
 		App.display();
 	}
 	return -1;
+}
+
+GenMapScreen::~GenMapScreen()
+{
+	delete[] output;
 }
