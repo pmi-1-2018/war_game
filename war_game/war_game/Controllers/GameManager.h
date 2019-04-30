@@ -1,4 +1,5 @@
 #pragma once
+#include<SFML/Graphics.hpp>
 #include "../Entities/Map.h"
 #include <conio.h>
 #include "Windows.h"
@@ -21,6 +22,7 @@ private:
 	bool mapGenerated = false;
 	bool gameStarted = false;
 	int numberOfTurn = 1;
+	sf::Font font;
 public:
 	GameManager();
 	void GenerateMap(int height, int width);
@@ -39,6 +41,7 @@ public:
 	void SetMusic(const string& filename);
 	void outputTurnSwitch(int response);
 	void outputInfoOverMap(Army *army);
+	sf::Font& getFont();
 	~GameManager();
 };
 

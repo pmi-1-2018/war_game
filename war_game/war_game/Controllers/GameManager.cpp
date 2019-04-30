@@ -3,6 +3,11 @@
 
 GameManager::GameManager()
 {
+	font.loadFromFile("Utils/arial.ttf");
+}
+sf::Font& GameManager::getFont()
+{
+	return this->font;
 }
 void GameManager::GenerateMap(int height, int width)
 {
@@ -62,7 +67,7 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 	cout << "Battle has started" << endl;
 	//Cell* battleField = this->map->GetCell(x, y);
 	// battleField - cell with the array of two players
-	int playersCount;
+	//int playersCount;
 	//Army* players = battleField->GetArmy(playersCount);
 	// getting the players
 	system("CLS");

@@ -10,6 +10,7 @@ private:
 	int selectedOptionIndex = 0;
 public:
 	MenuScreen();
-	virtual int Run(sf::RenderWindow &App);
+	virtual int Run(sf::RenderWindow &App, GameManager &gm);
+	~MenuScreen();
 };
 

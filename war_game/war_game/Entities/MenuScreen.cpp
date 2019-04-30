@@ -9,20 +9,12 @@ MenuScreen::MenuScreen()
 	menuOptions[4].setString("Exit");
 }
 
-int MenuScreen::Run(sf::RenderWindow &App)
+int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 {
 	bool running = true;
-	
-	sf::Font font;
-	font.loadFromFile("Utils/arial.ttf");
 
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
-
-	sf::Music backgroundMusic;
-	backgroundMusic.openFromFile("Utils/Rampart.wav");
-	backgroundMusic.setLoop(true);
-	backgroundMusic.play();
 
 	sf::Sprite backgroundSprite;
 	backgroundSprite.setTexture(backgroundTexture);
@@ -30,7 +22,7 @@ int MenuScreen::Run(sf::RenderWindow &App)
 
 	for (int i = 0; i < OPT_COUNT; i++)
 	{
-		menuOptions[i].setFont(font);
+		menuOptions[i].setFont(gm.getFont());
 		menuOptions[i].setFillColor(sf::Color::Black);
 		menuOptions[i].setCharacterSize(25);
 		menuOptions[i].setPosition(sf::Vector2f((App.getSize().x / 2.f - 15 * 6), (App.getSize().y / (OPT_COUNT * 2.f)) * (2 + i)));
@@ -100,4 +92,9 @@ int MenuScreen::Run(sf::RenderWindow &App)
 	}
 
 	return (-1);
+}
+
+MenuScreen::~MenuScreen()
+{
+	delete[] menuOptions;
 }

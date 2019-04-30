@@ -1,13 +1,9 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <iostream>
-#include <string>
 #include <ctime>
-#include "Entities/Army.h"
-#include "Utils/Menu.h"
 #include <vector>
-#include "Controllers/cScreen.h"
-#include "Entities/MenuScreen.h"
+#include "Controllers/Screens.hpp"
+#include "Controllers/GameManager.h"
 
 #define ZAEBIS 0
 //int main() 
@@ -32,30 +28,40 @@ int main()
 	std::vector<cScreen*> Screens;
 	int screen = 0;
 
+	GameManager gm;
+
 	ContextSettings settings;
 	settings.antialiasingLevel = 8;
 	RenderWindow window(VideoMode(975, 480), "microChelik", Style::Default , settings);
 	window.setVerticalSyncEnabled(true);
+
+	sf::Music backgroundMusic;
+	backgroundMusic.openFromFile("Utils/Rampart.wav");
+	backgroundMusic.setLoop(true);
+	backgroundMusic.play();
 	
+	GenMapScreen genMapScreen;
 	MenuScreen menuScreen;
+	EditMapScreen editMapScreen;
+
 	Screens.push_back(&menuScreen);
+	Screens.push_back(&genMapScreen);
+	Screens.push_back(&editMapScreen);
+	Screens.push_back(&editMapScreen);
 	
 	while (screen >= 0)
 	{
-		if (screen != 0)
+		/*if (screen != 0)
 		{
-			std::cout << screen << std::endl;
+			cout << screen << endl;
 			screen = 0;
 			continue;
-		}
-		screen = Screens[screen]->Run(window);
+		}*/
+		screen = Screens[screen]->Run(window, gm);
 	}
 	
 	/*Menu menu(window.getSize().x, window.getSize().y);
 	menu.PrintMenu();*/
-	
-	
-
 	//
 	//while (window.isOpen())
 	//{
