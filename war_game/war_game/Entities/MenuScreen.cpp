@@ -9,7 +9,7 @@ MenuScreen::MenuScreen()
 	menuOptions[4].setString("Exit");
 }
 
-int MenuScreen::Run(sf::RenderWindow &App)
+int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 {
 	bool running = true;
 	
@@ -18,11 +18,6 @@ int MenuScreen::Run(sf::RenderWindow &App)
 
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("Utils/backgroundImage.png");
-
-	sf::Music backgroundMusic;
-	backgroundMusic.openFromFile("Utils/Rampart.wav");
-	backgroundMusic.setLoop(true);
-	backgroundMusic.play();
 
 	sf::Sprite backgroundSprite;
 	backgroundSprite.setTexture(backgroundTexture);

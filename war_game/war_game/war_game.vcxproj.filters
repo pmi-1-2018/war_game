@@ -43,6 +43,9 @@
     <ClCompile Include="Entities\MenuScreen.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\GenMapScreen.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h">
@@ -109,6 +112,12 @@
       <Filter>Resource Files\Controllers</Filter>
     </ClInclude>
     <ClInclude Include="Entities\MenuScreen.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\Screens.hpp">
+      <Filter>Resource Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\GenMapScreen.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
