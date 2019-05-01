@@ -1,5 +1,5 @@
 #pragma once
-#include<SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "../Entities/Map.h"
 #include <conio.h>
 #include "Windows.h"
