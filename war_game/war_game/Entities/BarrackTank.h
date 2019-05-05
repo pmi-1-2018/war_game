@@ -14,4 +14,8 @@ public:
 		Tank unit;
 		return unit;
 	}
+	string TellType()
+	{
+		return "barrack of tanks";
+	}
 };

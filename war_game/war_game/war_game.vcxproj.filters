@@ -31,7 +31,16 @@
     <ClCompile Include="Entities\Army.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Buffer.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
     <ClCompile Include="Entities\GoldMine.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Healer.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Artifact.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,7 +90,22 @@
     <ClInclude Include="Entities\BarrackSwordsman.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Buffer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
     <ClInclude Include="Entities\GoldMine.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Healer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\BarrackBuffer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\BarrackHealer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Artifact.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

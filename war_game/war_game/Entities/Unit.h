@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include "Windows.h"
 using namespace std;
 
 class Unit
@@ -26,16 +27,15 @@ public:
 	int GetHealthPoints();
 	int getId();
 	char getSymb();
+	void setSymb(char symb);
 
 	void attack(Unit& unit);
 	int DamageTaken();
-	virtual void BuffDamage(Unit other_unit) {};
-	virtual void BuffDefense(Unit other_unit) {};
-	virtual void Heal(Unit other_unit) {};
+	virtual void BuffDamage(Unit& other_unit) {};
+	virtual void BuffDefense(Unit& other_unit) {};
+	virtual void Heal(Unit& other_unit) {};
 	int GetMaxHP();
 	int GetDecEnergy()const;
 	//virtual ostream&output(ostream&out);
 	friend ostream&operator<<(ostream&os, Unit &unit);
-	//virtual void BuffDamage(Unit other_unit) {};
-	//virtual void BuffDefense(Unit other_unit) {};
 };

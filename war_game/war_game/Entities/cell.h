@@ -4,8 +4,11 @@
 #include"BarrackSwordsman.h"
 #include"BarrackTank.h"
 #include"BarrackWizard.h"
+#include"BarrackBuffer.h"
+#include"BarrackHealer.h"
 #include "Army.h"
 #include"GoldMine.h"
+#include"Artifact.h"
 //static int counter = 0;
 
 class Cell
@@ -17,6 +20,7 @@ private:
 	GoldMine* goldMine;
 	bool isBarrack = false;
 	Army* army = nullptr;
+	Artifact* artifact;
 	int x;
 	int y;
 	int playersCount = 1;
@@ -37,7 +41,12 @@ public:
 	int GetArmyId();
 	void SetArmy(Army* army);
 	Army* GetArmy()const;
+	Artifact* getArifactPtr();
+	void setArtifactPtr(Artifact* artif);
 	bool IsPassable();
+	bool isPassableGenerate() {
+		return this->army == nullptr && this->barrack == nullptr && this->isPassable;
+	}
 	void setPassCost(int value);
 	void setIsBotArmy(bool value);
 	int GetX()const;

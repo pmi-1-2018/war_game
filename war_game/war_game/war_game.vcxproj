@@ -89,7 +89,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,9 +127,12 @@
     <ClCompile Include="Controllers\Battle.cpp" />
     <ClCompile Include="Controllers\GameManager.cpp" />
     <ClCompile Include="Entities\Army.cpp" />
+    <ClCompile Include="Entities\Artifact.cpp" />
     <ClCompile Include="Entities\Barrack.cpp" />
+    <ClCompile Include="Entities\Buffer.cpp" />
     <ClCompile Include="Entities\cell.cpp" />
     <ClCompile Include="Entities\GoldMine.cpp" />
+    <ClCompile Include="Entities\Healer.cpp" />
     <ClCompile Include="Entities\Map.cpp" />
     <ClCompile Include="Entities\Unit.cpp" />
     <ClCompile Include="Entities\Wizard.cpp" />
@@ -140,13 +143,18 @@
     <ClInclude Include="Controllers\GameManager.h" />
     <ClInclude Include="Entities\Archer.h" />
     <ClInclude Include="Entities\Army.h" />
+    <ClInclude Include="Entities\Artifact.h" />
     <ClInclude Include="Entities\Barrack.h" />
     <ClInclude Include="Entities\BarrackArcher.h" />
+    <ClInclude Include="Entities\BarrackBuffer.h" />
+    <ClInclude Include="Entities\BarrackHealer.h" />
     <ClInclude Include="Entities\BarrackSwordsman.h" />
     <ClInclude Include="Entities\BarrackTank.h" />
     <ClInclude Include="Entities\BarrackWizard.h" />
+    <ClInclude Include="Entities\Buffer.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\GoldMine.h" />
+    <ClInclude Include="Entities\Healer.h" />
     <ClInclude Include="Entities\Map.h" />
     <ClInclude Include="Entities\Swordsman.h" />
     <ClInclude Include="Entities\Tank.h" />

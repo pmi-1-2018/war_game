@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <time.h>
 
 Map::Map() :
 	width(0),
@@ -122,7 +123,6 @@ void Map::readMapFromFile(string fileName)
 
 void Map::generateRandomMap(string fileName, int height, int width)
 {
-	srand(time(NULL));
 	if (this->height != 0 || this->width != 0)
 	{
 		this->~Map();
@@ -257,6 +257,18 @@ void Map::generateRandomMap(string fileName, int height, int width)
 			}
 		}
 	}
+	int maxArtifactsQuantity = this->height*this->width / 25;
+	for (size_t i = 0; i < maxArtifactsQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || !map[y][x].isPossibleGenerate())
+		{
+			i--;
+			continue;
+		}
+		map[y][x].setCell('?', x, y);
+	}
 	int maxGoldMinesQuantity = this->height * this->width / 50;
 	for (size_t i = 0; i < maxGoldMinesQuantity; i++)
 	{
@@ -281,7 +293,7 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		}
 		map[y][x].setCell('B', x, y);
 	}
-	int maxBotArmiesQuantity = this->height * this->width / 50;
+	int maxBotArmiesQuantity = this->height * this->width / 50 + 1;
 	for (int i = 0; i < maxBotArmiesQuantity; i++)
 	{
 		int x = rand() % width;
@@ -349,6 +361,10 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			{
 				return 5;
 			}
+			if (map[newCell->GetY()][newCell->GetX()].getArifactPtr() != nullptr)
+			{
+				return 6;
+			}
 			return 1;
 		}
 	}
@@ -377,9 +393,12 @@ void Map::resetPlayers(char& turn)
 		}
 	}
 	// setting the default position of the players.
-	Swordsman units[2];
-	Army* player_1 = new Army("Aliance", units, 2, 'F', true, 100);
-	Army* player_2 = new Army("Horde", units, 2, 'S', true, 100);
+	Swordsman unit;
+	vector<Unit> units;
+	units.push_back(unit);
+	units.push_back(unit);
+	Army* player_1 = new Army("Aliance", units, 'F', true, 100);
+	Army* player_2 = new Army("Horde", units, 'S', true, 100);
 	// cin>>player_1,player_2
 	map[0][1].SetPlayer(player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);
@@ -462,6 +481,12 @@ void Map::mapDraw(Map &m, int x, int y)
 				cout << 'A';
 				continue;
 			}
+			if (m.map[i][j].getArifactPtr() != nullptr)
+			{
+				m.SetBackground("D");
+				cout << '?';
+				continue;
+			}
 			if (m.map[i][j].getPassCost() == 1)
 			{
 				m.SetBackground("D");
@@ -509,6 +534,11 @@ ostream& operator<<(ostream& sout, Map &m)
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
 				sout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getArifactPtr() != nullptr)
+			{
+				sout << '?';
 				continue;
 			}
 			if (m.map[i][j].getGoldMinePtr() != nullptr)

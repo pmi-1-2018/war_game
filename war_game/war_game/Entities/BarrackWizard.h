@@ -13,4 +13,8 @@ public:
 		Wizard unit;
 		return unit;
 	}
+	string TellType()
+	{
+		return "barrack of wizards";
+	}
 };

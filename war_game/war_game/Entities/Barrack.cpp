@@ -26,6 +26,11 @@ Unit Barrack::giveUnit()
 	return unit;
 }
 
+string Barrack::TellType()
+{
+	return "Unit";
+}
+
 //int Barrack::GetNumberOfArchers()
 //{
 //	return numberOfArchers;

@@ -290,6 +290,7 @@ void GameManager::Start()
 		// response = 3 - out of points - switching the turn
 		// response = 4 - stepped on a barrack
 		// response = 5 - stepped on a Gold Mine
+		// response = 6 - stepped on a artifact
 		if (hitTheWall == true)
 		{
 			continue;
@@ -336,26 +337,45 @@ void GameManager::Start()
 			{
 				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfUnits(
 					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits() + 5);
+				this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfTurn(
+					this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() + 7);
 			}
-			Army* army = nullptr;
-			army = newCell->GetArmy();
+			Army* army = newCell->GetArmy();			
 			int n;
-			cout << "Enter what you want to do: " << endl;
-			cin >> n;
-			if(n == 1)
+			Barrack *barrack = this->map->GetCell(new_x, new_y)->getBarrackPtr();
+			bool check = true;
+			while (check)
 			{
-				cout << "How many units you want to take? " << endl;
-				int number;
-				cin >> number;
-				if (number > 0 && number <= this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits())
+				system("CLS");
+				cout << "Welcome to the " << barrack->TellType() << endl;
+				cout << "Enter what you want to do: " << endl;
+				cout << "1 - take units" << endl;
+				cout << "2 - swap units" << endl;
+				cout << "3 - exit" << endl;
+				cin >> n;
+				if (n == 1)
 				{
-					for (int i = 0; i < number; i++)
+					cout << "How many units you want to take? " << endl;
+					int number;
+					cin >> number;
+					while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0)
 					{
-						army->addUnit(this->map->GetCell(new_x, new_y)->getBarrackPtr()->giveUnit());
+						army->addUnit(barrack->giveUnit());
+						barrack->SetNumberOfUnits(barrack->GetNumberOfUnits() - 1);
+						number--;
 					}
 				}
-				else
-				break;
+				if (n == 3)
+				{
+					check = false;
+				}
+				if (n == 2)
+				{
+					int index1;
+					int index2;
+					army->swapUnits(index1,index2);
+					army->ArmySwap(index1, index2);
+				}
 			}
 			system("CLS");
 			outputInfoOverMap(army);
@@ -387,6 +407,32 @@ void GameManager::Start()
 			outputInfoOverMap(army);
 			Draw(this->turn, new_x, new_y);
 			continue;
+		}
+		if (response == 6)
+		{
+			system("CLS");
+			Artifact* artifact = newCell->getArifactPtr();
+			artifact->printArtifactInfo();
+			cout << "Do you want to take this artifact? ";
+			char answer = _getch();
+			if (answer == 'y' || answer == 'Y')
+			{
+				cout << "Yes" << endl;
+				system("pause");
+			}
+			else
+			{
+				cout << "No" << endl;
+				system("pause");
+			}
+			system("CLS");
+			Army* army = nullptr;
+			army = newCell->GetArmy();
+			outputInfoOverMap(army);
+			this->map->SetBackground("D");
+			army = nullptr;
+			newCell->setArtifactPtr(nullptr);
+			Draw(this->turn, new_x, new_y);
 		}
 		if (hitTheWall == false && response == 1 || response == 3)
 		{

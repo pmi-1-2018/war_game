@@ -13,5 +13,6 @@ public:
 		maxHP = 90;
 		dec_energy = -3;
 		id = 3;
+		symb = 'T';
 	}
 };

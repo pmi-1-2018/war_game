@@ -9,7 +9,8 @@ Cell::Cell() :
 	x(0),
 	y(0),
 	barrack(nullptr),
-	goldMine(nullptr)
+	goldMine(nullptr),
+	artifact(nullptr)
 {}
 
 Cell::Cell(const Cell& other)
@@ -21,6 +22,7 @@ Cell::Cell(const Cell& other)
 	this->army = other.army;
 	this->goldMine = other.goldMine;
 	this->playersCount = other.playersCount;
+	this->artifact = other.artifact;
 	this->x = other.x;
 	this->y = other.y;
 }
@@ -30,7 +32,8 @@ Cell::Cell(int passCost, int x, int y) :
 //	isPlayer(false),
 	isPassable(true),
 	barrack(nullptr),
-	goldMine(nullptr)
+	goldMine(nullptr),
+	artifact(nullptr)
 {
 	if (this->passCost == 0)
 	{
@@ -43,13 +46,14 @@ Cell::Cell(int passCost, int x, int y) :
 // x - column, y - row
 void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y : height
 {
-	srand(time(NULL));
-	int n = rand() % 4 + 1;
+	int n = rand() % 6 + 1;
 	int quantity;
+	size_t points;
 	this->y = y;
 	this->x = x;
 	this->barrack = nullptr;
 	this->goldMine = nullptr;
+	this->artifact = nullptr;
 	this->isPassable = true;
 	switch (symb)
 	{
@@ -85,30 +89,62 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 		{
 			this->barrack = new BarrackWizard();
 		}
+		else if (n == 5)
+		{
+			this->barrack = new BarrackBuffer();
+		}
+		else if (n == 6)
+		{
+			this->barrack = new BarrackHealer();
+		}
 		break;
 	case 'A':
 		passCost = 1;
 		quantity = rand() % 3 + 1;
 		if (n == 1)
 		{
-			this->army = new Army("botsArchers", new Archer[quantity], quantity, 'A', false, 50);
+			Archer a;
+			vector<Unit> v(quantity, a);
+			this->army = new Army("botsArchers", v, 'A', false, 50);
 		}
 		else if (n == 2)
 		{
-			this->army = new Army("BotsSwordsmans", new Swordsman[quantity], quantity, 'A', false, 50);
+			Swordsman s;
+			vector<Unit> v(quantity, s);
+			this->army = new Army("BotsSwordsmans", v, 'A', false, 50);
 		}
 		else if (n == 3)
 		{
-			this->army = new Army("BotsTanks", new Tank[quantity], quantity, 'A', false, 50);
+			Tank t;
+			vector<Unit> v(quantity, t);
+			this->army = new Army("BotsTanks", v, 'A', false, 50);
 		}
 		else if (n == 4)
 		{
-			this->army = new Army("BotsWizards", new Wizard[quantity], quantity, 'A', false, 50);
+			Wizard w;
+			vector<Unit> v(quantity, w);
+			this->army = new Army("BotsWizards", v, 'A', false, 50);
 		}
 		break;
 	case 'G':
 		passCost = 1;
 		this->goldMine = new GoldMine();
+		break;
+	case '?':
+		passCost = 1;
+		points = rand() % 3 + 1;
+		if (n == 1 || n == 2)
+		{
+			this->artifact = new Artifact('A', points);
+		}
+		else if (n == 3 || n == 4)
+		{
+			this->artifact = new Artifact('D', points);
+		}
+		else if (n == 5 || n == 6)
+		{
+			this->artifact = new Artifact('E', points);
+		}
 		break;
 	default:
 		passCost = 1;
@@ -123,7 +159,7 @@ GoldMine* Cell::getGoldMinePtr()
 
 bool Cell::isPossibleGenerate() 
 {
-	return this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
+	return this->artifact == nullptr && this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
 }
 
 Barrack* Cell::getBarrackPtr()
@@ -163,6 +199,14 @@ Cell::~Cell()
 	if (this->barrack != nullptr)
 	{
 		delete barrack;
+	}
+	if (this->goldMine != nullptr)
+	{
+		delete goldMine;
+	}
+	if (this->artifact != nullptr)
+	{
+		delete artifact;
 	}
 }
 int Cell::getPassCost()
@@ -228,6 +272,14 @@ void Cell::SetArmy(Army * army)
 Army * Cell::GetArmy()const
 {
 	return this->army;
+}
+Artifact * Cell::getArifactPtr()
+{
+	return this->artifact;
+}
+void Cell::setArtifactPtr(Artifact * artif)
+{
+	this->artifact = artif;
 }
 Army* Cell::getArmyPtr()const
 {
