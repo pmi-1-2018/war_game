@@ -13,29 +13,8 @@
 #include "Buffer.h"
 #include "Healer.h"
 #include "Wizard.h"
-
+#include "Artifact.h"
 using namespace std;
-
-class Artefact 
-{
-public:
-	char symb;
-	bool isActive;
-	bool isSelected;
-	Artefact() 
-	{
-		this->isSelected = false;
-		this->symb = '-';
-		isActive = false;
-	}
-
-	Artefact(char symb, bool isActive) 
-		:symb(symb), 
-		isActive(isActive)
-	{
-		this->isSelected = false;
-	}
-};
 
 static int counter = 0;
 class Army
@@ -45,26 +24,40 @@ private:
 	{
 		struct ClipBoard
 		{
-			Artefact* item = nullptr;
+			Artifact* item = nullptr;
 			int posX;
 			int posY;
 		};
 		int inventoryWidth;
 		int inventoryHeight;
-		Artefact*** artefacts;
+		Artifact*** artefacts;
 		bool itemIsFixed = false;
 		ClipBoard storage;
 		const HANDLE HSTDOUT = GetStdHandle(STD_OUTPUT_HANDLE);
-		void AddArtefact(int posX, int posY, Artefact* element)
+		bool AddArtifact(Artifact* element)
 		{
-			if (posX < this->inventoryWidth && posY < this->inventoryHeight)
+			bool artAdded = false;
+			for (int i = 0; i < this->inventoryWidth; i++)
 			{
-				this->artefacts[posY][posX] = element;
+				for (int j = 0; j < this->inventoryHeight; j++)
+				{
+					if (this->artefacts[i][j] == nullptr)
+					{
+						artAdded = true;
+						this->artefacts[i][j] = element;
+						break;
+					}
+				}
+				if (artAdded == true)
+				{
+					break;
+				}
 			}
+			return artAdded;
 		}
 		void SwapArtefact(int artIndX1, int artIndY1, int artIndX2, int artIndY2)
 		{
-			Artefact* tempPtr = this->artefacts[artIndY1][artIndX1];
+			Artifact* tempPtr = this->artefacts[artIndY1][artIndX1];
 			this->artefacts[artIndY1][artIndX1] = this->artefacts[artIndY2][artIndX2];
 			this->artefacts[artIndY2][artIndX2] = tempPtr;
 		}
@@ -92,24 +85,24 @@ private:
 						}
 						else
 						{
-							cout << this->artefacts[i][j]->symb;
+							cout << this->artefacts[i][j]->getSymb();
 						}
 						if (selectPressed == true)
 						{
 							if (this->itemIsFixed == true)
 							{
-								Artefact* art1 = this->storage.item;
-								Artefact* art2 = this->artefacts[i][j];
+								Artifact* art1 = this->storage.item;
+								Artifact* art2 = this->artefacts[i][j];
 								SwapArtefact(this->storage.posX, this->storage.posY, selectedX, selectedY);
 								SetConsoleTextAttribute(this->HSTDOUT, 240);
 								if (art1 != nullptr)
 								{
-									art1->isSelected = false;
+									art1->setIsSelected(false);
 									
 								}
 								if (art2 != nullptr)
 								{
-									art2->isSelected = false;
+									art2->setIsSelected(false);
 								}
 								this->itemIsFixed = false;
 								SetConsoleTextAttribute(this->HSTDOUT, 15);
@@ -119,12 +112,12 @@ private:
 							}
 							else
 							{
-								if (this->artefacts[i][j] != nullptr && this->artefacts[i][j]->isSelected == false)
+								if (this->artefacts[i][j] != nullptr && this->artefacts[i][j]->getIsSelected() == false)
 								{
 									this->storage.item = this->artefacts[i][j];
 									this->storage.posX = j;
 									this->storage.posY = i;
-									this->artefacts[i][j]->isSelected = true;
+									this->artefacts[i][j]->setIsSelected(true);
 									this->itemIsFixed = true;
 								}
 							}
@@ -139,11 +132,11 @@ private:
 						}
 						else
 						{
-							if (this->artefacts[i][j]->isSelected == true && this->itemIsFixed == true)
+							if (this->artefacts[i][j]->getIsSelected() == true && this->itemIsFixed == true)
 							{
 								SetConsoleTextAttribute(this->HSTDOUT, 64);
 							}
-							cout << this->artefacts[i][j]->symb;
+							cout << this->artefacts[i][j]->getSymb();
 						}
 					}
 					SetConsoleTextAttribute(this->HSTDOUT, 240);
@@ -163,10 +156,10 @@ private:
 		{
 			this->inventoryWidth = inventoryWidth;
 			this->inventoryHeight = inventoryHeight;
-			this->artefacts = new Artefact**[this->inventoryWidth];
+			this->artefacts = new Artifact**[this->inventoryWidth];
 			for (size_t i = 0; i < this->inventoryHeight; i++)
 			{
-				this->artefacts[i] = new Artefact*[this->inventoryWidth];
+				this->artefacts[i] = new Artifact*[this->inventoryWidth];
 				for (size_t j = 0; j < this->inventoryWidth; j++)
 				{
 					this->artefacts[i][j] = nullptr;
@@ -231,6 +224,14 @@ public:
 	bool SetCurrEnergy(const int& value);
 	int GetCurrEnergy();
 	void InventoryMode();
+	Inventory* getInventory()const
+	{
+		if (this->inventory != nullptr)
+		{
+			return this->inventory;
+		}
+		return nullptr;
+	}
 	int GetLevel();
 	int GetExp();
 	void SetLevel(int a);

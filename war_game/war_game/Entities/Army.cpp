@@ -41,10 +41,6 @@ Army::Army(string name, vector<Unit> list, char symb, bool isPlayer, int wallet)
 	this->isPlayer = isPlayer;
 	this->isBotArmy = isPlayer == true ? false : true;
 	this->inventory = new Inventory(3, 3);
-	Artefact* a1 = new Artefact('Q', false);
-	Artefact* a2 = new Artefact('K', false);
-	this->inventory->AddArtefact(1, 0, a1);
-	this->inventory->AddArtefact(2, 2, a2);
 	this->wallet = wallet;
 }
 

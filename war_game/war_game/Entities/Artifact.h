@@ -20,11 +20,9 @@ public:
 	Artifact(char ssymb, size_t aaddPoints);
 	Artifact(char ssymb, size_t aaddPoints, int pprice);
 	Artifact(Artifact & a);
-	Artifact(char symb, int invPosX, int invPosY, bool isActive);
+	Artifact(char symb, bool isActive);
 	char getSymb();
 	size_t getAddPoints();
-	int getInvPosX();
-	int getInvPosY();
 	bool getIsActive();
 	bool getIsSelected();
 	void setInvPosX(int invPosX);

@@ -35,10 +35,8 @@ Artifact::Artifact(Artifact & a):
 	id(a.id)
 {}
 
-Artifact::Artifact(char symb, int invPosX, int invPosY, bool isActive):
+Artifact::Artifact(char symb, bool isActive):
 	symb(symb),
-	invPosX(invPosX),
-	invPosY(invPosY),
 	isActive(isActive),
 	isSelected(false)
 {}
@@ -51,16 +49,6 @@ char Artifact::getSymb()
 size_t Artifact::getAddPoints()
 {
 	return addPoints;
-}
-
-int Artifact::getInvPosX()
-{
-	return this->invPosX;
-}
-
-int Artifact::getInvPosY()
-{
-	return this->invPosY;
 }
 
 bool Artifact::getIsActive()

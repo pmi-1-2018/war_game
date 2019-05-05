@@ -415,9 +415,21 @@ void GameManager::Start()
 			artifact->printArtifactInfo();
 			cout << "Do you want to take this artifact? ";
 			char answer = _getch();
+			Army* army = nullptr;
+			army = newCell->GetArmy();
 			if (answer == 'y' || answer == 'Y')
 			{
 				cout << "Yes" << endl;
+				bool artIsAdded = army->getInventory()->AddArtifact(artifact);
+				
+				/*if (artIsAdded == false)
+				{
+					cout << "Whoops.. Missing space!\nWould you like to replace it?" << endl;
+				}
+				else
+				{
+					cout << "You successfully added new artifact to your inventory" << endl;
+				}*/
 				system("pause");
 			}
 			else
@@ -426,8 +438,6 @@ void GameManager::Start()
 				system("pause");
 			}
 			system("CLS");
-			Army* army = nullptr;
-			army = newCell->GetArmy();
 			outputInfoOverMap(army);
 			this->map->SetBackground("D");
 			army = nullptr;
