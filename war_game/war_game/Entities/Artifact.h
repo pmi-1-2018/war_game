@@ -10,8 +10,6 @@ protected:
 	int id;
 	char symb;
 	size_t addPoints;
-	int invPosX;
-	int invPosY;
 	bool isActive;
 	bool isSelected;
 	int price;
@@ -25,8 +23,6 @@ public:
 	size_t getAddPoints();
 	bool getIsActive();
 	bool getIsSelected();
-	void setInvPosX(int invPosX);
-	void setInvPosY(int invPosY);
 	void setIsActive(bool isActive);
 	void setIsSelected(bool isSelected);
 	void setId(int id);

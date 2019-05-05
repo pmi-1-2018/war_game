@@ -31,9 +31,16 @@ private:
 		int inventoryWidth;
 		int inventoryHeight;
 		Artifact*** artefacts;
+		vector<Artifact> activeArtifacts;
 		bool itemIsFixed = false;
 		ClipBoard storage;
+		int activeArtsNumber = 0;
+		int maxActiveArtsNumber = 3;
 		const HANDLE HSTDOUT = GetStdHandle(STD_OUTPUT_HANDLE);
+		vector<Artifact> getActiveArtifacts()const
+		{
+			return this->activeArtifacts;
+		}
 		bool AddArtifact(Artifact* element)
 		{
 			bool artAdded = false;
@@ -85,7 +92,12 @@ private:
 						}
 						else
 						{
+							if (this->artefacts[i][j]->getIsActive() == true)
+							{
+								SetConsoleTextAttribute(this->HSTDOUT, 160);
+							}
 							cout << this->artefacts[i][j]->getSymb();
+							SetConsoleTextAttribute(this->HSTDOUT, 64);
 						}
 						if (selectPressed == true)
 						{
@@ -93,12 +105,23 @@ private:
 							{
 								Artifact* art1 = this->storage.item;
 								Artifact* art2 = this->artefacts[i][j];
-								SwapArtefact(this->storage.posX, this->storage.posY, selectedX, selectedY);
+								if (art1 == art2)
+								{
+									if (this->maxActiveArtsNumber >= this->activeArtsNumber + 1)
+									{
+										art1->setIsActive(true);
+										this->activeArtsNumber++;
+										this->activeArtifacts.push_back(*art1);
+									}
+								}
+								else 
+								{ 
+									SwapArtefact(this->storage.posX, this->storage.posY, selectedX, selectedY);
+								}
 								SetConsoleTextAttribute(this->HSTDOUT, 240);
 								if (art1 != nullptr)
 								{
 									art1->setIsSelected(false);
-									
 								}
 								if (art2 != nullptr)
 								{
@@ -125,7 +148,6 @@ private:
 					}
 					else
 					{
-						
 						if (this->artefacts[i][j] == nullptr)
 						{
 							cout << "-";
@@ -135,6 +157,10 @@ private:
 							if (this->artefacts[i][j]->getIsSelected() == true && this->itemIsFixed == true)
 							{
 								SetConsoleTextAttribute(this->HSTDOUT, 64);
+							}
+							else if (this->artefacts[i][j]->getIsActive() == true)
+							{
+								SetConsoleTextAttribute(this->HSTDOUT, 160);
 							}
 							cout << this->artefacts[i][j]->getSymb();
 						}

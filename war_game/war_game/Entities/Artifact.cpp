@@ -61,16 +61,6 @@ bool Artifact::getIsSelected()
 	return this->isSelected;
 }
 
-void Artifact::setInvPosX(int invPosX)
-{
-	this->invPosX = invPosX;
-}
-
-void Artifact::setInvPosY(int invPosY)
-{
-	this->invPosY = invPosY;
-}
-
 void Artifact::setIsActive(bool isActive)
 {
 	this->isActive = isActive;
