@@ -5,6 +5,7 @@
 #include "Controllers/Screens.hpp"
 #include "Controllers/GameManager.h"
 
+
 #define ZAEBIS 0
 //int main() 
 //{
@@ -48,6 +49,7 @@ int main()
 	Screens.push_back(&genMapScreen);
 	Screens.push_back(&editMapScreen);
 	Screens.push_back(&editMapScreen);
+	
 	
 	while (screen >= 0)
 	{

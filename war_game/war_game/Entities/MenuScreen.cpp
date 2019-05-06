@@ -80,10 +80,9 @@ int MenuScreen::Run(sf::RenderWindow &App, GameManager &gm)
 		for (int i = 0; i < OPT_COUNT; i++)
 		{
 			App.draw(menuOptions[i]);
-		}
+		}	
 		App.display();
 	}
-
 	return (-1);
 }
 
