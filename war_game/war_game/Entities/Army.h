@@ -68,6 +68,16 @@ private:
 			this->artefacts[artIndY1][artIndX1] = this->artefacts[artIndY2][artIndX2];
 			this->artefacts[artIndY2][artIndX2] = tempPtr;
 		}
+		void RemoveActiveArtifact(Artifact& delArt)
+		{
+			for (int i = 0; i < this->activeArtsNumber; i++)
+			{
+				if (this->activeArtifacts.at(i).getSymb() == delArt.getSymb())
+				{
+					this->activeArtifacts.erase(this->activeArtifacts.begin() + i, this->activeArtifacts.begin() + i + 1);
+				}
+			}
+		}
 		void PrintInventory(int& selectedX, int& selectedY, bool selectPressed)
 		{
 			SetConsoleTextAttribute(this->HSTDOUT, 240);
@@ -107,7 +117,14 @@ private:
 								Artifact* art2 = this->artefacts[i][j];
 								if (art1 == art2)
 								{
-									if (this->maxActiveArtsNumber >= this->activeArtsNumber + 1)
+									if (art1 != nullptr && art1->getIsActive() == true)
+									{
+										art1->setIsActive(false);
+										this->activeArtsNumber--;
+										
+										this->activeArtifacts.push_back(*art1);
+									}
+									else if (this->maxActiveArtsNumber >= this->activeArtsNumber + 1)
 									{
 										art1->setIsActive(true);
 										this->activeArtsNumber++;
