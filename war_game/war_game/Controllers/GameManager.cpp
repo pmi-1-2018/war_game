@@ -413,7 +413,10 @@ void GameManager::Start()
 			system("CLS");
 			Artifact* artifact = newCell->getArifactPtr();
 			artifact->printArtifactInfo();
-			cout << "Do you want to take this artifact? ";
+			cout << "Do you want to take this artifact? \n"
+				 <<"Press 'y' to pick up\n "
+				 << "Press 'n' to not pick up\n "
+				 << "Press 'd' to destroy\n ";
 			char answer = _getch();
 			Army* army = nullptr;
 			army = newCell->GetArmy();
@@ -421,7 +424,7 @@ void GameManager::Start()
 			{
 				cout << "Yes" << endl;
 				bool artIsAdded = army->getInventory()->AddArtifact(artifact);
-				
+				newCell->setArtifactPtr(nullptr);
 				/*if (artIsAdded == false)
 				{
 					cout << "Whoops.. Missing space!\nWould you like to replace it?" << endl;
@@ -430,6 +433,12 @@ void GameManager::Start()
 				{
 					cout << "You successfully added new artifact to your inventory" << endl;
 				}*/
+				system("pause");
+			}
+			else if (answer == 'd' || answer == 'D')
+			{
+				newCell->setArtifactPtr(nullptr);
+				cout << "Artifact destroyed" << endl;
 				system("pause");
 			}
 			else
@@ -441,7 +450,7 @@ void GameManager::Start()
 			outputInfoOverMap(army);
 			this->map->SetBackground("D");
 			army = nullptr;
-			newCell->setArtifactPtr(nullptr);
+			
 			Draw(this->turn, new_x, new_y);
 		}
 		if (hitTheWall == false && response == 1 || response == 3)

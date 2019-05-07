@@ -17,7 +17,7 @@ public:
 	Artifact();
 	Artifact(char ssymb, size_t aaddPoints);
 	Artifact(char ssymb, size_t aaddPoints, int pprice);
-	Artifact(Artifact & a);
+	//Artifact(Artifact & a);
 	Artifact(char symb, bool isActive);
 	char getSymb();
 	size_t getAddPoints();
