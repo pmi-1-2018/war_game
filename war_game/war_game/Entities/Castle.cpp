@@ -5,7 +5,7 @@
 #include"BarrackWizard.h"
 #include"BarrackBuffer.h"
 #include"BarrackHealer.h"
-Barrack* Castle::getBarrack(string nameOfArmy) {
+Barrack* Castle::getBarrack() {
 	return barrack;
 }
 int Castle::getHealth() {

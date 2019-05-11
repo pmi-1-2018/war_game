@@ -6,7 +6,7 @@ private:
 	int health;
 	Barrack* barrack;
 public:
-	Barrack* getBarrack(string nameOfArmy);
+	Barrack* getBarrack();
 	void setBarrack(int n);
 	int getHealth();
 	string getNameOfArmy();

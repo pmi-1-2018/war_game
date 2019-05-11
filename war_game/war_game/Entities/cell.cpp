@@ -72,10 +72,10 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 		passCost = 3;
 		break;
 	case 'C':
-		passCost = 3;
-		this->isCastle = true;
+		passCost = 1;
 		this->castle = new Castle();
-		//this->castle->setBarrack(n);
+		this->isCastle = true;
+		this->castle->setBarrack(n);
 		break;
 	case 'B':
 		passCost = 1;

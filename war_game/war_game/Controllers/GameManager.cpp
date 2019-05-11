@@ -306,6 +306,7 @@ void GameManager::Start()
 		// response = 3 - out of points - switching the turn
 		// response = 4 - stepped on a barrack
 		// response = 5 - stepped on a Gold Mine
+		// response = 6 - stepped on a Castle
 		if (hitTheWall == true)
 		{
 			continue;
@@ -417,6 +418,70 @@ void GameManager::Start()
 				goldMine->setOwner(this->turn);
 				goldMine->setPointerToOwner(army);
 				army->increaseIncome(goldMine->getIncome());
+			}
+			system("CLS");
+			outputInfoOverMap(army);
+			Draw(this->turn, new_x, new_y);
+			continue;
+		}
+		if (response == 6)
+		{
+			system("CLS");
+			bool checkAll = true;
+			Army* army = newCell->GetArmy();
+
+			while (checkAll) {
+				int action;
+				system("CLS");
+				cout << "Welcome to the Castle" << endl;
+				cout << "1 - go to barrack" << endl;
+				cout << "2 - fight the castle" << endl;
+				cout << "3 - exit" << endl;
+				cin >> action;
+				if (action == 1) {
+					int n;
+					Barrack *barrack = this->map->GetCell(new_x, new_y)->getCastlePtr()->getBarrack();
+					bool check = true;
+					while (check)
+					{
+						system("CLS");
+						cout << "Welcome to the " << barrack->TellType() << endl;
+						cout << "Enter what you want to do: " << endl;
+						cout << "1 - take units" << endl;
+						cout << "2 - swap units" << endl;
+						cout << "3 - exit" << endl;
+						cin >> n;
+						if (n == 1)
+						{
+							cout << "How many units you want to take? " << endl;
+							int number;
+							cin >> number;
+							while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0)
+							{
+								army->addUnit(barrack->giveUnit());
+								barrack->SetNumberOfUnits(barrack->GetNumberOfUnits() - 1);
+								number--;
+							}
+						}
+						if (n == 3)
+						{
+							check = false;
+						}
+						if (n == 2)
+						{
+							int index1;
+							int index2;
+							army->swapUnits(index1, index2);
+							army->ArmySwap(index1, index2);
+						}
+					}
+				}
+				else if (action == 2) {
+					cout << "Start fight!!" << endl;
+				}
+				else if (action == 3) {
+					checkAll = false;
+				}
 			}
 			system("CLS");
 			outputInfoOverMap(army);
