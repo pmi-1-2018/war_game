@@ -8,8 +8,10 @@ Cell::Cell() :
 	isPassable(true),
 	x(0),
 	y(0),
+	castle(nullptr),
 	barrack(nullptr),
 	goldMine(nullptr)
+	
 {}
 
 Cell::Cell(const Cell& other)
@@ -18,6 +20,8 @@ Cell::Cell(const Cell& other)
 	this->isPassable = other.isPassable;
 	this->barrack = other.barrack;
 	this->isBarrack = other.isBarrack;
+	this->castle = other.castle;
+	this->isCastle = other.isCastle;
 	this->army = other.army;
 	this->goldMine = other.goldMine;
 	this->playersCount = other.playersCount;
@@ -30,7 +34,8 @@ Cell::Cell(int passCost, int x, int y) :
 //	isPlayer(false),
 	isPassable(true),
 	barrack(nullptr),
-	goldMine(nullptr)
+	goldMine(nullptr),
+	castle(nullptr)
 {
 	if (this->passCost == 0)
 	{
@@ -49,6 +54,7 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 	this->x = x;
 	this->barrack = nullptr;
 	this->goldMine = nullptr;
+	this->castle = nullptr;
 	this->isPassable = true;
 	switch (symb)
 	{
@@ -64,6 +70,12 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 		break;
 	case '3':
 		passCost = 3;
+		break;
+	case 'C':
+		passCost = 3;
+		this->isCastle = true;
+		this->castle = new Castle();
+		//this->castle->setBarrack(n);
 		break;
 	case 'B':
 		passCost = 1;
@@ -138,17 +150,23 @@ GoldMine* Cell::getGoldMinePtr()
 
 bool Cell::isPossibleGenerate() 
 {
-	return this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
+	return this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr && this->castle == nullptr ;
 }
 
 Barrack* Cell::getBarrackPtr()
 {
 	return barrack;
 }
+Castle* Cell::getCastlePtr() {
+	return castle;
+}
 
 bool Cell::IsBarrack()
 {
 	return isBarrack;
+}
+bool Cell::IsCastle() {
+	return isCastle;
 }
 
 
@@ -248,6 +266,7 @@ Army* Cell::getArmyPtr()const
 {
 	return this->army;
 }
+
 bool Cell::IsPassable()
 {
 	return this->isPassable;

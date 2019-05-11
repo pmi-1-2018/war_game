@@ -1,12 +1,13 @@
 #pragma once
-#include "Entities/Barrack.h"
+#include "Barrack.h"
 class Castle {
 private:
 	string nameOfArmy;
 	int health;
-	Barrack barrack;
+	Barrack* barrack;
 public:
-	Barrack getBarrack(string nameOfArmy);
+	Barrack* getBarrack(string nameOfArmy);
+	void setBarrack(int n);
 	int getHealth();
 	string getNameOfArmy();
 	// todo: realization of fighting in castle
