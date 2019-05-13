@@ -52,6 +52,9 @@
     <ClCompile Include="Controllers\Animation.cpp">
       <Filter>Resource Files\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\GameScreen.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h">
@@ -131,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="Controllers\Animation.h">
       <Filter>Resource Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\GameScreen.h">
+      <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

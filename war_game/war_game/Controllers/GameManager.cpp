@@ -289,23 +289,17 @@ void GameManager::Start()
 		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
 		Cell* newCell = this->map->GetCell(new_x, new_y);
 		int response = MoveChar(symb, currentCell, newCell);
-		// response = 0 - hit the obstacle
-		// response = 1 - moved successfully
-		// response = 2 - hit the player, begining of the battle
-		// response = 3 - out of points - switching the turn
-		// response = 4 - stepped on a barrack
-		// response = 5 - stepped on a Gold Mine
 		if (hitTheWall == true)
 		{
 			continue;
 		}
-		if (response == 0)
+		if (response == hitObstacle)
 		{
 			new_x = prev_x;
 			new_y = prev_y;
 			continue;
 		}
-		else if (response == 2)
+		else if (response == hitPlayer)
 		{
 			Army* a1 = currentCell->getArmyPtr();
 			Army* a2 = newCell->getArmyPtr();
@@ -334,7 +328,7 @@ void GameManager::Start()
 			Draw(this->turn, new_x, new_y);
 			continue;
 		}
-		if (response == 4)
+		if (response == enteredBarrack)
 		{
 			system("CLS");
 			while (this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() - numberOfTurn >= 7)
@@ -386,7 +380,7 @@ void GameManager::Start()
 			Draw(this->turn, new_x, new_y);
 			continue;
 		}
-		if (response == 5)
+		if (response == enteredGoldMine)
 		{
 			Army *army = newCell->GetArmy();
 			GoldMine *goldMine = newCell->getGoldMinePtr();
@@ -412,12 +406,12 @@ void GameManager::Start()
 			Draw(this->turn, new_x, new_y);
 			continue;
 		}
-		if (hitTheWall == false && response == 1 || response == 3)
+		if (hitTheWall == false && response == movedSuccessfully || response == outOfPoints)
 		{
 			outputTurnSwitch(response);
 			system("CLS");
 			Army* army = nullptr;
-			if (response == 3)
+			if (response == outOfPoints)
 			{
 				SwitchTurn();
 				new_x = prev_x;
@@ -439,7 +433,7 @@ void GameManager::Start()
 			outputInfoOverMap(army);
 			this->map->SetBackground("D");
 			army = nullptr;
-			if (response == 3)
+			if (response == outOfPoints)
 			{
 				if (new_x == x_1 && new_y == y_1)
 				{
@@ -508,7 +502,7 @@ void GameManager::outputTurnSwitch(int response)
 {
 	char key;
 	int asciiValue;
-	if (response == 3)
+	if (response == outOfPoints)
 	{
 		cout << "Press enter to end your turn" << endl;
 		bool loop = true;

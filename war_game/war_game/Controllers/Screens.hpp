@@ -7,5 +7,6 @@
 #include "../Entities/MenuScreen.h"
 #include "../Entities/GenMapScreen.h"
 #include "../Entities/EditMapScreen.h"
+#include "../Entities/GameScreen.h"
 
 #endif // SCREENS HPP

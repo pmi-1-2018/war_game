@@ -10,6 +10,8 @@
 //#define DEBUG
 using namespace std;
 
+enum responseCases { hitObstacle, movedSuccessfully, hitPlayer, outOfPoints, enteredBarrack, enteredGoldMine };
+
 class GameManager
 {
 private:
@@ -48,3 +50,9 @@ public:
 	~GameManager();
 };
 
+// response = 0 - hit the obstacle
+// response = 1 - moved successfully
+// response = 2 - hit the player, begining of the battle
+// response = 3 - out of points - switching the turn
+// response = 4 - stepped on a barrack
+// response = 5 - stepped on a Gold Mine
