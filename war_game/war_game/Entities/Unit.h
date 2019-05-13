@@ -14,6 +14,8 @@ protected:
 	int id = 0;
 	int dec_energy = 0;
 	char symb = 'U';
+	int damageBuff = 0;
+	int defenseBuff = 0;
 
 public:
 	Unit();
@@ -28,11 +30,18 @@ public:
 	int getId();
 	char getSymb();
 	void setSymb(char symb);
+	void resetBuffs();
 
+	void phisicalAttack(int damage);
+	void magicAttack(int Damage);
+	void buffAttack(int damage);
+	void buffDefense(int armor);
 	void attack(Unit& unit);
+	int calculateDamage();
+	int calculateDefense();
 	int DamageTaken();
 	virtual void BuffDamage(Unit& other_unit) {};
-	virtual void BuffDefense(Unit& other_unit) {};
+	virtual void buffDefense(Unit& other_unit) {};
 	virtual void Heal(Unit& other_unit) {};
 	int GetMaxHP();
 	int GetDecEnergy()const;
