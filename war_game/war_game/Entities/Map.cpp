@@ -361,7 +361,7 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 {
 	sf::Image mapImage;
-	mapImage.loadFromFile("Utils/image.png");
+	mapImage.loadFromFile("Utils/kartonka.png");
 	sf::Texture mapTexture;
 	mapTexture.loadFromImage(mapImage);
 	mapSprite.setTexture(mapTexture);
@@ -371,42 +371,26 @@ void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 		{
 			switch (this->map[i][j].getPassCost())
 			{
-			case 1:
-				mapSprite.setTextureRect(sf::IntRect(107, 33, 32, 32));
-				break;
-			/*case '0':
-				mapSprite.setTextureRect(sf::IntRect(305, 33, 32, 32));
-				break;
-			case '1':
-				mapSprite.setTextureRect(sf::IntRect(305, 66, 32, 32));
-				break;
-			case '2':
-				mapSprite.setTextureRect(sf::IntRect(305, 0, 32, 32));
-				break;
-			case '3':
-				mapSprite.setTextureRect(sf::IntRect(371, 0, 32, 32));
-				break;
-			case '4':
-				mapSprite.setTextureRect(sf::IntRect(371, 66, 32, 32));
-				break;*/
-			case 3:
-				mapSprite.setTextureRect(sf::IntRect(74, 165, 32, 32));
-				break;
 			case 0:
-				mapSprite.setTextureRect(sf::IntRect(140, 231, 32, 32));
+				mapSprite.setTextureRect(sf::IntRect(107, 330, 32, 32));
+				break;
+			case 1:
+				mapSprite.setTextureRect(sf::IntRect(74, 330, 32, 32));
 				break;
 			case 2:
-				mapSprite.setTextureRect(sf::IntRect(140, 165, 32, 32));
+				mapSprite.setTextureRect(sf::IntRect(140, 330, 32, 32));
 				break;
-			/*case '8':
-				mapSprite.setTextureRect(sf::IntRect(338, 66, 32, 32));
+			case 3:
+				mapSprite.setTextureRect(sf::IntRect(173, 330, 32, 32));
 				break;
-			case '9':
-				mapSprite.setTextureRect(sf::IntRect(338, 0, 32, 32));
-				break;
-			case 'q':
-				mapSprite.setTextureRect(sf::IntRect(371, 33, 32, 32));
-				break;*/
+			}
+			if (this->map[i][j].IsBarrack())
+			{
+				mapSprite.setTextureRect(sf::IntRect(239, 330, 32, 32));
+			}
+			if (this->map[i][j].getGoldMinePtr() != nullptr)
+			{
+				mapSprite.setTextureRect(sf::IntRect(206, 330, 32, 32));
 			}
 			mapSprite.setPosition(j * 32, i * 32);
 			App.draw(mapSprite);
