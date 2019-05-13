@@ -49,6 +49,9 @@
     <ClCompile Include="Entities\EditMapScreen.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Controllers\Animation.cpp">
+      <Filter>Resource Files\Controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="Entities\EditMapScreen.h">
       <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\Animation.h">
+      <Filter>Resource Files\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
