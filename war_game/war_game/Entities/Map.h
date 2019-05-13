@@ -1,4 +1,5 @@
 #pragma once
+#include<SFML/Graphics.hpp>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -31,6 +32,7 @@ public:
 	bool getIspassable(int a, int b);
 	void resetPlayers(char& turn);
 	void mapDraw(Map &m, int x, int y);
+	void DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App);
 	Cell* GetCell(const int& x, const int& y)const;
 	~Map();
 	friend ostream& operator<<(ostream& sout, Map &m);

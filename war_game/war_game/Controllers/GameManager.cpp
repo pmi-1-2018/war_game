@@ -154,6 +154,11 @@ void GameManager::SetMusic(const string & filename)
 	}
 }
 
+void GameManager::DrawMap(sf::Sprite& mapSprite, sf::RenderWindow& App)
+{
+	this->map->DrawMapIntoWindow(mapSprite, App);
+}
+
 void GameManager::outputInfoOverMap(Army* army)
 {
 	this->map->SetBackground("I");

@@ -31,6 +31,7 @@ public:
 	GameManager();
 	void GenerateMap(int height, int width);
 	void Draw(const char& turn, int x, int y)const;
+	void DrawMap(sf::Sprite& mapSprite, sf::RenderWindow& App);
 	void Start();
 	void FileLogW(string information);
 	void SwitchTurn();
