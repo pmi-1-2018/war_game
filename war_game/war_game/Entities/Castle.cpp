@@ -44,3 +44,6 @@ void Castle::setBarrack(int n) {
 		this->barrack = new BarrackHealer();
 	}
 }
+void Castle::setGoldMine(){
+	this->goldMine = GoldMine();
+}
