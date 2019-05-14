@@ -269,7 +269,7 @@ public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
 
-	void inputTheArmy();
+	void inputTheArmy(size_t sz); 
 	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
 	void printArmy();
 

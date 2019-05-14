@@ -100,6 +100,7 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
+<<<<<<< HEAD
 void Army::InventoryMode()
 {
 	system("cls");
@@ -174,20 +175,40 @@ void Army::InventoryMode()
 //}
 
 void Army::inputTheArmy() {
+=======
+void Army::inputTheArmy(size_t size) {
+>>>>>>> master
 	char type;
 	Swordsman s;
 	Archer a;
-	for (int i = 0; i < this->units.size(); i++) {
+	Wizard w;
+	Tank t;
+	Buffer b;
+	Healer h;
+	for (size_t i = 0; i < size;i++) {//this->units.size(); i++) {
 		cout << "Enter the type of unit " << endl;
 		cin >> type;
 		switch (type) {
 		case 'S':
-			this->units[i] = s;
+			units.push_back(s);
 			break;
 		case 'A':
-			this->units[i] = a;
+			units.push_back(a);
+			break;
+		case 'W':
+			units.push_back(w);
+			break;
+		case 'T':
+			units.push_back(t);
+			break;
+		case 'B':
+			units.push_back(b);
+			break;
+		case 'H':
+			units.push_back(h);
 			break;
 		default:
+			cout << "Enter valid value! " << endl;
 			break;
 		}
 	}
@@ -750,20 +771,23 @@ void Army::heal()
 	Healer h;
 	for (size_t i = 0; i < units.size(); i++)
 	{
-		if (units[i].getId() == 6)
+		if (units.size() >= 2)
 		{
-			if (i == 0)
+			if (units[i].getId() == 6)
 			{
-				h.Heal(units[i + 1]);
-			}
-			if (i == units.size() - 1)
-			{
-				h.Heal(units[i - 1]);
-			}
-			if (i != 0 && i != units.size() - 1)
-			{
-				h.Heal(units[i + 1]);
-				h.Heal(units[i - 1]);
+				if (i == 0)
+				{
+					h.Heal(units[i + 1]);
+				}
+				if (i == units.size() - 1)
+				{
+					h.Heal(units[i - 1]);
+				}
+				if (i != 0 && i != units.size() - 1)
+				{
+					h.Heal(units[i + 1]);
+					h.Heal(units[i - 1]);
+				}
 			}
 		}
 	}

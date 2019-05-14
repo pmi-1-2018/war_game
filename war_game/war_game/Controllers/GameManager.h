@@ -26,6 +26,7 @@ public:
 	void GenerateMap(int height, int width);
 	void Draw(const char& turn, int x, int y)const;
 	void Start();
+	void SandboxStart();
 	void FileLogW(string information);
 	void SwitchTurn();
 	string GetLogPath()const;

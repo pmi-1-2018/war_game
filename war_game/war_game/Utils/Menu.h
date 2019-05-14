@@ -8,8 +8,8 @@ using namespace std;
 class Menu
 {
 private:
-	const int OPT_COUNT = 5;
-	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Exit" };
+	const int OPT_COUNT = 6;
+	string* options = new string[OPT_COUNT]{ "Generate map", "Start Game", "Edit Map", "Show battle history", "Sandbox", "Exit" };
 	GameManager* gm;
 public:
 	Menu();
@@ -17,6 +17,7 @@ public:
 	void MenuHint()const;
 	void KeyHandler();
 	void StartGame();
+	void Sandbox();
 	void GenerateMap();
 	bool EditMap();
 	void ShowLog();
