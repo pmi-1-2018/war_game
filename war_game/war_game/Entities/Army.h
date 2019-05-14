@@ -138,7 +138,10 @@ private:
 							cout << this->artefacts[i][j]->getSymb();
 							SetConsoleTextAttribute(this->HSTDOUT, 64);
 						}
-						
+						if (deleteArt == true)
+						{
+							RemoveArtifact(*this->storage.item);
+						}
 						if (selectPressed == true)
 						{
 							if (this->itemIsFixed == true)
@@ -202,7 +205,11 @@ private:
 						}
 						else
 						{
-							if (this->artefacts[i][j]->getIsSelected() == true && this->itemIsFixed == true)
+							if (deleteArt == true)
+							{
+								SetConsoleTextAttribute(this->HSTDOUT, 96);
+							}
+							else if (this->artefacts[i][j]->getIsSelected() == true && this->itemIsFixed == true)
 							{
 								SetConsoleTextAttribute(this->HSTDOUT, 64);
 							}
