@@ -47,3 +47,7 @@ void Castle::setBarrack(int n) {
 void Castle::setGoldMine(){
 	this->goldMine = GoldMine();
 }
+void Castle::setPointerToOwner(Army* player)
+{
+	this->pointerToOwner = player;
+}
