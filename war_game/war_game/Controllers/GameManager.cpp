@@ -414,9 +414,9 @@ void GameManager::Start()
 			Artifact* artifact = newCell->getArifactPtr();
 			artifact->printArtifactInfo();
 			cout << "Do you want to take this artifact? \n"
-				 <<"Press 'y' to pick up\n "
-				 << "Press 'n' to not pick up\n "
-				 << "Press 'd' to destroy\n ";
+				 << "Press 'y' to pick up\n"
+				 << "Press 'n' not to pick up\n"
+				 << "Press 'd' to destroy\n";
 			char answer = _getch();
 			Army* army = nullptr;
 			army = newCell->GetArmy();
