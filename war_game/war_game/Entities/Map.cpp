@@ -373,6 +373,7 @@ void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 			{
 			case 0:
 				mapSprite.setTextureRect(sf::IntRect(107, 330, 32, 32));
+				//mapSprite.setTextureRect(sf::IntRect(272, 330, 32, 32));
 				break;
 			case 1:
 				mapSprite.setTextureRect(sf::IntRect(74, 330, 32, 32));
@@ -381,7 +382,7 @@ void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 				mapSprite.setTextureRect(sf::IntRect(140, 330, 32, 32));
 				break;
 			case 3:
-				mapSprite.setTextureRect(sf::IntRect(173, 330, 32, 32));
+				mapSprite.setTextureRect(sf::IntRect(173, 330, 32, 32));			
 				break;
 			}
 			if (this->map[i][j].IsBarrack())

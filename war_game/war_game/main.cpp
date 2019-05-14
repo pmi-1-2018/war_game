@@ -22,19 +22,19 @@ int main()
 
 	ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	RenderWindow window(VideoMode(975, 480), "microChelik", Style::Default , settings);
+	RenderWindow window(VideoMode(975, 480), "MACROASSEMBLER", Style::Default , settings);
 	window.setVerticalSyncEnabled(true);
 
 	sf::Music backgroundMusic;
 	backgroundMusic.openFromFile("Utils/Rampart.wav");
 	backgroundMusic.setLoop(true);
 	backgroundMusic.play();
-	
+
 	GenMapScreen genMapScreen;
 	MenuScreen menuScreen;
 	EditMapScreen editMapScreen;
 	GameScreen gameScreen;
-
+	
 	Screens.push_back(&menuScreen);
 	Screens.push_back(&genMapScreen);
 	Screens.push_back(&gameScreen);
