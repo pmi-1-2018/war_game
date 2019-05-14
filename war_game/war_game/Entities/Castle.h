@@ -9,6 +9,7 @@ private:
 	int health;
 	Barrack* barrack;
 	Army* pointerToOwner;
+	void setPointerToOwnerOfGoldMine();
 public:
 	Barrack* getBarrack();
 	void setBarrack(int n);

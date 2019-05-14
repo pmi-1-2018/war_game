@@ -44,6 +44,10 @@ void Castle::setBarrack(int n) {
 		this->barrack = new BarrackHealer();
 	}
 }
+void Castle::setPointerToOwnerOfGoldMine()
+{
+	this->goldMine.setPointerToOwner(this->pointerToOwner);
+}
 void Castle::setGoldMine(){
 	this->goldMine = GoldMine();
 }
