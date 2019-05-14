@@ -40,6 +40,9 @@
     <ClCompile Include="Entities\Healer.cpp">
       <Filter>Resource Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Castle.cpp">
+      <Filter>Resource Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\cell.h">
@@ -100,6 +103,9 @@
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\BarrackHealer.h">
+      <Filter>Resource Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Castle.h">
       <Filter>Resource Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

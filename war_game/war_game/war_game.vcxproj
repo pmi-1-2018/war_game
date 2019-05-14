@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C519E0EC-82DF-418A-9238-0EE07D2983B0}</ProjectGuid>
     <RootNamespace>wargame</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -129,6 +129,7 @@
     <ClCompile Include="Entities\Army.cpp" />
     <ClCompile Include="Entities\Barrack.cpp" />
     <ClCompile Include="Entities\Buffer.cpp" />
+    <ClCompile Include="Entities\Castle.cpp" />
     <ClCompile Include="Entities\cell.cpp" />
     <ClCompile Include="Entities\GoldMine.cpp" />
     <ClCompile Include="Entities\Healer.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Entities\BarrackTank.h" />
     <ClInclude Include="Entities\BarrackWizard.h" />
     <ClInclude Include="Entities\Buffer.h" />
+    <ClInclude Include="Entities\Castle.h" />
     <ClInclude Include="Entities\cell.h" />
     <ClInclude Include="Entities\GoldMine.h" />
     <ClInclude Include="Entities\Healer.h" />

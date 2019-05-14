@@ -8,6 +8,7 @@
 #include"BarrackHealer.h"
 #include "Army.h"
 #include"GoldMine.h"
+#include "Castle.h"
 //static int counter = 0;
 
 class Cell
@@ -17,6 +18,8 @@ private:
 	bool isPassable;
 	Barrack* barrack;
 	GoldMine* goldMine;
+	Castle* castle;
+	bool isCastle = false;
 	bool isBarrack = false;
 	Army* army = nullptr;
 	int x;
@@ -41,7 +44,7 @@ public:
 	Army* GetArmy()const;
 	bool IsPassable();
 	bool isPassableGenerate() {
-		return this->army == nullptr && this->barrack == nullptr && this->isPassable;
+		return this->army == nullptr && this->barrack == nullptr && this->castle == nullptr && this->isPassable;
 	}
 	void setPassCost(int value);
 	void setIsBotArmy(bool value);
@@ -49,7 +52,9 @@ public:
 	int GetY()const;
 	Army* getArmyPtr()const;
 	Barrack* getBarrackPtr();
+	Castle* getCastlePtr();
 	bool IsBarrack();
+	bool IsCastle();
 	Army* getArmyPtr();
 	bool isPossibleGenerate();
 	GoldMine* getGoldMinePtr();
