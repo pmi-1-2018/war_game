@@ -100,7 +100,6 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
-<<<<<<< HEAD
 void Army::InventoryMode()
 {
 	system("cls");
@@ -174,10 +173,7 @@ void Army::InventoryMode()
 //	}
 //}
 
-void Army::inputTheArmy() {
-=======
 void Army::inputTheArmy(size_t size) {
->>>>>>> master
 	char type;
 	Swordsman s;
 	Archer a;
