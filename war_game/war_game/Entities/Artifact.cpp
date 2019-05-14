@@ -41,6 +41,18 @@ Artifact::Artifact(char symb, bool isActive):
 	isSelected(false)
 {}
 
+bool Artifact::operator==(Artifact & compareArt)
+{
+	bool result = 
+		this->id == compareArt.id &&
+		this->symb == compareArt.symb &&
+		this->addPoints == compareArt.addPoints &&
+		this->isActive == compareArt.isActive &&
+		this->isSelected == compareArt.isSelected &&
+		this->price == compareArt.price;
+	return result;
+}
+
 char Artifact::getSymb()
 {
 	return this->symb;

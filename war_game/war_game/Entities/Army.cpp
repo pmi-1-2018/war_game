@@ -111,6 +111,7 @@ void Army::InventoryMode()
 		char key = _getch();
 		int asciiValue = key;
 		bool selectPressed = false;
+		bool deletePressed = false;
 		if (asciiValue == 105 || asciiValue == 27)
 		{
 			break;
@@ -147,8 +148,12 @@ void Army::InventoryMode()
 		{
 			selectPressed = true;
 		}
+		else if (asciiValue == 8) // pressed backspace
+		{
+			deletePressed = true;
+		}
 		system("cls");
-		this->inventory->PrintInventory(selectedX, selectedY, selectPressed);
+		this->inventory->PrintInventory(selectedX, selectedY, selectPressed, deletePressed);
 	}
 }
 //
