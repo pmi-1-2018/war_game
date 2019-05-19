@@ -218,6 +218,7 @@ public:
 	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
 	void printArmy();
 
+	bool hit(Unit& u1,Unit& u2, vector<Artifact> thisArt, vector<Artifact> otherArt);
 	void fight(Army& a,bool check);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);

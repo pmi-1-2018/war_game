@@ -21,6 +21,7 @@ public:
 	Artifact(char symb, bool isActive);
 	char getSymb();
 	size_t getAddPoints();
+	int getId();
 	bool getIsActive();
 	bool getIsSelected();
 	void setIsActive(bool isActive);

@@ -41,6 +41,11 @@ Artifact::Artifact(char symb, bool isActive):
 	isSelected(false)
 {}
 
+int Artifact::getId()
+{
+	return id;
+}
+
 char Artifact::getSymb()
 {
 	return this->symb;
