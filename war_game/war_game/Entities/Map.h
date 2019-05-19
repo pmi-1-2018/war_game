@@ -1,10 +1,11 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-#include <string>
-#include <fstream>
-#include <iostream>
-#include "cell.h"
-#include "Windows.h"
+#include"../Controllers/Animation.h"
+#include<string>
+#include<fstream>
+#include<iostream>
+#include"cell.h"
+#include"Windows.h"
 #include<cmath>
 #include<ctime>
 //#define DEBUG
@@ -28,7 +29,7 @@ public:
 	void SetBackground(const string flag)const;
 	void setWidth(int width);
 	void setHeight(int height);
-	int setPlayer(char symb, Cell* prevCell, Cell* newCell);
+	int setPlayer(Cell* prevCell, Cell* newCell);
 	bool getIspassable(int a, int b);
 	void resetPlayers(char& turn);
 	void mapDraw(Map &m, int x, int y);

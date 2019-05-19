@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <iterator>
@@ -33,13 +34,19 @@ private:
 	int level;
 	int experience;
 	int capacity;
+	sf::Image armyCharacterImg;
+	sf::Texture armyCharacterTexture;
+	sf::Sprite armyCharacter;
 public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
 
 	void inputTheArmy();
+	void SetArmySprite(string fileName, sf::IntRect DefaultPos);
 	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
 	void printArmy();
+
+	sf::Sprite& getArmyCharacter();
 
 	static bool hit(Unit& attacker, Unit& defender);
 	void fight(Army& a,bool check);

@@ -318,7 +318,7 @@ void Map::setHeight(int h)
 }
 
 
-int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
+int Map::setPlayer(Cell* prevCell, Cell* newCell)
 {
 	Army* army_1 = nullptr;
 	if (newCell != nullptr && newCell->IsPassable() == true)
@@ -395,6 +395,10 @@ void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 			}
 			mapSprite.setPosition(j * 32, i * 32);
 			App.draw(mapSprite);
+			if (this->map[i][j].getIsPlayer() == true)
+			{
+				App.draw(this->map[i][j].getArmyPtr()->getArmyCharacter());
+			}
 		}
 	}
 }
@@ -424,11 +428,21 @@ void Map::resetPlayers(char& turn)
 	units.push_back(unit);
 	units.push_back(unit);
 	Army* player_1 = new Army("Aliance", units, 'F', true, 100);
+	player_1->SetArmySprite("dyabchiki.png", sf::IntRect(8, 63, 32, 35));
+	player_1->getArmyCharacter().setPosition(32, 0);
+	Animation player_1UP(player_1->getArmyCharacter());
+	player_1UP.addFrame({ sf::IntRect(15,7,32,35), 0.1 });
+	player_1UP.addFrame({ sf::IntRect(75,6,32,35), 0.1 });
+	player_1UP.addFrame({ sf::IntRect(132,6,32,35), 0.1 });
+	Animation player_1DOWN(player_1->getArmyCharacter());
+	Animation player_1LEFT(player_1->getArmyCharacter());
+	Animation player_1RIGHT(player_1->getArmyCharacter());
 	Army* player_2 = new Army("Horde", units, 'S', true, 100);
-	// cin>>player_1,player_2
+	player_2->SetArmySprite("dyabchiki.png", sf::IntRect(298, 63, 32, 35));
+	player_2->getArmyCharacter().setPosition((this->width - 2) * 32, (this->height - 1) * 32);
+	// setting player_1 and player_2
 	map[0][1].SetPlayer(player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);
-
 	SetBackground("I");
 	turn = 'F';
 	cout << "Turn: " << turn << endl;

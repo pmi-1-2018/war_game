@@ -64,6 +64,16 @@ string GameManager::GetMapPath() const
 	return this->MAP_PATH;
 }
 
+int GameManager::getMapHeight()
+{
+	return this->mapHeight;
+}
+
+int GameManager::getMapWidth()
+{
+	return this->mapWidth;
+}
+
 string GameManager::StartBattle(Army* a1, Army* a2)
 {
 	if (a1 == nullptr || a2 == nullptr)
@@ -125,12 +135,12 @@ bool GameManager::MapIsGenerated() const
 {
 	return this->mapGenerated;
 }
-int GameManager::MoveChar(char symb, Cell* prevCell, Cell* newCell)
+int GameManager::MoveChar(Cell* prevCell, Cell* newCell)
 {
 #ifdef DEBUG
 	cout << "Moved " << symb << " to " << x << " " << y << endl;
 #endif
-	int response = map->setPlayer(symb, prevCell, newCell);
+	int response = map->setPlayer(prevCell, newCell);
 	return response;
 
 }
@@ -165,6 +175,202 @@ void GameManager::outputInfoOverMap(Army* army)
 	cout << "Turn: " << this->turn << endl;
 	cout << "Points left: " << army->GetCurrEnergy() << endl;
 	cout << "Money: " << army->getWallet() << " rupees." << endl;
+}
+
+void GameManager::InitPlayers()
+{
+	this->map->resetPlayers(this->turn);
+}
+
+void GameManager::movePlayer(size_t direction, int& x_1, int& y_1, int& x_2, int& y_2)
+{
+	bool hitTheWall = false;
+	int& currPlayerX = turn == 'F' ? x_1 : x_2;
+	int& currPlayerY = turn == 'F' ? y_1 : y_2;
+	int prev_x = currPlayerX;
+	int prev_y = currPlayerY;
+	switch (direction)
+	{
+	case LEFT:
+		if (currPlayerX != 0)
+		{
+			currPlayerX--;
+		}
+		else 
+		{
+			hitTheWall = true;
+		}
+		break;
+	case RIGHT:
+		if (currPlayerX!= mapWidth - 1)
+		{
+			currPlayerX++;
+		}
+		else
+		{
+			hitTheWall = true;
+		}
+		break;
+	case UP:
+		if (currPlayerY != 0)
+		{
+			currPlayerY--;
+		}
+		else
+		{
+			hitTheWall = true;
+		}
+		break;
+	case DOWN:
+		if (currPlayerY != mapHeight - 1)
+		{
+			currPlayerY++;
+		}
+		else
+		{
+			hitTheWall = true;
+		}
+		break;
+	}
+	int& new_x = turn == 'F' ? x_1 : x_2;
+	int& new_y = turn == 'F' ? y_1 : y_2;
+	Cell* currentCell = this->map->GetCell(prev_x, prev_y);
+	Cell* newCell = this->map->GetCell(new_x, new_y);
+	int response = MoveChar(currentCell, newCell);
+	if (hitTheWall == true)
+	{
+		return;
+	}
+	if (response == hitObstacle)
+	{
+		new_x = prev_x;
+		new_y = prev_y;
+		return;
+	}
+	else if(response == hitPlayer)
+	{
+		Army* a1 = currentCell->getArmyPtr();
+		Army* a2 = newCell->getArmyPtr();
+		string battleLog = StartBattle(a1, a2);
+		if (battleLog != "")
+		{
+
+			FileLogW(battleLog);
+			bool cntinue = RestartGame();
+			if (cntinue == false)
+			{
+				return;
+			}
+		}
+		Army* army = (this->map->GetCell(prev_x, prev_y))->GetArmy();
+		currentCell->setIsPlayer(false);
+		currentCell->SetArmy(nullptr);
+		newCell->SetArmy(army);
+		newCell->setIsPlayer(true);
+		newCell->setIsBotArmy(false);
+		army->SetCurrEnergy(-army->GetCurrEnergy());
+	}
+	else if (response == enteredBarrack)
+	{
+		system("CLS");
+		while (this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() - numberOfTurn >= 7)
+		{
+			this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfUnits(
+				this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfUnits() + 5);
+			this->map->GetCell(new_x, new_y)->getBarrackPtr()->SetNumberOfTurn(
+				this->map->GetCell(new_x, new_y)->getBarrackPtr()->GetNumberOfTurn() + 7);
+		}
+		Army* army = newCell->GetArmy();
+		int n;
+		Barrack *barrack = this->map->GetCell(new_x, new_y)->getBarrackPtr();
+		bool check = true;
+		while (check)
+		{
+			system("CLS");
+			cout << "Welcome to the " << barrack->TellType() << endl;
+			cout << "Enter what you want to do: " << endl;
+			cout << "1 - take units" << endl;
+			cout << "2 - swap units" << endl;
+			cout << "3 - exit" << endl;
+			cin >> n;
+			if (n == 1)
+			{
+				cout << "How many units you want to take? " << endl;
+				int number;
+				cin >> number;
+				while (army->getNumberOfUnits() != army->GetCapacity() && barrack->GetNumberOfUnits() != 0 && number != 0)
+				{
+					army->addUnit(barrack->giveUnit());
+					barrack->SetNumberOfUnits(barrack->GetNumberOfUnits() - 1);
+					number--;
+				}
+			}
+			if (n == 3)
+			{
+				check = false;
+			}
+			if (n == 2)
+			{
+				int index1;
+				int index2;
+				army->swapUnits(index1, index2);
+				army->ArmySwap(index1, index2);
+			}
+		}
+		system("CLS");
+	}
+	else if (response == enteredGoldMine)
+	{
+		Army *army = newCell->GetArmy();
+		GoldMine *goldMine = newCell->getGoldMinePtr();
+		if (goldMine->getOwner() == 'N')
+		{
+			goldMine->setOwner(this->turn);
+			goldMine->setPointerToOwner(army);
+			army->increaseIncome(goldMine->getIncome());
+		}
+		else if (goldMine->getOwner() != this->turn)
+		{
+			goldMine->getPointerToOwner()->increaseIncome(-(goldMine->getIncome()));
+			goldMine->setOwner(this->turn);
+			goldMine->setPointerToOwner(army);
+			army->increaseIncome(goldMine->getIncome());
+		}
+		system("CLS");
+	}
+	else if (hitTheWall == false && response == movedSuccessfully || response == outOfPoints)
+	{
+		outputTurnSwitch(response);
+		system("CLS");
+		Army* army = nullptr;
+		if (response == outOfPoints)
+		{
+			SwitchTurn();
+			new_x = prev_x;
+			new_y = prev_y;
+			if (new_x == x_1 && new_y == y_1)
+			{
+				army = this->map->GetCell(x_2, y_2)->GetArmy();
+			}
+			else
+			{
+				army = this->map->GetCell(x_1, y_1)->GetArmy();
+			}
+			army->addMoneyToWallet(army->getIncome());
+		}
+		else
+		{
+			army = newCell->GetArmy();
+		}
+		outputInfoOverMap(army);
+	}
+}
+
+void GameManager::setPlayerSpritePosition(int & x_1, int & y_1, int & x_2, int & y_2)
+{
+	int& currPlayerX = turn == 'F' ? x_1 : x_2;
+	int& currPlayerY = turn == 'F' ? y_1 : y_2;
+	this->map->GetCell(currPlayerX, currPlayerY)->getArmyPtr()->getArmyCharacter().setPosition((currPlayerX) * 32, (currPlayerY) * 32);
 }
 
 void GameManager::Start()
@@ -288,12 +494,11 @@ void GameManager::Start()
 		{
 			break;
 		}
-		char symb = turn == 'F' ? 'F' : 'S';
 		int& new_x = turn == 'F' ? x_1 : x_2;
 		int& new_y = turn == 'F' ? y_1 : y_2;
 		Cell* currentCell = this->map->GetCell(prev_x, prev_y);
 		Cell* newCell = this->map->GetCell(new_x, new_y);
-		int response = MoveChar(symb, currentCell, newCell);
+		int response = MoveChar(currentCell, newCell);
 		if (hitTheWall == true)
 		{
 			continue;

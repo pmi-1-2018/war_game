@@ -1,10 +1,8 @@
+#include "Army.h"
 #include <string>
-#include <typeinfo>
-#include <Windows.h>
 #include <conio.h>
 #include <time.h>
 #include <thread>
-#include "Army.h"
 
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -41,6 +39,19 @@ Army::Army(string name, vector<Unit> list, char symb, bool isPlayer, int wallet)
 	this->isPlayer = isPlayer;
 	this->isBotArmy = isPlayer == true ? false : true;
 	this->wallet = wallet;
+}
+
+void Army::SetArmySprite(string fileName, sf::IntRect DefaultPos)
+{
+	armyCharacterImg.loadFromFile("Utils/" + fileName);
+	armyCharacterTexture.loadFromImage(armyCharacterImg);
+	armyCharacter.setTexture(armyCharacterTexture);
+	armyCharacter.setTextureRect(DefaultPos);
+}
+
+sf::Sprite& Army::getArmyCharacter()
+{
+	return armyCharacter;
 }
 
 void Army::setIsPlayer(bool val)

@@ -1,4 +1,5 @@
 #pragma once
+#include "Army.h"
 #include"Barrack.h"
 #include "BarrackArcher.h" 
 #include"BarrackSwordsman.h"
@@ -6,7 +7,6 @@
 #include"BarrackWizard.h"
 #include"BarrackBuffer.h"
 #include"BarrackHealer.h"
-#include "Army.h"
 #include"GoldMine.h"
 //static int counter = 0;
 

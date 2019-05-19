@@ -11,6 +11,7 @@
 using namespace std;
 
 enum responseCases { hitObstacle, movedSuccessfully, hitPlayer, outOfPoints, enteredBarrack, enteredGoldMine };
+enum movingDirections { LEFT, UP, RIGHT, DOWN };
 
 class GameManager
 {
@@ -32,17 +33,22 @@ public:
 	void GenerateMap(int height, int width);
 	void Draw(const char& turn, int x, int y)const;
 	void DrawMap(sf::Sprite& mapSprite, sf::RenderWindow& App);
+	void InitPlayers();
 	void Start();
 	void FileLogW(string information);
 	void SwitchTurn();
 	string GetLogPath()const;
 	string GetMapPath()const;
+	int getMapHeight();
+	int getMapWidth();
+	void movePlayer(size_t direction, int& x_1, int& y_1, int& x_2, int& y_2);
+	void setPlayerSpritePosition(int& x_1, int& y_1, int& x_2, int& y_2);
 	bool RestartGame();
 	void MapFileSet();
 	void SetBackground(string flag);
 	string StartBattle(Army* a1, Army* a2);
 	bool MapIsGenerated()const;
-	int MoveChar(char symb, Cell* prevCell, Cell* newCell);
+	int MoveChar(Cell* prevCell, Cell* newCell);
 	void SetMusic(const string& filename);
 	void outputTurnSwitch(int response);
 	void outputInfoOverMap(Army *army);

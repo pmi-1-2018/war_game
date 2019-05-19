@@ -24,6 +24,7 @@ int main()
 	settings.antialiasingLevel = 8;
 	RenderWindow window(VideoMode(975, 480), "MACROASSEMBLER", Style::Default , settings);
 	window.setVerticalSyncEnabled(true);
+	window.setKeyRepeatEnabled(false);
 
 	sf::Music backgroundMusic;
 	backgroundMusic.openFromFile("Utils/Rampart.wav");
