@@ -9,6 +9,7 @@
 #include "Army.h"
 #include"GoldMine.h"
 #include"Artifact.h"
+//#include"Bonus.h"
 //static int counter = 0;
 
 class Cell
@@ -21,6 +22,7 @@ private:
 	bool isBarrack = false;
 	Army* army = nullptr;
 	Artifact* artifact;
+	Bonus* bonus;
 	int x;
 	int y;
 	int playersCount = 1;
@@ -42,6 +44,7 @@ public:
 	void SetArmy(Army* army);
 	Army* GetArmy()const;
 	Artifact* getArifactPtr();
+	Bonus * getBonusPtr();
 	void setArtifactPtr(Artifact* artif);
 	bool IsPassable();
 	bool isPassableGenerate() {
@@ -57,6 +60,8 @@ public:
 	Army* getArmyPtr();
 	bool isPossibleGenerate();
 	GoldMine* getGoldMinePtr();
+	Bonus * getBonusMinePtr();
+	void setBonusPtr(Bonus * bonus);
 	~Cell();
 	friend ostream&operator<<(ostream& os, const Cell &c) {
 		os << "(" << c.x << ":" << c.y << ")";

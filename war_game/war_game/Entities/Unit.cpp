@@ -72,7 +72,6 @@ int Unit::DamageTaken()
 }
 
 
-
 ostream& operator<<(ostream &os, Unit &unit) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (unit.healthPoints == unit.maxHP)

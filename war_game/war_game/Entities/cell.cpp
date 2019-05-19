@@ -10,7 +10,8 @@ Cell::Cell() :
 	y(0),
 	barrack(nullptr),
 	goldMine(nullptr),
-	artifact(nullptr)
+	artifact(nullptr),
+	bonus(nullptr)
 {}
 
 Cell::Cell(const Cell& other)
@@ -23,6 +24,7 @@ Cell::Cell(const Cell& other)
 	this->goldMine = other.goldMine;
 	this->playersCount = other.playersCount;
 	this->artifact = other.artifact;
+	this->bonus = other.bonus;
 	this->x = other.x;
 	this->y = other.y;
 }
@@ -33,7 +35,8 @@ Cell::Cell(int passCost, int x, int y) :
 	isPassable(true),
 	barrack(nullptr),
 	goldMine(nullptr),
-	artifact(nullptr)
+	artifact(nullptr),
+	bonus(nullptr)
 {
 	if (this->passCost == 0)
 	{
@@ -54,6 +57,7 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 	this->barrack = nullptr;
 	this->goldMine = nullptr;
 	this->artifact = nullptr;
+	this->bonus = nullptr;
 	this->isPassable = true;
 	switch (symb)
 	{
@@ -146,6 +150,11 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 			this->artifact = new Artifact('E', points);
 		}
 		break;
+	case '+':
+		passCost = 1;
+		this->bonus = new Bonus();
+		/*this->army->AddBonus();*/
+		break;
 	default:
 		passCost = 1;
 		break;
@@ -156,10 +165,18 @@ GoldMine* Cell::getGoldMinePtr()
 {
 	return goldMine;
 }
+Bonus* Cell::getBonusMinePtr()
+{
+	return bonus;
+}
+void Cell::setBonusPtr(Bonus *bonus)
+{
+	this->bonus = bonus;
+}
 
 bool Cell::isPossibleGenerate() 
 {
-	return this->artifact == nullptr && this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
+	return this->bonus == nullptr && this->artifact == nullptr && this->army == nullptr && this->barrack == nullptr && this->isPassable == true && this->goldMine == nullptr;
 }
 
 Barrack* Cell::getBarrackPtr()
@@ -207,6 +224,10 @@ Cell::~Cell()
 	if (this->artifact != nullptr)
 	{
 		delete artifact;
+	}
+	if (this->bonus != nullptr)
+	{
+		delete bonus;
 	}
 }
 int Cell::getPassCost()
@@ -276,6 +297,10 @@ Army * Cell::GetArmy()const
 Artifact * Cell::getArifactPtr()
 {
 	return this->artifact;
+}
+Bonus * Cell::getBonusPtr()
+{
+	return this->bonus;
 }
 void Cell::setArtifactPtr(Artifact * artif)
 {

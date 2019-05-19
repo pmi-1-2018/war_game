@@ -1582,6 +1582,38 @@ void Army::CalcLevelAndCapacity(int countOfDead)
 		countOfDead--;
 	}
 }
+void Army::DelBonTime()
+{
+	bonus.delBonTime(1);
+}
+int Army::GetBonusTime()
+{
+	return bonus.getBonTime();
+}
+void Army::AddBonus()
+{
+	bonus.BonusDamage(units);
+	bonus.BonusHP(units);
+	CalcLevelAndCapacity(bonus.getBonusExp());
+	addMoneyToWallet(bonus.getBonusGold());
+	bonus.setBonTime(21);
+}
+void Army::DelBonus()
+{
+	bonus.DelBonusDamage(units);
+	bonus.DelBonusHP(units);
+	/*addMoneyToWallet(-bonus.getBonusGold());*/
+	bonus.setBonTime(-1);
+
+}
+//void Army::setArmyBonusDamage() 
+//{
+//	bonus.BonusDamage(this);
+//}
+//void Army::setArmyBonusHP() 
+//{
+//	bonus.BonusHP(this);
+//}
 void Army::SetCapacity(int a)
 {
 	capacity += a;

@@ -305,6 +305,18 @@ void Map::generateRandomMap(string fileName, int height, int width)
 		}
 		map[y][x].setCell('A', x, y);
 	}
+	int maxBonusQuantity = this->height * this->width / 50;
+	for (size_t i = 0; i < maxBonusQuantity; i++)
+	{
+		int x = rand() % width;
+		int y = rand() % height;
+		if ((x == 1 && y == 0) || (x == width - 2 && y == height - 1) || !map[y][x].isPossibleGenerate())
+		{
+			i--;
+			continue;
+		}
+		map[y][x].setCell('+', x, y);
+	}
 	ofstream myfile;
 	myfile.open(fileName);
 	bool check = myfile.is_open();
@@ -364,6 +376,10 @@ int Map::setPlayer(char symb, Cell* prevCell, Cell* newCell)
 			if (map[newCell->GetY()][newCell->GetX()].getArifactPtr() != nullptr)
 			{
 				return 6;
+			}
+			if (map[newCell->GetY()][newCell->GetX()].getBonusPtr() != nullptr)
+			{
+				return 7;
 			}
 			return 1;
 		}
@@ -481,6 +497,12 @@ void Map::mapDraw(Map &m, int x, int y)
 				cout << 'A';
 				continue;
 			}
+			if (m.map[i][j].getBonusMinePtr() != nullptr)
+			{
+				m.SetBackground("D");
+				cout << '+';
+				continue;
+			}
 			if (m.map[i][j].getArifactPtr() != nullptr)
 			{
 				m.SetBackground("D");
@@ -534,6 +556,11 @@ ostream& operator<<(ostream& sout, Map &m)
 			if (m.map[i][j].getBarrackPtr() != nullptr)
 			{
 				sout << 'B';
+				continue;
+			}
+			if (m.map[i][j].getBonusMinePtr() != nullptr)
+			{
+				sout << '+';
 				continue;
 			}
 			if (m.map[i][j].getArifactPtr() != nullptr)

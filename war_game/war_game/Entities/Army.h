@@ -14,6 +14,7 @@
 #include "Healer.h"
 #include "Wizard.h"
 #include "Artifact.h"
+#include"Bonus.h"
 using namespace std;
 
 static int counter = 0;
@@ -265,6 +266,7 @@ private:
 	int level;
 	int experience;
 	int capacity;
+	Bonus bonus;
 public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
@@ -293,6 +295,12 @@ public:
 	Army& operator= (const Army& army);
 	vector<Unit> getUnits();
 	void CalcLevelAndCapacity(int countOfDead);
+	void DelBonTime();
+	int GetBonusTime();
+	void AddBonus();
+	void DelBonus();
+	/*void setArmyBonusDamage();
+	void setArmyBonusHP();*/
 	void addUnit(Unit unit);
 
 	void swapUnits_2(int & index1, int & index2, Army& army1);
@@ -316,6 +324,7 @@ public:
 	int GetLevel();
 	int GetExp();
 	void SetLevel(int a);
+	/*void setArmyBonusHP();*/
 	void SetCapacity(int a);
 	int GetCapacity();
 	int getNumberOfUnits();

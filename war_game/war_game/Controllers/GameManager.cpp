@@ -476,6 +476,21 @@ void GameManager::Start()
 			
 			Draw(this->turn, new_x, new_y);
 		}
+		if (response == 7)
+		{
+			Army *army = newCell->GetArmy();
+			Bonus *bonus = newCell->getBonusMinePtr();
+			army->AddBonus();
+			newCell->setBonusPtr(nullptr);
+			system("CLS");
+			outputInfoOverMap(army);
+			Draw(this->turn, new_x, new_y);
+			continue;
+		}
+		/*if (bonusTime==15)
+		{
+			army->deleteBonus();
+		}*/
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
 			outputTurnSwitch(response);
@@ -500,6 +515,11 @@ void GameManager::Start()
 			{
 				army = newCell->GetArmy();
 			}
+			army->DelBonTime();
+			if (army->GetBonusTime()==0)
+			{
+				army->DelBonus();
+			}
 			outputInfoOverMap(army);
 			this->map->SetBackground("D");
 			army = nullptr;
@@ -517,6 +537,7 @@ void GameManager::Start()
 			}
 			Draw(this->turn, new_x, new_y);
 		}
+		/*bonusTime+=1;*/
 	}
 }
 void GameManager::FileLogW(string information)
