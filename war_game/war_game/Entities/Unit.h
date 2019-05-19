@@ -36,6 +36,5 @@ public:
 	virtual void Heal(Unit& other_unit) {};
 	int GetMaxHP();
 	int GetDecEnergy()const;
-	//virtual ostream&output(ostream&out);
 	friend ostream&operator<<(ostream&os, Unit &unit);
 };

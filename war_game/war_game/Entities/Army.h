@@ -299,8 +299,6 @@ public:
 	int GetBonusTime();
 	void AddBonus();
 	void DelBonus();
-	/*void setArmyBonusDamage();
-	void setArmyBonusHP();*/
 	void addUnit(Unit unit);
 
 	void swapUnits_2(int & index1, int & index2, Army& army1);
@@ -324,7 +322,6 @@ public:
 	int GetLevel();
 	int GetExp();
 	void SetLevel(int a);
-	/*void setArmyBonusHP();*/
 	void SetCapacity(int a);
 	int GetCapacity();
 	int getNumberOfUnits();

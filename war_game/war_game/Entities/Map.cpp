@@ -415,7 +415,6 @@ void Map::resetPlayers(char& turn)
 	units.push_back(unit);
 	Army* player_1 = new Army("Aliance", units, 'F', true, 100);
 	Army* player_2 = new Army("Horde", units, 'S', true, 100);
-	// cin>>player_1,player_2
 	map[0][1].SetPlayer(player_1);
 	map[this->height - 1][this->width - 2].SetPlayer(player_2);
 
@@ -523,7 +522,6 @@ void Map::mapDraw(Map &m, int x, int y)
 			else
 			{
 				m.SetBackground("D");
-				//cout << m.map[i][j].getPassCost();
 				cout << '.';
 			}
 		}

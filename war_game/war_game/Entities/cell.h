@@ -9,9 +9,6 @@
 #include "Army.h"
 #include"GoldMine.h"
 #include"Artifact.h"
-//#include"Bonus.h"
-//static int counter = 0;
-
 class Cell
 {
 private:

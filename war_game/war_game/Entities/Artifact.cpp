@@ -53,14 +53,7 @@ Artifact::Artifact(char ssymb, size_t aaddPoints, int pprice):
 	}
 }
 
-//Artifact::Artifact(Artifact & a):
-//	symb(a.symb),
-//	addPoints(a.addPoints),
-//	isActive(a.isActive),
-//	isSelected(a.isActive),
-//	id(a.id),
-//	price(a.price)
-//{}
+
 
 Artifact::Artifact(char symb, bool isActive):
 	symb(symb),

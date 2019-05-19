@@ -156,22 +156,8 @@ void Army::InventoryMode()
 		this->inventory->PrintInventory(selectedX, selectedY, selectPressed, deletePressed);
 	}
 }
-//
-//Army::Army(const Army &army)
-//{
-//	this->nameOfArmy = army.nameOfArmy;
-//	this->symb = army.symb;
-//	this->id = army.id;
-//	this->numberOfUnits = army.numberOfUnits;
-//	if (this->units != nullptr)
-//	{
-//		delete[] this->units;
-//	}
-//	for (int i = 0; i < this->numberOfUnits; i++)
-//	{
-//		this->units[i] = army.units[i];
-//	}
-//}
+
+
 
 void Army::inputTheArmy(size_t size) {
 	char type;
@@ -181,7 +167,7 @@ void Army::inputTheArmy(size_t size) {
 	Tank t;
 	Buffer b;
 	Healer h;
-	for (size_t i = 0; i < size;i++) {//this->units.size(); i++) {
+	for (size_t i = 0; i < size;i++) {
 		cout << "Enter the type of unit " << endl;
 		cin >> type;
 		switch (type) {
@@ -1602,18 +1588,11 @@ void Army::DelBonus()
 {
 	bonus.DelBonusDamage(units);
 	bonus.DelBonusHP(units);
-	/*addMoneyToWallet(-bonus.getBonusGold());*/
+	
 	bonus.setBonTime(-1);
 
 }
-//void Army::setArmyBonusDamage() 
-//{
-//	bonus.BonusDamage(this);
-//}
-//void Army::setArmyBonusHP() 
-//{
-//	bonus.BonusHP(this);
-//}
+
 void Army::SetCapacity(int a)
 {
 	capacity += a;
