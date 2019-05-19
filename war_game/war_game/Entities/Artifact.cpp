@@ -17,7 +17,20 @@ Artifact::Artifact(char ssymb, size_t aaddPoints):
 	isActive(false),
 	isSelected(false),
 	price(aaddPoints*3)
-{}
+{
+	switch (symb)
+	{
+	case 'A':
+		id = 1;
+		break;
+	case 'B':
+		id = 2;
+		break;
+	default:
+		id = 3;
+		break;
+	}
+}
 
 Artifact::Artifact(char ssymb, size_t aaddPoints, int pprice):
 	symb(ssymb),
@@ -25,21 +38,60 @@ Artifact::Artifact(char ssymb, size_t aaddPoints, int pprice):
 	isActive(false),
 	isSelected(false),
 	price(pprice)
-{}
+{
+	switch (symb)
+	{
+	case 'A':
+		id = 1;
+		break;
+	case 'B':
+		id = 2;
+		break;
+	default:
+		id = 3;
+		break;
+	}
+}
 
 //Artifact::Artifact(Artifact & a):
 //	symb(a.symb),
 //	addPoints(a.addPoints),
 //	isActive(a.isActive),
 //	isSelected(a.isActive),
-//	id(a.id)
+//	id(a.id),
+//	price(a.price)
 //{}
 
 Artifact::Artifact(char symb, bool isActive):
 	symb(symb),
 	isActive(isActive),
 	isSelected(false)
-{}
+{
+	switch (symb)
+	{
+	case 'A':
+		id = 1;
+		break;
+	case 'B':
+		id = 2;
+		break;
+	default:
+		id = 3;
+		break;
+	}
+}
+
+bool Artifact::operator==(Artifact & compareArt)
+{
+	bool result = 
+		this->id == compareArt.id &&
+		this->symb == compareArt.symb &&
+		this->addPoints == compareArt.addPoints &&
+		this->isActive == compareArt.isActive &&
+		this->isSelected == compareArt.isSelected &&
+		this->price == compareArt.price;
+	return result;
+}
 
 int Artifact::getId()
 {
@@ -105,8 +157,8 @@ void Artifact::printArtifactInfo()
 	default:
 		break;
 	}
-	cout << "EXTRA POINTS: " << this->addPoints << endl;
-	cout << "VALUE: " << this->price << endl;
+	cout << "ARTIFACT BONUS POINTS: " << this->addPoints << endl;
+	cout << "PRICE: " << this->price << endl;
 }
 
 

@@ -62,13 +62,47 @@ private:
 			}
 			return artAdded;
 		}
+		bool RemoveActiveArtifact(Artifact& delArt)
+		{
+			bool artRemoved = false;
+			for (int i = 0; i < this->activeArtsNumber; i++)
+			{
+				if (this->activeArtifacts.at(i) == delArt)
+				{
+					this->activeArtifacts.erase(this->activeArtifacts.begin() + i, this->activeArtifacts.begin() + i + 1);
+					artRemoved = true;
+					break;
+				}
+			}
+			return artRemoved;
+		}
+		void RemoveArtifact(Artifact& artDel)
+		{
+			bool artDeleted = false;
+			for (int i = 0; i < this->inventoryWidth; i++)
+			{
+				for (int j = 0; j < this->inventoryHeight; j++)
+				{
+					if (this->artefacts[i][j] != nullptr && *(this->artefacts[i][j]) == artDel)
+					{
+						if (this->artefacts[i][j]->getIsActive() == true)
+						{
+							RemoveActiveArtifact(artDel);
+						}
+						delete this->artefacts[i][j];
+						this->artefacts[i][j] = nullptr;
+					}
+				}
+			}
+		}
 		void SwapArtefact(int artIndX1, int artIndY1, int artIndX2, int artIndY2)
 		{
 			Artifact* tempPtr = this->artefacts[artIndY1][artIndX1];
 			this->artefacts[artIndY1][artIndX1] = this->artefacts[artIndY2][artIndX2];
 			this->artefacts[artIndY2][artIndX2] = tempPtr;
 		}
-		void PrintInventory(int& selectedX, int& selectedY, bool selectPressed)
+
+		void PrintInventory(int& selectedX, int& selectedY, bool selectPressed, bool deleteArt = false)
 		{
 			SetConsoleTextAttribute(this->HSTDOUT, 240);
 			cout << "|";
@@ -85,6 +119,7 @@ private:
 				{
 					if (selectedY == i && selectedX == j)
 					{
+						// 96 - yellow
 						SetConsoleTextAttribute(this->HSTDOUT, 64);
 						if (this->artefacts[i][j] == nullptr)
 						{
@@ -92,12 +127,20 @@ private:
 						}
 						else
 						{
-							if (this->artefacts[i][j]->getIsActive() == true)
+							if (deleteArt == true) 
+							{
+								SetConsoleTextAttribute(this->HSTDOUT, 96);
+							}
+							else if (this->artefacts[i][j]->getIsActive() == true)
 							{
 								SetConsoleTextAttribute(this->HSTDOUT, 160);
 							}
 							cout << this->artefacts[i][j]->getSymb();
 							SetConsoleTextAttribute(this->HSTDOUT, 64);
+						}
+						if (deleteArt == true)
+						{
+							RemoveArtifact(*this->storage.item);
 						}
 						if (selectPressed == true)
 						{
@@ -107,7 +150,14 @@ private:
 								Artifact* art2 = this->artefacts[i][j];
 								if (art1 == art2)
 								{
-									if (this->maxActiveArtsNumber >= this->activeArtsNumber + 1)
+									if (art1 != nullptr && art1->getIsActive() == true)
+									{
+										art1->setIsActive(false);
+										this->activeArtsNumber--;
+										
+										this->activeArtifacts.push_back(*art1);
+									}
+									else if (this->maxActiveArtsNumber >= this->activeArtsNumber + 1)
 									{
 										art1->setIsActive(true);
 										this->activeArtsNumber++;
@@ -118,6 +168,7 @@ private:
 								{ 
 									SwapArtefact(this->storage.posX, this->storage.posY, selectedX, selectedY);
 								}
+								
 								SetConsoleTextAttribute(this->HSTDOUT, 240);
 								if (art1 != nullptr)
 								{
@@ -154,7 +205,11 @@ private:
 						}
 						else
 						{
-							if (this->artefacts[i][j]->getIsSelected() == true && this->itemIsFixed == true)
+							if (deleteArt == true)
+							{
+								SetConsoleTextAttribute(this->HSTDOUT, 96);
+							}
+							else if (this->artefacts[i][j]->getIsSelected() == true && this->itemIsFixed == true)
 							{
 								SetConsoleTextAttribute(this->HSTDOUT, 64);
 							}
@@ -214,7 +269,7 @@ public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
 
-	void inputTheArmy();
+	void inputTheArmy(size_t sz); 
 	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
 	void printArmy();
 

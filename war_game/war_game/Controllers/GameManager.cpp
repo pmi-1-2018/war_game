@@ -150,6 +150,29 @@ void GameManager::outputInfoOverMap(Army* army)
 	cout << "Money: " << army->getWallet() << " rupees." << endl;
 }
 
+void GameManager::SandboxStart()
+{
+	Army a1;
+	Army a2;
+	int size1;
+	int size2;
+	int var = 0;
+	while (true)
+	{
+		cout << "Enter the size of the first army: " << endl;
+		cin >> size1;
+		a1.inputTheArmy(size1);
+		cout << "Enter the size of the second army: " << endl;
+		cin >> size2;
+		a2.inputTheArmy(size2);
+		a1.printArmiesFight(a1, var, var, var, var);
+		SetMusic("Attack");
+		a1.armyAutoAttack(a2);
+		system("pause");
+		break;
+	}
+}
+
 void GameManager::Start()
 {
 	if (this->mapGenerated == false)
@@ -414,9 +437,9 @@ void GameManager::Start()
 			Artifact* artifact = newCell->getArifactPtr();
 			artifact->printArtifactInfo();
 			cout << "Do you want to take this artifact? \n"
-				 <<"Press 'y' to pick up\n "
-				 << "Press 'n' to not pick up\n "
-				 << "Press 'd' to destroy\n ";
+				 << "Press 'y' to pick up\n"
+				 << "Press 'n' not to pick up\n"
+				 << "Press 'd' to destroy\n";
 			char answer = _getch();
 			Army* army = nullptr;
 			army = newCell->GetArmy();
