@@ -153,7 +153,6 @@ void Cell::setCell(char symb, int x, int y)// amount of X : width , amount of Y 
 	case '+':
 		passCost = 1;
 		this->bonus = new Bonus();
-		/*this->army->AddBonus();*/
 		break;
 	default:
 		passCost = 1;
@@ -165,7 +164,7 @@ GoldMine* Cell::getGoldMinePtr()
 {
 	return goldMine;
 }
-Bonus* Cell::getBonusMinePtr()
+Bonus* Cell::getBonusPtr()
 {
 	return bonus;
 }
@@ -297,10 +296,6 @@ Army * Cell::GetArmy()const
 Artifact * Cell::getArifactPtr()
 {
 	return this->artifact;
-}
-Bonus * Cell::getBonusPtr()
-{
-	return this->bonus;
 }
 void Cell::setArtifactPtr(Artifact * artif)
 {

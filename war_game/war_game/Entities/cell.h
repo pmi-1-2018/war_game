@@ -57,7 +57,6 @@ public:
 	Army* getArmyPtr();
 	bool isPossibleGenerate();
 	GoldMine* getGoldMinePtr();
-	Bonus * getBonusMinePtr();
 	void setBonusPtr(Bonus * bonus);
 	~Cell();
 	friend ostream&operator<<(ostream& os, const Cell &c) {

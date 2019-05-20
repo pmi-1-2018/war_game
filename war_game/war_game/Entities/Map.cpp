@@ -496,7 +496,7 @@ void Map::mapDraw(Map &m, int x, int y)
 				cout << 'A';
 				continue;
 			}
-			if (m.map[i][j].getBonusMinePtr() != nullptr)
+			if (m.map[i][j].getBonusPtr() != nullptr)
 			{
 				m.SetBackground("D");
 				cout << '+';
@@ -556,7 +556,7 @@ ostream& operator<<(ostream& sout, Map &m)
 				sout << 'B';
 				continue;
 			}
-			if (m.map[i][j].getBonusMinePtr() != nullptr)
+			if (m.map[i][j].getBonusPtr() != nullptr)
 			{
 				sout << '+';
 				continue;

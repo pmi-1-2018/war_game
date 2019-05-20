@@ -479,7 +479,7 @@ void GameManager::Start()
 		if (response == 7)
 		{
 			Army *army = newCell->GetArmy();
-			Bonus *bonus = newCell->getBonusMinePtr();
+			Bonus *bonus = newCell->getBonusPtr();
 			army->AddBonus();
 			newCell->setBonusPtr(nullptr);
 			system("CLS");
@@ -487,10 +487,7 @@ void GameManager::Start()
 			Draw(this->turn, new_x, new_y);
 			continue;
 		}
-		/*if (bonusTime==15)
-		{
-			army->deleteBonus();
-		}*/
+		
 		if (hitTheWall == false && response == 1 || response == 3)
 		{
 			outputTurnSwitch(response);
@@ -537,7 +534,7 @@ void GameManager::Start()
 			}
 			Draw(this->turn, new_x, new_y);
 		}
-		/*bonusTime+=1;*/
+		
 	}
 }
 void GameManager::FileLogW(string information)
