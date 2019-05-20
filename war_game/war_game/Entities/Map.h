@@ -1,6 +1,5 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-#include"../Controllers/Animation.h"
 #include<string>
 #include<fstream>
 #include<iostream>

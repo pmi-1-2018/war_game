@@ -35,3 +35,8 @@ void Animation::update(double elapsed)
 		
 	}
 }
+
+double Animation::getTotalLength()
+{
+	return totalLength;
+}

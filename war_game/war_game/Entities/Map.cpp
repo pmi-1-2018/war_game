@@ -365,6 +365,8 @@ void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 	sf::Texture mapTexture;
 	mapTexture.loadFromImage(mapImage);
 	mapSprite.setTexture(mapTexture);
+	int arr[4];
+	size_t k= 0 ;
 	for (int i = 0; i < this->height; i++)
 	{
 		for (int j = 0; j < this->width; j++)
@@ -397,10 +399,16 @@ void Map::DrawMapIntoWindow(sf::Sprite& mapSprite, sf::RenderWindow& App)
 			App.draw(mapSprite);
 			if (this->map[i][j].getIsPlayer() == true)
 			{
-				App.draw(this->map[i][j].getArmyPtr()->getArmyCharacter());
+				arr[k] = i;
+				k++;
+				arr[k] = j;
+				k++;
+				//App.draw(this->map[i][j].getArmyPtr()->getArmyCharacter());
 			}
 		}
 	}
+	App.draw(this->map[arr[0]][arr[1]].getArmyPtr()->getArmyCharacter());
+	App.draw(this->map[arr[2]][arr[3]].getArmyPtr()->getArmyCharacter());
 }
 
 
@@ -430,13 +438,6 @@ void Map::resetPlayers(char& turn)
 	Army* player_1 = new Army("Aliance", units, 'F', true, 100);
 	player_1->SetArmySprite("dyabchiki.png", sf::IntRect(8, 63, 32, 35));
 	player_1->getArmyCharacter().setPosition(32, 0);
-	Animation player_1UP(player_1->getArmyCharacter());
-	player_1UP.addFrame({ sf::IntRect(15,7,32,35), 0.1 });
-	player_1UP.addFrame({ sf::IntRect(75,6,32,35), 0.1 });
-	player_1UP.addFrame({ sf::IntRect(132,6,32,35), 0.1 });
-	Animation player_1DOWN(player_1->getArmyCharacter());
-	Animation player_1LEFT(player_1->getArmyCharacter());
-	Animation player_1RIGHT(player_1->getArmyCharacter());
 	Army* player_2 = new Army("Horde", units, 'S', true, 100);
 	player_2->SetArmySprite("dyabchiki.png", sf::IntRect(298, 63, 32, 35));
 	player_2->getArmyCharacter().setPosition((this->width - 2) * 32, (this->height - 1) * 32);

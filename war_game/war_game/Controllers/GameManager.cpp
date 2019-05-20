@@ -64,14 +64,24 @@ string GameManager::GetMapPath() const
 	return this->MAP_PATH;
 }
 
-int GameManager::getMapHeight()
+int GameManager::getMapHeight()const
 {
 	return this->mapHeight;
 }
 
-int GameManager::getMapWidth()
+int GameManager::getMapWidth()const
 {
 	return this->mapWidth;
+}
+
+char GameManager::getTurn() const
+{
+	return turn;
+}
+
+Map* GameManager::getMapPtr()
+{
+	return this->map;
 }
 
 string GameManager::StartBattle(Army* a1, Army* a2)

@@ -18,5 +18,6 @@ public:
 	Animation(sf::Sprite &target);
 	void addFrame(Frame&& frame);
 	void update(double elapsed);
+	double getTotalLength();
 };
 

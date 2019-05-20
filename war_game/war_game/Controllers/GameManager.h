@@ -11,7 +11,7 @@
 using namespace std;
 
 enum responseCases { hitObstacle, movedSuccessfully, hitPlayer, outOfPoints, enteredBarrack, enteredGoldMine };
-enum movingDirections { LEFT, UP, RIGHT, DOWN };
+enum movingDirections { LEFT, UP, RIGHT, DOWN, AFK };
 
 class GameManager
 {
@@ -39,8 +39,10 @@ public:
 	void SwitchTurn();
 	string GetLogPath()const;
 	string GetMapPath()const;
-	int getMapHeight();
-	int getMapWidth();
+	int getMapHeight()const;
+	int getMapWidth()const;
+	char getTurn()const;
+	Map* getMapPtr();
 	void movePlayer(size_t direction, int& x_1, int& y_1, int& x_2, int& y_2);
 	void setPlayerSpritePosition(int& x_1, int& y_1, int& x_2, int& y_2);
 	bool RestartGame();
