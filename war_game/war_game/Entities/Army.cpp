@@ -329,7 +329,7 @@ bool Army::battlePVP(Army& a)
 	this->printArmiesFight(a, true);
 	do
 	{
-		system("CLS");
+		cout << endl;
 		if (turn)
 		{
 			cout << "Attacker turn\n";
