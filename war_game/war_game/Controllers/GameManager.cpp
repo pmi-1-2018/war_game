@@ -60,14 +60,10 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 	}
 	SetMusic("Attack");
 	cout << "Battle has started" << endl;
-	//Cell* battleField = this->map->GetCell(x, y);
-	// battleField - cell with the array of two players
 	int playersCount;
-	//Army* players = battleField->GetArmy(playersCount);
-	// getting the players
 	system("CLS");
-	// test whether we got all players
 	string battleLog;
+	string currentTurn;
 	char action;
 	if (a2->getIsBotArmy() == true)
 	{
@@ -84,7 +80,9 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 		}
 		if (!playerWon)
 		{
-			battleLog = this->turn + "lost.";
+			currentTurn = string(1, this->turn);
+			battleLog = currentTurn + " lost.";
+			cout << battleLog << endl;
 			return battleLog;
 		}
 	}
@@ -94,18 +92,19 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 		playerWon = a1->battlePVP(*a2);
 		if (playerWon)
 		{
-			battleLog = this->turn + "won.";
+			currentTurn = string(1, this->turn);
+			battleLog = this->turn + " won.";
+			cout << battleLog << endl;
 			return battleLog;
 		}
 		else
 		{
-			battleLog = this->turn + "lost.";
+			currentTurn = string(1, this->turn);
+			battleLog = currentTurn + " lost.";
+			cout << battleLog << endl;
 			return battleLog;
 		}
 	}
-	/*battleField->setIsPlayer(true);
-	battleField->setIsBotArmy(false);
-	battleField->SetArmy(&players[0]);*/
 	return battleLog;
 }
 
@@ -521,10 +520,16 @@ void GameManager::Start()
 }
 void GameManager::FileLogW(string information)
 {
-	ofstream ofs(this->LOG_PATH);
+	ofstream ofs(this->LOG_PATH, std::ios_base::app);
 	bool checker = ofs.is_open();
 	if (checker == true)
 	{
+		time_t now = time(0);
+		char str[26];
+		ctime_s(str, sizeof str, &now);
+		string dateTime = str;
+		dateTime.erase(dateTime.size() - 1, dateTime.size());
+		information = "\n" + information + " (" + dateTime + ")";
 		ofs << information;
 	}
 	else
