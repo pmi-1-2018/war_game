@@ -100,7 +100,6 @@ int Army::GetCurrEnergy()
 	return this->currentEnergy;
 }
 
-<<<<<<< HEAD
 void Army::InventoryMode()
 {
 	system("cls");
@@ -174,10 +173,7 @@ void Army::InventoryMode()
 //	}
 //}
 
-void Army::inputTheArmy() {
-=======
 void Army::inputTheArmy(size_t size) {
->>>>>>> master
 	char type;
 	Swordsman s;
 	Archer a;
@@ -237,12 +233,12 @@ bool Army::armyAutoAttack(Army& a)
 		a.heal();*/
 		this->fight(a,check);
 		check = !check;
-		sleep_for(seconds(2));
+		sleep_for(seconds(1));
 		if (units.size() != 0 && a.units.size() != 0)
 		{
 			a.fight(*this, check);
 			check = !check;
-			sleep_for(seconds(2));
+			sleep_for(seconds(1));
 		}
 	} while ((units.size() != 0) && (a.units.size() != 0));
 	if (a.units.size() == 0)
@@ -283,12 +279,12 @@ bool Army::battlePVE(Army& a)
 			a.heal();*/
 			this->fight(a,check);
 			check = !check;
-			sleep_for(seconds(2));
+			sleep_for(seconds(1));
 			if (units.size() != 0 && a.units.size() != 0)
 			{
 				a.fight(*this, check);
 				check = !check;
-				sleep_for(seconds(2));
+				sleep_for(seconds(1));
 			}
 		}
 		if (action == 'S' || action == 's')
@@ -355,7 +351,7 @@ bool Army::battlePVP(Army& a)
 				a.heal();*/
 				a.fight(*this, turn);
 			}
-			sleep_for(seconds(3));
+			sleep_for(seconds(2));
 		}
 		if (action == 'S' || action == 's')
 		{
@@ -495,90 +491,90 @@ void Army::printArmy()
 	system("pause");
 }
 
-//void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic)
-//{
-//	system("CLS");
-//	if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
-//	{
-//		if (outcomingMagic == 0 && incomingMagic == 0)
-//		{
-//			for (size_t i = 0; i < units.size(); i++)
-//			{
-//				cout << " ";
-//			}
-//			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
-//		}
-//		else if (incomingMagic != 0 && outcomingMagic == 0)
-//		{
-//			for (size_t i = 4; i < units.size(); i++)
-//			{
-//				cout << " ";
-//			}
-//			if (units.size() > 2)
-//			{
-//				cout << "-" << incomingMagic / 4;
-//			}
-//			if (units.size() > 1)
-//			{
-//				cout << "-" << incomingMagic / 2;
-//			}
-//			cout << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
-//		}
-//		else if (outcomingMagic == 0 && incomingMagic != 0)
-//		{
-//			for (size_t i = 4; i < units.size(); i++)
-//			{
-//				cout << " ";
-//			}
-//			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
-//			if (a.units.size() > 1)
-//			{
-//				cout << "-" << outcomingMagic / 2;
-//			}
-//			if (a.units.size() > 2)
-//			{
-//				cout << "-" << outcomingMagic / 4;
-//			}
-//			cout << endl;
-//
-//		}
-//		else if (outcomingMagic != 0 && incomingMagic != 0)
-//		{
-//			for (size_t i = 4; i < units.size(); i++)
-//			{
-//				cout << " ";
-//			}
-//			if (units.size() > 2)
-//			{
-//				cout << "-" << incomingMagic / 4;
-//			}
-//			if (units.size() > 1)
-//			{
-//				cout << "-" << incomingMagic / 2;
-//			}
-//			cout << "-" << incomingMagic + incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
-//			if (a.units.size() > 1)
-//			{
-//				cout << "-" << outcomingMagic / 2;
-//			}
-//			if (a.units.size() > 2)
-//			{
-//				cout << "-" << outcomingMagic / 4;
-//			}
-//			cout << endl;
-//		}
-//	}
-//	for (size_t i = 0; i < units.size(); i++)
-//	{
-//		cout << units[units.size() - i - 1] << " ";
-//	}
-//	cout << "     ";
-//	for (size_t i = 0; i < a.units.size(); i++)
-//	{
-//		cout << a.units[i] << " ";
-//	}
-//	cout << endl;
-//}
+void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic)
+{
+	system("CLS");
+	if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
+	{
+		if (outcomingMagic == 0 && incomingMagic == 0)
+		{
+			for (size_t i = 0; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
+		}
+		else if (incomingMagic != 0 && outcomingMagic == 0)
+		{
+			for (size_t i = 4; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			if (units.size() > 2)
+			{
+				cout << "-" << incomingMagic / 4;
+			}
+			if (units.size() > 1)
+			{
+				cout << "-" << incomingMagic / 2;
+			}
+			cout << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
+		}
+		else if (outcomingMagic == 0 && incomingMagic != 0)
+		{
+			for (size_t i = 4; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
+			if (a.units.size() > 1)
+			{
+				cout << "-" << outcomingMagic / 2;
+			}
+			if (a.units.size() > 2)
+			{
+				cout << "-" << outcomingMagic / 4;
+			}
+			cout << endl;
+
+		}
+		else if (outcomingMagic != 0 && incomingMagic != 0)
+		{
+			for (size_t i = 4; i < units.size(); i++)
+			{
+				cout << " ";
+			}
+			if (units.size() > 2)
+			{
+				cout << "-" << incomingMagic / 4;
+			}
+			if (units.size() > 1)
+			{
+				cout << "-" << incomingMagic / 2;
+			}
+			cout << "-" << incomingMagic + incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
+			if (a.units.size() > 1)
+			{
+				cout << "-" << outcomingMagic / 2;
+			}
+			if (a.units.size() > 2)
+			{
+				cout << "-" << outcomingMagic / 4;
+			}
+			cout << endl;
+		}
+	}
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		cout << units[units.size() - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.units.size(); i++)
+	{
+		cout << a.units[i] << " ";
+	}
+	cout << endl;
+}
 
 Army & Army::operator=(const Army & army)
 {
