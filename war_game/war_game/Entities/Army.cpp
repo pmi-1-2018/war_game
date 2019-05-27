@@ -229,12 +229,12 @@ bool Army::armyAutoAttack(Army& a)
 		a.heal();
 		this->fight(a,check);
 		check = !check;
-		sleep_for(seconds(2));
+		sleep_for(seconds(1));
 		if (units.size() != 0 && a.units.size() != 0)
 		{
 			a.fight(*this, check);
 			check = !check;
-			sleep_for(seconds(2));
+			sleep_for(seconds(1));
 		}
 	} while ((units.size() != 0) && (a.units.size() != 0));
 	if (a.units.size() == 0)
@@ -245,7 +245,6 @@ bool Army::armyAutoAttack(Army& a)
 		{
 			dec_energy += units[i].GetDecEnergy();
 		}
-		cout << "you won" << endl;
 		return true;
 	}
 	return false;
@@ -275,12 +274,12 @@ bool Army::battlePVE(Army& a)
 			a.heal();
 			this->fight(a,check);
 			check = !check;
-			sleep_for(seconds(2));
+			sleep_for(seconds(1));
 			if (units.size() != 0 && a.units.size() != 0)
 			{
 				a.fight(*this, check);
 				check = !check;
-				sleep_for(seconds(2));
+				sleep_for(seconds(1));
 			}
 		}
 		if (action == 'S' || action == 's')
@@ -347,7 +346,7 @@ bool Army::battlePVP(Army& a)
 				a.heal();
 				a.fight(*this, turn);
 			}
-			sleep_for(seconds(3));
+			sleep_for(seconds(1));
 		}
 		if (action == 'S' || action == 's')
 		{
@@ -387,7 +386,6 @@ bool Army::battlePVP(Army& a)
 		{
 			a.dec_energy += a.units[i].GetDecEnergy();
 		}
-		cout << "you lost" << endl;
 		return false;
 	}
 }
