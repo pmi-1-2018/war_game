@@ -398,6 +398,7 @@ bool Army::battlePVP(Army& a)
 
 void Army::fight(Army& a, bool check)
 {
+	int i = 0;
 	it = units.begin();
 	a.it = a.units.begin();
 	if (units[0].getId() != 4)
@@ -429,6 +430,7 @@ void Army::fight(Army& a, bool check)
 			}
 		}
 	}
+	printArmiesFight(a, i, i, i, i);
 }
 
 void Army::heal()
@@ -494,7 +496,7 @@ void Army::printArmy()
 void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic)
 {
 	system("CLS");
-	if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
+	/*if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
 	{
 		if (outcomingMagic == 0 && incomingMagic == 0)
 		{
@@ -573,7 +575,26 @@ void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, 
 	{
 		cout << a.units[i] << " ";
 	}
+	cout << endl;*/
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		cout << units[units.size() - i - 1].GetHealthPoints() << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.units.size(); i++)
+	{
+		cout << a.units[i].GetHealthPoints() << " ";
+	}
 	cout << endl;
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		cout << units[units.size() - i - 1] << " ";
+	}
+	cout << "     ";
+	for (size_t i = 0; i < a.units.size(); i++)
+	{
+		cout << a.units[i] << " ";
+	}
 }
 
 Army & Army::operator=(const Army & army)
