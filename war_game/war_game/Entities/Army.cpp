@@ -269,6 +269,7 @@ bool Army::battlePVE(Army& a)
 	this->printArmiesFight(a,true);
 	do
 	{
+		solve:
 		cout << "press A to attack, press S to swap";
 		action = _getch();
 		if (action == 'A' || action == 'a')
@@ -290,6 +291,8 @@ bool Army::battlePVE(Army& a)
 		if (action == 'S' || action == 's')
 		{
 			this->swapUnits_1(index1, index2, a);
+			if (index1 == -1)
+				goto solve;
 			swap(units[index1], units[index2]);
 			/*this->buff();
 			a.buff();
@@ -335,6 +338,7 @@ bool Army::battlePVP(Army& a)
 		{
 			cout << "Defender turn\n";
 		}
+		DontKillMe:
 		cout << "press A to attack, press S to swap";
 		action = _getch();
 		if (action == 'A' || action == 'a')
@@ -358,6 +362,8 @@ bool Army::battlePVP(Army& a)
 			if (turn == true)
 			{
 				this->swapUnits_1(index1, index2, a);
+				if (index1 == -1)
+					goto DontKillMe;
 				swap(units[index1], units[index2]);
 				/*this->buff();
 				this->heal();*/
@@ -365,6 +371,8 @@ bool Army::battlePVP(Army& a)
 			else
 			{
 				a.swapUnits_2(index1, index2, *this);
+				if (index1 == -1)
+					goto DontKillMe;
 				swap(a.units[index1], a.units[index2]);
 				/*a.buff();
 				a.heal();*/
@@ -496,93 +504,13 @@ void Army::printArmy()
 void Army::printArmiesFight(Army& a, bool shit)
 {
 	system("CLS");
-	/*if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
-	{
-		if (outcomingMagic == 0 && incomingMagic == 0)
-		{
-			for (size_t i = 0; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
-		}
-		else if (incomingMagic != 0 && outcomingMagic == 0)
-		{
-			for (size_t i = 4; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			if (units.size() > 2)
-			{
-				cout << "-" << incomingMagic / 4;
-			}
-			if (units.size() > 1)
-			{
-				cout << "-" << incomingMagic / 2;
-			}
-			cout << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
-		}
-		else if (outcomingMagic == 0 && incomingMagic != 0)
-		{
-			for (size_t i = 4; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
-			if (a.units.size() > 1)
-			{
-				cout << "-" << outcomingMagic / 2;
-			}
-			if (a.units.size() > 2)
-			{
-				cout << "-" << outcomingMagic / 4;
-			}
-			cout << endl;
-
-		}
-		else if (outcomingMagic != 0 && incomingMagic != 0)
-		{
-			for (size_t i = 4; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			if (units.size() > 2)
-			{
-				cout << "-" << incomingMagic / 4;
-			}
-			if (units.size() > 1)
-			{
-				cout << "-" << incomingMagic / 2;
-			}
-			cout << "-" << incomingMagic + incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
-			if (a.units.size() > 1)
-			{
-				cout << "-" << outcomingMagic / 2;
-			}
-			if (a.units.size() > 2)
-			{
-				cout << "-" << outcomingMagic / 4;
-			}
-			cout << endl;
-		}
-	}
-	for (size_t i = 0; i < units.size(); i++)
-	{
-		cout << units[units.size() - i - 1] << " ";
-	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i] << " ";
-	}
-	cout << endl;*/
 	if (shit)
 	{
 		for (size_t i = 0; i < units.size(); i++)
 		{
 			cout << units[units.size() - i - 1].GetHealthPoints() << " ";
 		}
-		cout << "     ";
+		cout << "  ";
 		for (size_t i = 0; i < a.units.size(); i++)
 		{
 			cout << a.units[i].GetHealthPoints() << " ";
@@ -604,7 +532,7 @@ void Army::printArmiesFight(Army& a, bool shit)
 		{
 			cout << a.units[a.units.size() - i - 1].GetHealthPoints() << " ";
 		}
-		cout << "     ";
+		cout << "  ";
 		for (size_t i = 0; i < units.size(); i++)
 		{
 			cout << units[i].GetHealthPoints() << " ";
