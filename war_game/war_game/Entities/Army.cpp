@@ -224,7 +224,7 @@ bool Army::armyAutoAttack(Army& a)
 	bool check = true;
 	system("CLS");
 	int var = 0;
-	this->printArmiesFight(a, var, var, var, var);
+	this->printArmiesFight(a, true);
 	do
 	{
 		/*this->buff();
@@ -266,7 +266,7 @@ bool Army::battlePVE(Army& a)
 	int index2 = 0;
 	system("CLS");
 	int var = 0;
-	this->printArmiesFight(a, var, var, var, var);
+	this->printArmiesFight(a,true);
 	do
 	{
 		cout << "press A to attack, press S to swap";
@@ -323,7 +323,7 @@ bool Army::battlePVP(Army& a)
 	int index2 = 0;
 	int var = 0;
 	system("CLS");
-	this->printArmiesFight(a, var, var, var, var);
+	this->printArmiesFight(a, true);
 	do
 	{
 		system("CLS");
@@ -430,7 +430,7 @@ void Army::fight(Army& a, bool check)
 			}
 		}
 	}
-	printArmiesFight(a, i, i, i, i);
+	printArmiesFight(a, check);
 }
 
 void Army::heal()
@@ -493,7 +493,7 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic)
+void Army::printArmiesFight(Army& a, bool shit)
 {
 	system("CLS");
 	/*if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
@@ -576,24 +576,49 @@ void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, 
 		cout << a.units[i] << " ";
 	}
 	cout << endl;*/
-	for (size_t i = 0; i < units.size(); i++)
+	if (shit)
 	{
-		cout << units[units.size() - i - 1].GetHealthPoints() << " ";
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			cout << units[units.size() - i - 1].GetHealthPoints() << " ";
+		}
+		cout << "     ";
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			cout << a.units[i].GetHealthPoints() << " ";
+		}
+		cout << endl;
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			cout << units[units.size() - i - 1] << " ";
+		}
+		cout << "     ";
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			cout << a.units[i] << " ";
+		}
 	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
+	else
 	{
-		cout << a.units[i].GetHealthPoints() << " ";
-	}
-	cout << endl;
-	for (size_t i = 0; i < units.size(); i++)
-	{
-		cout << units[units.size() - i - 1] << " ";
-	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i] << " ";
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			cout << a.units[a.units.size() - i - 1].GetHealthPoints() << " ";
+		}
+		cout << "     ";
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			cout << units[i].GetHealthPoints() << " ";
+		}
+		cout << endl;
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			cout << a.units[a.units.size() - i - 1] << " ";
+		}
+		cout << "     ";
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			cout << units[i] << " ";
+		}
 	}
 }
 

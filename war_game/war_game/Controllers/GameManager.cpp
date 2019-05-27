@@ -171,7 +171,7 @@ void GameManager::SandboxStart()
 			cin >> size2;
 		}
 		a2.inputTheArmy(size2);
-		a1.printArmiesFight(a1, var, var, var, var);
+		a1.printArmiesFight(a1, true);
 		SetMusic("Attack");
 		a1.armyAutoAttack(a2);
 		system("pause");

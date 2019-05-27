@@ -270,7 +270,7 @@ public:
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
 
 	void inputTheArmy(size_t sz); 
-	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
+	void printArmiesFight(Army& a, bool shit);
 	void printArmy();
 
 	bool hit(Unit& u1,Unit& u2, vector<Artifact> thisArt, vector<Artifact> otherArt);
