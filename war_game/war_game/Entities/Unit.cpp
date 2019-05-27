@@ -10,6 +10,26 @@ Unit::Unit(int dmg, int def, int hp, int maxHPe, int ide) {
 	id = ide;
 }
 
+int Unit::getDamageBuff()
+{
+	return damageBuff;
+}
+
+int Unit::getDefenseBuff()
+{
+	return defenseBuff;
+}
+
+void Unit::setDamageBuff(int n)
+{
+	damageBuff = n;
+}
+
+void Unit::setDefenseBuff(int n)
+{
+	defenseBuff = n;
+}
+
 int Unit::calculateDamage(vector<Artifact> art)
 {
 	int returnDamage = 0;

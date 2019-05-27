@@ -227,10 +227,10 @@ bool Army::armyAutoAttack(Army& a)
 	this->printArmiesFight(a, true);
 	do
 	{
-		/*this->buff();
+		this->buff();
 		a.buff();
 		this->heal();
-		a.heal();*/
+		a.heal();
 		this->fight(a,check);
 		check = !check;
 		sleep_for(seconds(1));
@@ -274,10 +274,10 @@ bool Army::battlePVE(Army& a)
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
-			/*this->buff();
+			this->buff();
 			a.buff();
 			this->heal();
-			a.heal();*/
+			a.heal();
 			this->fight(a,check);
 			check = !check;
 			sleep_for(seconds(1));
@@ -294,10 +294,10 @@ bool Army::battlePVE(Army& a)
 			if (index1 == -1)
 				goto solve;
 			swap(units[index1], units[index2]);
-			/*this->buff();
+			this->buff();
 			a.buff();
 			this->heal();
-			a.heal();*/
+			a.heal();
 			a.fight(*this, false);
 		}
 	} while (units.size() != 0 && a.units.size() != 0);
@@ -338,21 +338,23 @@ bool Army::battlePVP(Army& a)
 		{
 			cout << "Defender turn\n";
 		}
+		/************************/
 		DontKillMe:
+		/***********************/
 		cout << "press A to attack, press S to swap";
 		action = _getch();
 		if (action == 'A' || action == 'a')
 		{
 			if (turn == true)
 			{
-				/*this->buff();
-				this->heal();*/
+				this->buff();
+				this->heal();
 				this->fight(a, turn);
 			}
 			else
 			{
-				/*a.buff();
-				a.heal();*/
+				a.buff();
+				a.heal();
 				a.fight(*this, turn);
 			}
 			sleep_for(seconds(2));
@@ -365,8 +367,8 @@ bool Army::battlePVP(Army& a)
 				if (index1 == -1)
 					goto DontKillMe;
 				swap(units[index1], units[index2]);
-				/*this->buff();
-				this->heal();*/
+				this->buff();
+				this->heal();
 			}
 			else
 			{
@@ -374,8 +376,8 @@ bool Army::battlePVP(Army& a)
 				if (index1 == -1)
 					goto DontKillMe;
 				swap(a.units[index1], a.units[index2]);
-				/*a.buff();
-				a.heal();*/
+				a.buff();
+				a.heal();
 			}
 		}
 		turn = !turn;
@@ -470,25 +472,21 @@ void Army::heal()
 
 void Army::buff()
 {
-	bool check = false;
-	int index1, index2;
+	int counter = 0;
 	Buffer b;
 	for (size_t i = 0; i < units.size(); i++)
 	{
 		if (units[i].getId() == 5)
 		{
-			check = true;
-			break;
+			counter++;
 		}
 	}
-	if (check == false)
-	{
-		return;
-	}
 	system("cls");
-	this->swapUnits(index1,index2);
-	b.BuffDamage(units[index1]);
-	b.BuffDefense(units[index2]);
+	for (size_t i = 0; i < counter; i++)
+	{
+		b.BuffDamage(units[0]);
+		b.BuffDefense(units[0]);
+	}
 }
 
 void Army::printArmy()

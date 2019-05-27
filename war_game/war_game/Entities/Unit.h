@@ -30,9 +30,13 @@ public:
 	int GetDefense();
 	int GetDamage();
 	int GetHealthPoints();
+	int getDamageBuff();
+	int getDefenseBuff();
 	int getId();
 	char getSymb();
 	void setSymb(char symb);
+	void setDamageBuff(int n);
+	void setDefenseBuff(int n);
 
 	int calculateDamage(vector<Artifact> art);
 	int calculateDefence(vector<Artifact> art);
