@@ -339,7 +339,6 @@ bool Army::battlePVE(Army& a)
 		{
 			dec_energy += units[i].GetDecEnergy();
 		}
-		cout << "you won" << endl;
 		return true;
 	}
 	return false;
@@ -420,7 +419,6 @@ bool Army::battlePVP(Army& a)
 		{
 			dec_energy += units[i].GetDecEnergy();
 		}
-		cout << "you won" << endl;
 		return true;
 	}
 	if (units.size() == 0)

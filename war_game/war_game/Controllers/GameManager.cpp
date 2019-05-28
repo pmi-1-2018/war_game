@@ -82,7 +82,7 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 		{
 			currentTurn = string(1, this->turn);
 			battleLog = currentTurn + " lost.";
-			cout << battleLog << endl;
+			cout << endl << battleLog << endl;
 			return battleLog;
 		}
 	}
@@ -93,15 +93,15 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 		if (playerWon)
 		{
 			currentTurn = string(1, this->turn);
-			battleLog = this->turn + " won.";
-			cout << battleLog << endl;
+			battleLog = currentTurn + " won.";
+			cout << endl << battleLog << endl;
 			return battleLog;
 		}
 		else
 		{
 			currentTurn = string(1, this->turn);
 			battleLog = currentTurn + " lost.";
-			cout << battleLog << endl;
+			cout << endl << battleLog << endl;
 			return battleLog;
 		}
 	}

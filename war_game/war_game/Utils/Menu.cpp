@@ -176,7 +176,7 @@ bool Menu::EditMap()
 void Menu::ShowLog()
 {
 	system("CLS");
-	cout << "###History### " << endl << endl;
+	cout << "###History### " << endl;
 	string filePath = this->gm->GetLogPath();
 	ifstream ifs(filePath);
 	if (ifs.eof() == true) 
@@ -191,6 +191,7 @@ void Menu::ShowLog()
 			string temp;
 			getline(ifs, temp);
 			result += temp;
+			result += "\n";
 		}
 		cout << result << endl;
 		cout << "y - back to the menu" << endl;
