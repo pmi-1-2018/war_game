@@ -249,7 +249,6 @@ bool Army::armyAutoAttack(Army& a)
 		{
 			dec_energy += units[i].GetDecEnergy();
 		}
-		cout << "you won" << endl;
 		return true;
 	}
 	return false;
@@ -357,7 +356,7 @@ bool Army::battlePVP(Army& a)
 				a.heal();
 				a.fight(*this, turn);
 			}
-			sleep_for(seconds(2));
+			sleep_for(seconds(1));
 		}
 		if (action == 'S' || action == 's')
 		{
@@ -401,7 +400,6 @@ bool Army::battlePVP(Army& a)
 		{
 			a.dec_energy += a.units[i].GetDecEnergy();
 		}
-		cout << "you lost" << endl;
 		return false;
 	}
 }
