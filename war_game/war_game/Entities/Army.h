@@ -326,7 +326,7 @@ public:
 	{
 		if (this->inventory != nullptr) 
 		{
-			delete[] this->inventory;
+			delete this->inventory;
 		}
 	}
 };
