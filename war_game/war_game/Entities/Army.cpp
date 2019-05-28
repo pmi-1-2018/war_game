@@ -40,7 +40,7 @@ Army::Army(string name, vector<Unit> list, char symb, bool isPlayer, int wallet)
 	}
 	this->isPlayer = isPlayer;
 	this->isBotArmy = isPlayer == true ? false : true;
-	this->inventory = new Inventory(3, 3);
+	this->inventory = new Inventory(3, 3, this);
 	this->wallet = wallet;
 }
 
@@ -83,6 +83,11 @@ void Army::increaseIncome(int value)
 void Army::addMoneyToWallet(int value)
 {
 	this->wallet += value;
+}
+
+size_t Army::getStashPossibleSize()
+{
+	return this->stashSize;
 }
 
 int Army::getIncome()
@@ -209,6 +214,32 @@ void Army::inputTheArmy(size_t size) {
 		}
 	}
 }
+
+void Army::changeStartEnergy(int value)
+{
+	this->START_ENERGY += value;
+}
+
+void Army::changeArmyUnitsDefence(int value)
+{
+	int numberOfUnits = this->units.size();
+	for (size_t i = 0; i < numberOfUnits; i++)
+	{
+		Unit* unit = &this->units[i];
+		this->units[i].SetDamage(unit->GetDefense() + value);
+	}
+}
+
+void Army::changeArmyUnitsAttack(int value)
+{
+	int numberOfUnits = this->units.size();
+	for (size_t i = 0; i < numberOfUnits; i++)
+	{
+		Unit* unit = &this->units[i];
+		this->units[i].SetDamage(unit->GetDamage() + value);
+	}
+}
+
 
 bool Army::hit(Unit& u1, Unit& u2, vector<Artifact> thisArt, vector<Artifact> otherArt)
 {

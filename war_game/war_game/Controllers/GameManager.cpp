@@ -175,9 +175,6 @@ void GameManager::SandboxStart()
 		a1.printArmiesFight(a1, true);
 
 		SetMusic("Attack");
-		//Artifact* s = new Artifact[0];
-		//a1.getInventory()->AddArtifact(s);
-		//a2.getInventory()->AddArtifact(s);
 		a1.armyAutoAttack(a2);
 		system("pause");
 		break;
@@ -305,6 +302,10 @@ void GameManager::Start()
 		{
 			break;
 		}
+		else if(asciiValue != 105)
+		{
+			continue;
+		}
 		char symb = turn == 'F' ? 'F' : 'S';
 		int& new_x = turn == 'F' ? x_1 : x_2;
 		int& new_y = turn == 'F' ? y_1 : y_2;
@@ -313,6 +314,7 @@ void GameManager::Start()
 		{
 			currentCell->GetArmy()->InventoryMode();
 			system("cls");
+			outputInfoOverMap(currentCell->GetArmy());
 			Draw(this->turn, prev_x, prev_y);
 			continue;
 		}
@@ -456,30 +458,24 @@ void GameManager::Start()
 			army = newCell->GetArmy();
 			if (answer == 'y' || answer == 'Y')
 			{
-				cout << "Yes" << endl;
 				bool artIsAdded = army->getInventory()->AddArtifact(artifact);
 				newCell->setArtifactPtr(nullptr);
-				/*if (artIsAdded == false)
+				system("CLS");
+				if (artIsAdded == false)
 				{
-					cout << "Whoops.. Missing space!\nWould you like to replace it?" << endl;
+					cout << "Whoops.. Missing space!\nDelete any artifact and come back again!" << endl;
 				}
 				else
 				{
 					cout << "You successfully added new artifact to your inventory" << endl;
-				}*/
-				system("pause");
+				}
 			}
 			else if (answer == 'd' || answer == 'D')
 			{
 				newCell->setArtifactPtr(nullptr);
-				cout << "Artifact destroyed" << endl;
-				system("pause");
+				cout << "Artifact was destroyed" << endl;
 			}
-			else
-			{
-				cout << "No" << endl;
-				system("pause");
-			}
+			system("pause");
 			system("CLS");
 			outputInfoOverMap(army);
 			this->map->SetBackground("D");
