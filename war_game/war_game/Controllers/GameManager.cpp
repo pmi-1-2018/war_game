@@ -90,20 +90,10 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 	{
 		bool playerWon;
 		playerWon = a1->battlePVP(*a2);
-		if (playerWon)
-		{
-			currentTurn = string(1, this->turn);
-			battleLog = currentTurn + " won.";
-			cout << endl << battleLog << endl;
-			return battleLog;
-		}
-		else
-		{
-			currentTurn = string(1, this->turn);
-			battleLog = currentTurn + " lost.";
-			cout << endl << battleLog << endl;
-			return battleLog;
-		}
+		currentTurn = string(1, this->turn);
+		battleLog = currentTurn == "S" ? currentTurn + " lost." : currentTurn + " won";
+		cout << endl << battleLog << endl;
+		return battleLog;
 	}
 	return battleLog;
 }
