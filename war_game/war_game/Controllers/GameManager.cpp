@@ -152,8 +152,10 @@ void GameManager::outputInfoOverMap(Army* army)
 
 void GameManager::SandboxStart()
 {
-	Army a1;
-	Army a2;
+	vector<Unit>ar1;
+	vector<Unit>ar2;
+	Army a1("dada",ar1,'s',1,100);
+	Army a2("nene", ar2, 's', 1, 100);
 	int size1 = -1;
 	int size2 = -1;
 	int var = 0;
@@ -172,7 +174,11 @@ void GameManager::SandboxStart()
 		}
 		a2.inputTheArmy(size2);
 		a1.printArmiesFight(a1, true);
+
 		SetMusic("Attack");
+		//Artifact* s = new Artifact[0];
+		//a1.getInventory()->AddArtifact(s);
+		//a2.getInventory()->AddArtifact(s);
 		a1.armyAutoAttack(a2);
 		system("pause");
 		break;

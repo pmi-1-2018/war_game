@@ -22,6 +22,7 @@ class Army
 private:
 	struct Inventory
 	{
+
 		struct ClipBoard
 		{
 			Artifact* item = nullptr;
@@ -265,6 +266,7 @@ private:
 	int level;
 	int experience;
 	int capacity;
+
 public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
