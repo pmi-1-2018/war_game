@@ -446,7 +446,10 @@ void Army::fight(Army& a, bool check)
 		}
 		else
 		{
-			hit(a.units[0], units[0], a.inventory->getActiveArtifacts(), inventory->getActiveArtifacts());
+			if (hit(a.units[0], units[0], a.inventory->getActiveArtifacts(), inventory->getActiveArtifacts()))
+			{
+				units.erase(it);
+			}
 		}
 	}
 	else
