@@ -1,19 +1,24 @@
 #pragma once
 
-#include <iostream>
+#include "Artifact.h"
 #include "Windows.h"
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 class Unit
 {
 protected:
 	int damage = 0;
-	int defense = 0;
+	int defence = 0;
 	int healthPoints = 0;
 	int maxHP = 0;
 	int id = 0;
 	int dec_energy = 0;
 	char symb = 'U';
+	int damageBuff = 0;
+	int defenseBuff = 0;
 
 public:
 	Unit();
@@ -25,9 +30,16 @@ public:
 	int GetDefense();
 	int GetDamage();
 	int GetHealthPoints();
+	int getDamageBuff();
+	int getDefenseBuff();
 	int getId();
 	char getSymb();
 	void setSymb(char symb);
+	void setDamageBuff(int n);
+	void setDefenseBuff(int n);
+
+	int calculateDamage(vector<Artifact> art);
+	int calculateDefence(vector<Artifact> art);
 
 	void attack(Unit& unit);
 	int DamageTaken();

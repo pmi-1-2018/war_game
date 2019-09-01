@@ -1,17 +1,66 @@
 #include "Unit.h"
 
-Unit::Unit() : damage(0), defense(0), healthPoints(0), maxHP(0), id(0) {}
+
+Unit::Unit() : damage(0), defence(0), healthPoints(0), maxHP(0), id(0) {}
 Unit::Unit(int dmg, int def, int hp, int maxHPe, int ide) {
 	damage = dmg;
-	defense = def;
+	defence = def;
 	healthPoints = hp;
 	maxHP = maxHPe;
 	id = ide;
 }
 
+int Unit::getDamageBuff()
+{
+	return damageBuff;
+}
+
+int Unit::getDefenseBuff()
+{
+	return defenseBuff;
+}
+
+void Unit::setDamageBuff(int n)
+{
+	damageBuff = n;
+}
+
+void Unit::setDefenseBuff(int n)
+{
+	defenseBuff = n;
+}
+
+int Unit::calculateDamage(vector<Artifact> art)
+{
+	int returnDamage = 0;
+	returnDamage += damage + damageBuff;
+	for (size_t i = 0; i < art.size(); i++)
+	{
+		if (art[i].getId() == 1)
+		{
+			returnDamage += art[i].getAddPoints();
+		}
+	}
+	return returnDamage;
+}
+
+int Unit::calculateDefence(vector<Artifact> art)
+{
+	int returnDefence = 0;
+	returnDefence += defence + defenseBuff;
+	for (size_t i = 0; i < art.size(); i++)
+	{
+		if (art[i].getId() == 2)
+		{
+			returnDefence += art[i].getAddPoints();
+		}
+	}
+	return returnDefence;
+}
+
 int Unit::GetDefense()
 {
-	return defense;
+	return defence;
 }
 
 int Unit::GetDamage()
@@ -50,7 +99,7 @@ int Unit::GetMaxHP()
 
 void Unit:: SetDefense(int new_defense) 
 {
-	defense = new_defense;
+	defence = new_defense;
 }
 
 void Unit::SetHealthPoints(int new_healthPoints)

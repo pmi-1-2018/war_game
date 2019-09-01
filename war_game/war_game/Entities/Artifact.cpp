@@ -93,6 +93,11 @@ bool Artifact::operator==(Artifact & compareArt)
 	return result;
 }
 
+int Artifact::getId()
+{
+	return id;
+}
+
 char Artifact::getSymb()
 {
 	return this->symb;

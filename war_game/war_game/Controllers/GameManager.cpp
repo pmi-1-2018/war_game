@@ -82,7 +82,7 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 		{
 			currentTurn = string(1, this->turn);
 			battleLog = currentTurn + " lost.";
-			cout << battleLog << endl;
+			cout << endl << battleLog << endl;
 			return battleLog;
 		}
 	}
@@ -90,20 +90,10 @@ string GameManager::StartBattle(Army* a1, Army* a2)
 	{
 		bool playerWon;
 		playerWon = a1->battlePVP(*a2);
-		if (playerWon)
-		{
-			currentTurn = string(1, this->turn);
-			battleLog = this->turn + " won.";
-			cout << battleLog << endl;
-			return battleLog;
-		}
-		else
-		{
-			currentTurn = string(1, this->turn);
-			battleLog = currentTurn + " lost.";
-			cout << battleLog << endl;
-			return battleLog;
-		}
+		currentTurn = string(1, this->turn);
+		battleLog = currentTurn == "S" ? currentTurn + " lost." : currentTurn + " won";
+		cout << endl << battleLog << endl;
+		return battleLog;
 	}
 	return battleLog;
 }
@@ -151,20 +141,29 @@ void GameManager::outputInfoOverMap(Army* army)
 
 void GameManager::SandboxStart()
 {
-	Army a1;
-	Army a2;
-	int size1;
-	int size2;
+	vector<Unit>ar1;
+	vector<Unit>ar2;
+	Army a1("dada",ar1,'s',1,100);
+	Army a2("nene", ar2, 's', 1, 100);
+	int size1 = -1;
+	int size2 = -1;
 	int var = 0;
 	while (true)
 	{
-		cout << "Enter the size of the first army: " << endl;
-		cin >> size1;
+		while (size1 < 1 || size1 > 200)
+		{
+			cout << "Enter the size of the first army: " << endl;
+			cin >> size1;
+		}
 		a1.inputTheArmy(size1);
-		cout << "Enter the size of the second army: " << endl;
-		cin >> size2;
+		while (size2 < 0 || size2 > 200)
+		{
+			cout << "Enter the size of the second army: " << endl;
+			cin >> size2;
+		}
 		a2.inputTheArmy(size2);
-		a1.printArmiesFight(a1, var, var, var, var);
+		a1.printArmiesFight(a1, true);
+
 		SetMusic("Attack");
 		a1.armyAutoAttack(a2);
 		system("pause");
@@ -293,6 +292,10 @@ void GameManager::Start()
 		{
 			break;
 		}
+		else if(asciiValue != 105)
+		{
+			continue;
+		}
 		char symb = turn == 'F' ? 'F' : 'S';
 		int& new_x = turn == 'F' ? x_1 : x_2;
 		int& new_y = turn == 'F' ? y_1 : y_2;
@@ -301,6 +304,7 @@ void GameManager::Start()
 		{
 			currentCell->GetArmy()->InventoryMode();
 			system("cls");
+			outputInfoOverMap(currentCell->GetArmy());
 			Draw(this->turn, prev_x, prev_y);
 			continue;
 		}
@@ -444,30 +448,24 @@ void GameManager::Start()
 			army = newCell->GetArmy();
 			if (answer == 'y' || answer == 'Y')
 			{
-				cout << "Yes" << endl;
 				bool artIsAdded = army->getInventory()->AddArtifact(artifact);
 				newCell->setArtifactPtr(nullptr);
-				/*if (artIsAdded == false)
+				system("CLS");
+				if (artIsAdded == false)
 				{
-					cout << "Whoops.. Missing space!\nWould you like to replace it?" << endl;
+					cout << "Whoops.. Missing space!\nDelete any artifact and come back again!" << endl;
 				}
 				else
 				{
 					cout << "You successfully added new artifact to your inventory" << endl;
-				}*/
-				system("pause");
+				}
 			}
 			else if (answer == 'd' || answer == 'D')
 			{
 				newCell->setArtifactPtr(nullptr);
-				cout << "Artifact destroyed" << endl;
-				system("pause");
+				cout << "Artifact was destroyed" << endl;
 			}
-			else
-			{
-				cout << "No" << endl;
-				system("pause");
-			}
+			system("pause");
 			system("CLS");
 			outputInfoOverMap(army);
 			this->map->SetBackground("D");

@@ -9,7 +9,7 @@ public:
 	{
 		damage = 7;
 		healthPoints = 40;
-		defense = 1;
+		defence = 1;
 		maxHP = 40;
 		dec_energy = -1;
 		id = 5;

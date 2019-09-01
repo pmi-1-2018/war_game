@@ -9,7 +9,7 @@ public:
 	Archer()
 	{
 		damage = 20;
-		defense = 1;
+		defence = 1;
 		healthPoints = 50;
 		maxHP = 50;
 		dec_energy = -1;

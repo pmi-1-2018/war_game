@@ -40,7 +40,7 @@ Army::Army(string name, vector<Unit> list, char symb, bool isPlayer, int wallet)
 	}
 	this->isPlayer = isPlayer;
 	this->isBotArmy = isPlayer == true ? false : true;
-	this->inventory = new Inventory(3, 3);
+	this->inventory = new Inventory(3, 3, this);
 	this->wallet = wallet;
 }
 
@@ -83,6 +83,11 @@ void Army::increaseIncome(int value)
 void Army::addMoneyToWallet(int value)
 {
 	this->wallet += value;
+}
+
+size_t Army::getStashPossibleSize()
+{
+	return this->stashSize;
 }
 
 int Army::getIncome()
@@ -210,7 +215,37 @@ void Army::inputTheArmy(size_t size) {
 	}
 }
 
+void Army::changeStartEnergy(int value)
+{
+	this->START_ENERGY += value;
+}
 
+void Army::changeArmyUnitsDefence(int value)
+{
+	int numberOfUnits = this->units.size();
+	for (size_t i = 0; i < numberOfUnits; i++)
+	{
+		Unit* unit = &this->units[i];
+		this->units[i].SetDamage(unit->GetDefense() + value);
+	}
+}
+
+void Army::changeArmyUnitsAttack(int value)
+{
+	int numberOfUnits = this->units.size();
+	for (size_t i = 0; i < numberOfUnits; i++)
+	{
+		Unit* unit = &this->units[i];
+		this->units[i].SetDamage(unit->GetDamage() + value);
+	}
+}
+
+
+bool Army::hit(Unit& u1, Unit& u2, vector<Artifact> thisArt, vector<Artifact> otherArt)
+{
+	u2.SetHealthPoints(u2.GetHealthPoints() - (u1.calculateDamage(thisArt) - u2.calculateDefence(otherArt)));
+	return u2.GetHealthPoints() <= 0;
+}
 
 
 bool Army::armyAutoAttack(Army& a)
@@ -220,7 +255,7 @@ bool Army::armyAutoAttack(Army& a)
 	bool check = true;
 	system("CLS");
 	int var = 0;
-	this->printArmiesFight(a, var, var, var, var);
+	this->printArmiesFight(a, true);
 	do
 	{
 		this->buff();
@@ -261,9 +296,10 @@ bool Army::battlePVE(Army& a)
 	int index2 = 0;
 	system("CLS");
 	int var = 0;
-	this->printArmiesFight(a, var, var, var, var);
+	this->printArmiesFight(a,true);
 	do
 	{
+		solve:
 		cout << "press A to attack, press S to swap";
 		action = _getch();
 		if (action == 'A' || action == 'a')
@@ -285,6 +321,8 @@ bool Army::battlePVE(Army& a)
 		if (action == 'S' || action == 's')
 		{
 			this->swapUnits_1(index1, index2, a);
+			if (index1 == -1)
+				goto solve;
 			swap(units[index1], units[index2]);
 			this->buff();
 			a.buff();
@@ -301,7 +339,6 @@ bool Army::battlePVE(Army& a)
 		{
 			dec_energy += units[i].GetDecEnergy();
 		}
-		cout << "you won" << endl;
 		return true;
 	}
 	return false;
@@ -318,10 +355,10 @@ bool Army::battlePVP(Army& a)
 	int index2 = 0;
 	int var = 0;
 	system("CLS");
-	this->printArmiesFight(a, var, var, var, var);
+	this->printArmiesFight(a, true);
 	do
 	{
-		system("CLS");
+		cout << endl;
 		if (turn)
 		{
 			cout << "Attacker turn\n";
@@ -330,6 +367,9 @@ bool Army::battlePVP(Army& a)
 		{
 			cout << "Defender turn\n";
 		}
+		/************************/
+		DontKillMe:
+		/***********************/
 		cout << "press A to attack, press S to swap";
 		action = _getch();
 		if (action == 'A' || action == 'a')
@@ -353,6 +393,8 @@ bool Army::battlePVP(Army& a)
 			if (turn == true)
 			{
 				this->swapUnits_1(index1, index2, a);
+				if (index1 == -1)
+					goto DontKillMe;
 				swap(units[index1], units[index2]);
 				this->buff();
 				this->heal();
@@ -360,6 +402,8 @@ bool Army::battlePVP(Army& a)
 			else
 			{
 				a.swapUnits_2(index1, index2, *this);
+				if (index1 == -1)
+					goto DontKillMe;
 				swap(a.units[index1], a.units[index2]);
 				a.buff();
 				a.heal();
@@ -375,7 +419,6 @@ bool Army::battlePVP(Army& a)
 		{
 			dec_energy += units[i].GetDecEnergy();
 		}
-		cout << "you won" << endl;
 		return true;
 	}
 	if (units.size() == 0)
@@ -392,372 +435,42 @@ bool Army::battlePVP(Army& a)
 
 void Army::fight(Army& a, bool check)
 {
+	int i = 0;
 	it = units.begin();
 	a.it = a.units.begin();
-	int outcomingDamage = 0;
-	int outcomingMagic = 0;
-	int incomingMagic = 0;
-	int incomingDamage = 0;
 	if (units[0].getId() != 4)
 	{
-		outcomingDamage = units[0].GetDamage() - a.units[0].GetDefense();
-		if (outcomingDamage < 0)
-		{
-			outcomingDamage = 0;
-		}
-		if (units.size() >= 2)
-		{
-			if (units[1].getId() == 2)
-			{
-				outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
-			}
-		}
-		if ((a.units[0].GetHealthPoints() - outcomingDamage) <= 0)
+		if (hit(units[0], a.units[0], inventory->getActiveArtifacts(), a.inventory->getActiveArtifacts()))
 		{
 			a.units.erase(a.it);
-			a.it = a.units.begin();
 		}
 		else
 		{
-			a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage);
-		}
-		if (a.units.size() != 0)
-		{
-			if (a.units[0].getId() != 4)
+			if (hit(a.units[0], units[0], a.inventory->getActiveArtifacts(), inventory->getActiveArtifacts()))
 			{
-				incomingDamage += a.units[0].GetDamage() - units[0].GetDefense();
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-				}
+				units.erase(it);
 			}
-			else
-			{
-				incomingMagic = a.units[0].GetDamage();
-				if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-
-					if (units.size() != 0)
-					{
-						if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							units.erase(it);
-							it = units.begin();
-							if (units.size() != 0)
-							{
-								if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() > 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-					if (units.size() > 1)
-					{
-						if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							it++;
-							units.erase(it);
-							it = units.begin();
-							if (units.size() > 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() > 2)
-							{
-								if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		if (check == true)
-		{
-			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-		}
-		else
-		{
-			a.printArmiesFight(*this, outcomingDamage, incomingDamage, outcomingMagic, incomingMagic);
 		}
 	}
 	else
 	{
-		if (units.size() >= 2)
+		int index = 0;
+		for (size_t i = 0; i < a.units.size(); i++, index++)
 		{
-			if (units[1].getId() == 2)
+			a.units[index].SetHealthPoints(a.units[index].GetHealthPoints() - units[0].calculateDamage(inventory->getActiveArtifacts())* 1.0 / (pow(2, i)));
+			if (a.units[index].GetHealthPoints() <= 0)
 			{
-				outcomingDamage += units[1].GetDamage() - a.units[0].GetDefense();
+				it += index;
+				a.units.erase(a.it);
+				index--;
 			}
-		}
-		outcomingMagic = units[0].GetDamage();
-		if ((a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic) <= 0)
-		{
-			a.units.erase(a.it);
-			a.it = a.units.begin();
-
-			if (a.units.size() != 0)
+			if (i == 2)
 			{
-				if ((a.units[0].GetHealthPoints() - outcomingMagic / 2) <= 0)
-				{
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-					if (a.units.size() != 0)
-					{
-						if (a.units[0].GetHealthPoints() - outcomingMagic / 4 <= 0)
-						{
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-						}
-						else
-						{
-							a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 4);
-						}
-					}
-				}
-				else
-				{
-					a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingMagic / 2);
-					if (a.units.size() > 1)
-					{
-						if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-						{
-							a.it++;
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-						}
-						else
-						{
-							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-						}
-					}
-				}
+				break;
 			}
-		}
-		else
-		{
-			a.units[0].SetHealthPoints(a.units[0].GetHealthPoints() - outcomingDamage - outcomingMagic);
-			if (a.units.size() > 1)
-			{
-				if ((a.units[1].GetHealthPoints() - outcomingMagic / 2) <= 0)
-				{
-					a.it++;
-					a.units.erase(a.it);
-					a.it = a.units.begin();
-					if (a.units.size() > 1)
-					{
-						if (a.units[1].GetHealthPoints() - outcomingMagic / 4 <= 0)
-						{
-							a.it++;
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-						}
-						else
-						{
-							a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 4);
-						}
-					}
-				}
-				else
-				{
-					a.units[1].SetHealthPoints(a.units[1].GetHealthPoints() - outcomingMagic / 2);
-					if (a.units.size() >= 3)
-					{
-						if (a.units[2].GetHealthPoints() - outcomingMagic / 4 <= 0)
-						{
-							a.it++;
-							a.it++;
-							a.units.erase(a.it);
-							a.it = a.units.begin();
-						}
-						else
-						{
-							a.units[2].SetHealthPoints(a.units[2].GetHealthPoints() - outcomingMagic / 4);
-						}
-					}
-				}
-			}
-		}
-		if (a.units.size() != 0)
-		{
-			if (a.units[0].getId() != 4)
-			{
-				incomingDamage += a.units[0].GetDamage() - units[0].GetDefense();
-				if (incomingDamage < 0)
-				{
-					incomingDamage = 0;
-				}
-				if ((units[0].GetHealthPoints() - incomingDamage) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage);
-				}
-			}
-			else
-			{
-				incomingMagic = a.units[0].GetDamage();
-				if ((units[0].GetHealthPoints() - incomingDamage - incomingMagic) <= 0)
-				{
-					units.erase(it);
-					it = units.begin();
-
-					if (units.size() != 0)
-					{
-						if ((units[0].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							units.erase(it);
-							it = units.begin();
-							if (units.size() != 0)
-							{
-								if (units[0].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() > 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					units[0].SetHealthPoints(units[0].GetHealthPoints() - incomingDamage - incomingMagic);
-					if (units.size() > 1)
-					{
-						if ((units[1].GetHealthPoints() - incomingMagic / 2) <= 0)
-						{
-							it++;
-							units.erase(it);
-							it = units.begin();
-							if (units.size() > 1)
-							{
-								if (units[1].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-						else
-						{
-							units[1].SetHealthPoints(units[1].GetHealthPoints() - incomingMagic / 2);
-							if (units.size() >= 3)
-							{
-								if (units[2].GetHealthPoints() - incomingMagic / 4 <= 0)
-								{
-									it++;
-									it++;
-									units.erase(it);
-									it = units.begin();
-								}
-								else
-								{
-									units[2].SetHealthPoints(units[2].GetHealthPoints() - incomingMagic / 4);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		if (check == true)
-		{
-			this->printArmiesFight(a, incomingDamage, outcomingDamage, incomingMagic, outcomingMagic);
-		}
-		else
-		{
-			a.printArmiesFight(*this, outcomingDamage, incomingDamage, outcomingMagic, incomingMagic);
 		}
 	}
+	printArmiesFight(a, check);
 }
 
 void Army::heal()
@@ -789,25 +502,21 @@ void Army::heal()
 
 void Army::buff()
 {
-	bool check = false;
-	int index1, index2;
+	int counter = 0;
 	Buffer b;
 	for (size_t i = 0; i < units.size(); i++)
 	{
 		if (units[i].getId() == 5)
 		{
-			check = true;
-			break;
+			counter++;
 		}
 	}
-	if (check == false)
-	{
-		return;
-	}
 	system("cls");
-	this->swapUnits(index1,index2);
-	b.BuffDamage(units[index1]);
-	b.BuffDefense(units[index2]);
+	for (size_t i = 0; i < counter; i++)
+	{
+		b.BuffDamage(units[0]);
+		b.BuffDefense(units[0]);
+	}
 }
 
 void Army::printArmy()
@@ -820,89 +529,53 @@ void Army::printArmy()
 	system("pause");
 }
 
-void Army::printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic)
+void Army::printArmiesFight(Army& a, bool shit)
 {
 	system("CLS");
-	if ((incomingDamage != 0 || incomingMagic != 0) && (outcomingDamage != 0 || outcomingMagic != 0))
+	if (shit)
 	{
-		if (outcomingMagic == 0 && incomingMagic == 0)
+		for (size_t i = 0; i < units.size(); i++)
 		{
-			for (size_t i = 0; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage << endl;
+			cout << units[units.size() - i - 1].GetHealthPoints() << " ";
 		}
-		else if (incomingMagic != 0 && outcomingMagic == 0)
+		cout << "  ";
+		for (size_t i = 0; i < a.units.size(); i++)
 		{
-			for (size_t i = 4; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			if (units.size() > 2)
-			{
-				cout << "-" << incomingMagic / 4;
-			}
-			if (units.size() > 1)
-			{
-				cout << "-" << incomingMagic / 2;
-			}
-			cout << '-' << incomingDamage + incomingMagic << "  " << "-" << outcomingDamage << endl;
+			cout << a.units[i].GetHealthPoints() << " ";
 		}
-		else if (outcomingMagic == 0 && incomingMagic != 0)
+		cout << endl;
+		for (size_t i = 0; i < units.size(); i++)
 		{
-			for (size_t i = 4; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			cout << "-" << incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
-			if (a.units.size() > 1)
-			{
-				cout << "-" << outcomingMagic / 2;
-			}
-			if (a.units.size() > 2)
-			{
-				cout << "-" << outcomingMagic / 4;
-			}
-			cout << endl;
-
+			cout << units[units.size() - i - 1] << " ";
 		}
-		else if (outcomingMagic != 0 && incomingMagic != 0)
+		cout << "     ";
+		for (size_t i = 0; i < a.units.size(); i++)
 		{
-			for (size_t i = 4; i < units.size(); i++)
-			{
-				cout << " ";
-			}
-			if (units.size() > 2)
-			{
-				cout << "-" << incomingMagic / 4;
-			}
-			if (units.size() > 1)
-			{
-				cout << "-" << incomingMagic / 2;
-			}
-			cout << "-" << incomingMagic + incomingDamage << "  " << "-" << outcomingDamage + outcomingMagic;
-			if (a.units.size() > 1)
-			{
-				cout << "-" << outcomingMagic / 2;
-			}
-			if (a.units.size() > 2)
-			{
-				cout << "-" << outcomingMagic / 4;
-			}
-			cout << endl;
+			cout << a.units[i] << " ";
 		}
 	}
-	for (size_t i = 0; i < units.size(); i++)
+	else
 	{
-		cout << units[units.size() - i - 1] << " ";
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			cout << a.units[a.units.size() - i - 1].GetHealthPoints() << " ";
+		}
+		cout << "  ";
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			cout << units[i].GetHealthPoints() << " ";
+		}
+		cout << endl;
+		for (size_t i = 0; i < a.units.size(); i++)
+		{
+			cout << a.units[a.units.size() - i - 1] << " ";
+		}
+		cout << "     ";
+		for (size_t i = 0; i < units.size(); i++)
+		{
+			cout << units[i] << " ";
+		}
 	}
-	cout << "     ";
-	for (size_t i = 0; i < a.units.size(); i++)
-	{
-		cout << a.units[i] << " ";
-	}
-	cout << endl;
 }
 
 Army & Army::operator=(const Army & army)

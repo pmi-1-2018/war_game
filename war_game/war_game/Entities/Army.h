@@ -22,6 +22,7 @@ class Army
 private:
 	struct Inventory
 	{
+		Army* owner = nullptr;
 		struct ClipBoard
 		{
 			Artifact* item = nullptr;
@@ -37,6 +38,7 @@ private:
 		int activeArtsNumber = 0;
 		int maxActiveArtsNumber = 3;
 		const HANDLE HSTDOUT = GetStdHandle(STD_OUTPUT_HANDLE);
+		
 		vector<Artifact> getActiveArtifacts()const
 		{
 			return this->activeArtifacts;
@@ -69,6 +71,18 @@ private:
 			{
 				if (this->activeArtifacts.at(i) == delArt)
 				{
+					if (delArt.getId() == 1)
+					{
+						this->owner->changeArmyUnitsAttack(delArt.getAddPoints());
+					}
+					else if (delArt.getId() == 2)
+					{
+						this->owner->changeArmyUnitsDefence(delArt.getAddPoints());
+					}
+					else if (delArt.getId() == 3)
+					{
+						this->owner->changeStartEnergy(delArt.getAddPoints());
+					}
 					this->activeArtifacts.erase(this->activeArtifacts.begin() + i, this->activeArtifacts.begin() + i + 1);
 					artRemoved = true;
 					break;
@@ -159,6 +173,16 @@ private:
 									}
 									else if (this->maxActiveArtsNumber >= this->activeArtsNumber + 1)
 									{
+										if (art1->getId() == 1)
+										{
+											this->owner->changeArmyUnitsAttack(art1->getAddPoints());
+										}else if (art1->getId() == 2)
+										{
+											this->owner->changeArmyUnitsDefence(art1->getAddPoints());
+										}else if (art1->getId() == 3)
+										{
+											this->owner->changeStartEnergy(art1->getAddPoints());
+										}
 										art1->setIsActive(true);
 										this->activeArtsNumber++;
 										this->activeArtifacts.push_back(*art1);
@@ -233,10 +257,12 @@ private:
 			cout << "|" << endl;
 			SetConsoleTextAttribute(this->HSTDOUT, 15);
 		}
-		Inventory(int inventoryWidth, int inventoryHeight)
+		
+		Inventory(int inventoryWidth, int inventoryHeight, Army* army)
 		{
 			this->inventoryWidth = inventoryWidth;
 			this->inventoryHeight = inventoryHeight;
+			this->owner = army;
 			this->artefacts = new Artifact**[this->inventoryWidth];
 			for (size_t i = 0; i < this->inventoryHeight; i++)
 			{
@@ -251,9 +277,9 @@ private:
 	string nameOfArmy;
 	vector<Unit> units;
 	vector<Unit>::iterator it;
+	int START_ENERGY = 11;
 	char symb;
 	int id;
-	static const int START_ENERGY = 11;
 	int dec_energy = 0;
 	int currentEnergy;
 	bool isPlayer = false;
@@ -265,21 +291,26 @@ private:
 	int level;
 	int experience;
 	int capacity;
+
 public:
 	Army();
 	Army(string name,vector<Unit> list, char symb, bool isPlayer, int wallet);
 
 	void inputTheArmy(size_t sz); 
-	void printArmiesFight(Army& a, int& incomingDamage, int& outcomingDamage, int& incomingMagic, int& outcomingMagic);
+	void printArmiesFight(Army& a, bool shit);
 	void printArmy();
 
+	bool hit(Unit& u1,Unit& u2, vector<Artifact> thisArt, vector<Artifact> otherArt);
 	void fight(Army& a,bool check);
 	bool armyAutoAttack(Army& a);
 	bool battlePVE(Army& a);
 	bool battlePVP(Army& a);
 	void heal();
 	void buff();
-
+	void changeStartEnergy(int value);
+	void changeArmyUnitsDefence(int value);
+	void changeArmyUnitsAttack(int value);
+	size_t getStashPossibleSize();
 	void setIsPlayer(bool val);
 	bool getIsPlayer();
 	bool getIsBotArmy();
@@ -288,7 +319,6 @@ public:
 	void setIsBotArmy(bool value);
 	void increaseIncome(int value);
 	void addMoneyToWallet(int value);
-
 
 	Army& operator= (const Army& army);
 	vector<Unit> getUnits();
@@ -323,7 +353,7 @@ public:
 	{
 		if (this->inventory != nullptr) 
 		{
-			delete[] this->inventory;
+			delete this->inventory;
 		}
 	}
 };
